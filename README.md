@@ -1,4 +1,4 @@
-COFFE MANAGER - ĐỒ ÁN JAVA
+COFFEE MANAGER - ĐỒ ÁN JAVA
 UIT: Trường đại học công nghệ thông tin
 Danh sách thành viên:
 1. Đào Minh Phong - 24410081
