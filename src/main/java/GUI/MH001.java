@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author MQ.Computer
+ * @author zero
  * MH001 Login
  */
 public class MH001 extends javax.swing.JFrame {
@@ -194,7 +194,7 @@ public class MH001 extends javax.swing.JFrame {
         }
         boolean check = true;
         String userName = txtUserName.getText();
-        String passWord = txtPassword.getText();
+        char[] passwordChars = txtPassword.getPassword();
         int index = 0;
         index = cbbRole.getSelectedIndex();
         if (index == 1) {
