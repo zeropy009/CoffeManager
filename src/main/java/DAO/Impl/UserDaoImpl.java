@@ -4,8 +4,13 @@
  */
 package DAO.Impl;
 
+import Common.DBConnection;
 import DAO.UserDAO;
 import Model.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -16,7 +21,28 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public User getUserById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String query = "SELECT * FROM users WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new User(rs.getString("userName"),
+                                rs.getString("passWord"),
+                                rs.getString("fullName"),
+                                rs.getBoolean("sex"),
+                                rs.getString("address"),
+                                rs.getInt("yearOfBirth"),
+                                rs.getString("phone"),
+                                rs.getString("email"),
+                                rs.getFloat("salary"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

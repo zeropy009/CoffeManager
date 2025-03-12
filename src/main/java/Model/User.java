@@ -16,12 +16,13 @@ public class User extends BaseModel {
     private String address;
     private int yearOfBirth;
     private String phone;
+    private String email;
     private float salary;
 
     public User() {
     }
 
-    public User(String userName, String passWord, String fullName, boolean sex, String address, int yearOfBirth, String phone, float salary) {
+    public User(String userName, String passWord, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email,float salary) {
         this.userName = userName;
         this.passWord = passWord;
         this.fullName = fullName;
@@ -29,6 +30,7 @@ public class User extends BaseModel {
         this.address = address;
         this.yearOfBirth = yearOfBirth;
         this.phone = phone;
+        this.email = email;
         this.salary = salary;
     }
 
@@ -86,6 +88,14 @@ public class User extends BaseModel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public float getSalary() {
