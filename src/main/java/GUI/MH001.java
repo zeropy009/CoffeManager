@@ -6,9 +6,9 @@ package GUI;
 
 import Common.Constants;
 import Common.Untils;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import javax.swing.ImageIcon;
+import DAO.Impl.UserDaoImpl;
+import DAO.UserDAO;
+import Model.User;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,12 +21,10 @@ public class MH001 extends javax.swing.JFrame {
     /**
      * Creates new form JFrame
      */
+    private UserDAO userDAO;
+    
     public MH001() {
-//        int i = hoTro.checkKey();
-//        if (i == -1) {
-//         System.exit(0);
-//            return;
-//        }
+        this.userDAO = new UserDaoImpl();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -49,15 +47,7 @@ public class MH001 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel(){
-            ImageIcon icon = new ImageIcon("src//img//nennv.jpg");
-            public void paintComponent(Graphics g){
-                Dimension d = getSize();
-                g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
-                setOpaque(false);
-                super.paintComponent(g);
-            }
-        };
+        jPanel1 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         lbPassWord = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
@@ -73,7 +63,7 @@ public class MH001 extends javax.swing.JFrame {
         btnLogin.setBackground(new java.awt.Color(153, 153, 153));
         btnLogin.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 0, 204));
-        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login_photo.png"))); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/login_photo.png"))); // NOI18N
         btnLogin.setText("ĐĂNG NHẬP");
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -194,12 +184,27 @@ public class MH001 extends javax.swing.JFrame {
         }
         boolean check = true;
         String userName = txtUserName.getText();
-        char[] passwordChars = txtPassword.getPassword();
+        String password = new String(txtPassword.getPassword());
+        User user = userDAO.Login(userName, password);
+        
+        
+        try {
+                if (user != null) {
+//                    new quanly(userName).setVisible(true);
+                    dispose();
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu", "Thông báo", 1);
+                }
+            } catch (Exception ex) {
+                //ex.printStackTrace();
+            }
+        
         int index = 0;
         index = cbbRole.getSelectedIndex();
         if (index == 1) {
             try {
-//                if (quanTriADO.dangNhap(userName, Untils.hashMD5(passWord))) {
+//                if (userDAO.dangNhap(userName, Untils.hashMD5(passWord))) {
 //                    check = false;
 //                    new quanly(userName).setVisible(true);
 //                    dispose();
@@ -218,9 +223,6 @@ public class MH001 extends javax.swing.JFrame {
             } catch (Exception ex) {
                 //ex.printStackTrace();
             }
-        }
-        if (check) {
-            JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu", "Thông báo", 1);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -249,6 +251,12 @@ public class MH001 extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MH001.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

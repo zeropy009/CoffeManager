@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author MQ.Computer
+ * @author zero
  */
 public class Untils {
     public static final SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
@@ -34,10 +34,10 @@ public class Untils {
             while (true) {
                 try {
                     Date t = new Date();
-                    lbTime.setText(ft.format(t)); // Cập nhật thời gian
-                    Thread.sleep(1000); // Nghỉ 1 giây
+                    lbTime.setText(ft.format(t));
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt(); // Khôi phục trạng thái interrupt
+                    Thread.currentThread().interrupt();
                     break;
                 }
             }

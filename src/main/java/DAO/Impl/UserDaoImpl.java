@@ -5,6 +5,7 @@
 package DAO.Impl;
 
 import Common.DBConnection;
+import Common.UserSession;
 import DAO.UserDAO;
 import Model.User;
 import java.sql.Connection;
@@ -18,26 +19,39 @@ import java.util.List;
  * @author zero
  */
 public class UserDaoImpl implements UserDAO {
-
+    
     @Override
-    public User getUserById(int id) {
-        String query = "SELECT * FROM users WHERE id = ?";
+    public User Login(String userName, String passWord){
+        String query = "SELECT * FROM users WHERE USER_NAME = ? AND PASS_WORD = ? AND DELETE = FALSE";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, userName);
+            stmt.setString(2, passWord);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new User(rs.getString("userName"),
-                                rs.getString("passWord"),
-                                rs.getString("fullName"),
-                                rs.getBoolean("sex"),
-                                rs.getString("address"),
-                                rs.getInt("yearOfBirth"),
-                                rs.getString("phone"),
-                                rs.getString("email"),
-                                rs.getFloat("salary"));
+                User user = getUserInfor(rs);
+                UserSession.createSession(user.getUserName(), user.getRole());
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public User getUserByUserName(String userName) {
+        String query = "SELECT * FROM users WHERE USER_NAME = ? AND delete = FALSE";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, userName);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return getUserInfor(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,5 +78,4 @@ public class UserDaoImpl implements UserDAO {
     public boolean deleteUser(int id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
 }

@@ -11,15 +11,15 @@ package Model;
 public class BaseModel {
     protected String lastUpdatedUser;
     protected String deletedUser;
-    protected boolean isDeleted;
+    protected boolean delete;
 
     public BaseModel() {
     }
 
-    public BaseModel(String lastUpdatedUser, String deletedUser, boolean isDeleted) {
+    public BaseModel(String lastUpdatedUser, String deletedUser, boolean delete) {
         this.lastUpdatedUser = lastUpdatedUser;
         this.deletedUser = deletedUser;
-        this.isDeleted = isDeleted;
+        this.delete = delete;
     }
 
     public String getLastUpdatedUser() {
@@ -39,10 +39,10 @@ public class BaseModel {
     }
 
     public boolean isIsDeleted() {
-        return isDeleted;
+        return delete;
     }
 
     public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+        this.delete = isDeleted;
     }
 }

@@ -11,6 +11,7 @@ package Model;
 public class User extends BaseModel {
     private String userName;
     private String passWord;
+    private int role;
     private String fullName;
     private boolean sex;
     private String address;
@@ -22,9 +23,10 @@ public class User extends BaseModel {
     public User() {
     }
 
-    public User(String userName, String passWord, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email,float salary) {
+    public User(String userName, String passWord, int role, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email,float salary) {
         this.userName = userName;
         this.passWord = passWord;
+        this.role = role;
         this.fullName = fullName;
         this.sex = sex;
         this.address = address;
@@ -48,6 +50,14 @@ public class User extends BaseModel {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public String getFullName() {
