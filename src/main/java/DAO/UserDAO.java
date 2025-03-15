@@ -27,7 +27,7 @@ public interface UserDAO {
                         rs.getString("FULL_NAME"),
                         rs.getBoolean("SEX"),
                         rs.getString("ADDRESS"),
-                        rs.getInt("YEAR_OFBIRTH"),
+                        rs.getInt("YEAR_OF_BIRTH"),
                         rs.getString("PHONE"),
                         rs.getString("EMAIL"),
                         rs.getFloat("SALARY"));
