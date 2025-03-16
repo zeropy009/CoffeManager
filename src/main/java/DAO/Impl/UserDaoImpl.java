@@ -4,7 +4,6 @@
  */
 package DAO.Impl;
 
-import Common.ConnectDB;
 import Common.DBConnection;
 import Common.Untils;
 import Common.UserSession;
@@ -25,37 +24,21 @@ public class UserDaoImpl implements UserDAO {
     @Override
     public User Login(String userName, String passWord){
         String query = "SELECT * FROM [USER] WHERE USER_NAME = ? AND PASS_WORD = ? AND DELETED = 0";
-//        try (Connection conn = DBConnection.getConnection();
-//             PreparedStatement stmt = conn.prepareStatement(query)) {
-//
-//            stmt.setString(1, userName);
-//            stmt.setString(2, passWord); 
-//            ResultSet rs = stmt.executeQuery();
-//
-//            if (rs.next()) {
-//                User user = getUserInfor(rs);
-//                UserSession.createSession(user.getUserName(), user.getRole());
-//                return user;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            try {
-                ConnectDB.getConnection();
-                PreparedStatement stmt = ConnectDB.con.prepareStatement(query);
-                stmt.setString(1, userName);
-                stmt.setString(2, Untils.hashMD5(passWord));
-                ResultSet rs = stmt.executeQuery();
-                if (rs.next()) {
-                    User user = getUserInfor(rs);
-                    UserSession.createSession(user.getUserName(), user.getFullName(), user.getRole());
-                    return user;
-                }
-            } catch (Exception e) {
-                System.out.println("Loi ban");
+            stmt.setString(1, userName);
+            stmt.setString(2, Untils.hashMD5(passWord)); 
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                User user = getUserInfor(rs);
+                UserSession.createSession(user.getUserName(), user.getFullName(), user.getRole());
+                return user;
             }
-            ConnectDB.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

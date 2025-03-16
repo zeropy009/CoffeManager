@@ -155,12 +155,12 @@ public class Untils {
             int ih = image.getHeight();
             int dw = 0;
             int dh = 0;
-            if (w / h > iw / ih) {
+            if ((double)w / h > (double)iw / ih) {
                 dh = h;
-                dw = dh * iw / ih - 10;
+                dw = dh * iw / ih;
             } else {
                 dw = w;
-                dh = dw * ih / iw - 10;
+                dh = dw * ih / iw;
             }
             ImageIcon icon = new ImageIcon(image.getScaledInstance(dw, dh,
                     Image.SCALE_SMOOTH));
