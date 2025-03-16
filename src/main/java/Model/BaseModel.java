@@ -11,56 +11,56 @@ import java.util.Date;
  * @author zero
  */
 public class BaseModel {
-    protected String createdUser;
-    protected Date createdTime;
-    protected String lastUpdatedUser;
-    protected Date lastUpdatedTime;
+    protected String createdBy;
+    protected Date createdAt;
+    protected String lastUpdatedBy;
+    protected Date lastUpdatedAt;
     protected boolean delete;
 
     public BaseModel() {
     }
-    
-    public BaseModel(String createdUser, Date createdTime, String lastUpdatedUser, Date lastUpdatedTime, boolean delete) {
-        this.createdUser = createdUser;
-        this.createdTime = createdTime;
-        this.lastUpdatedUser = lastUpdatedUser;
-        this.lastUpdatedTime = lastUpdatedTime;
+
+    public BaseModel(String createdBy, Date createdAt, String lastUpdatedBy, Date lastUpdatedAt, boolean delete) {
+        this.createdBy = createdBy;
+        this.createdAt = createdAt;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.lastUpdatedAt = lastUpdatedAt;
         this.delete = delete;
     }
 
-    public String getCreatedUser() {
-        return createdUser;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreatedUser(String createdUser) {
-        this.createdUser = createdUser;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public Date getCreatedTime() {
-        return createdTime;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getLastUpdatedUser() {
-        return lastUpdatedUser;
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
     }
 
-    public void setLastUpdatedUser(String lastUpdatedUser) {
-        this.lastUpdatedUser = lastUpdatedUser;
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Date getLastUpdatedTime() {
-        return lastUpdatedTime;
+    public Date getLastUpdatedAt() {
+        return lastUpdatedAt;
     }
 
-    public void setLastUpdatedTime(Date lastUpdatedTime) {
-        this.lastUpdatedTime = lastUpdatedTime;
+    public void setLastUpdatedAt(Date lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
     }
-    
-    public boolean getDelete() {
+
+    public boolean isDelete() {
         return delete;
     }
 
