@@ -6,6 +6,7 @@ package Config;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -21,7 +22,10 @@ public class AppConfig {
 
     private static DBConfig loadDBConfig() {
         Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream("config.properties")) {
+        try (InputStream input = AppConfig.class.getClassLoader().getResourceAsStream("config.properties")) {
+            if (input == null) {
+                throw new IOException("Không tìm thấy file config.properties trong classpath!");
+            }
             properties.load(input);
             return new DBConfig(
                 properties.getProperty("db.url"),

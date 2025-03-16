@@ -9,6 +9,9 @@ import Common.Untils;
 import DAO.Impl.UserDaoImpl;
 import DAO.UserDAO;
 import Model.User;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,8 +36,8 @@ public class MH001 extends javax.swing.JFrame {
         Untils.setImageLabel(lbUserName, Constants.PATH_IMAGES + "user.png");
         lbPassWord.setSize(30, 30);        
         Untils.setImageLabel(lbPassWord, Constants.PATH_IMAGES + "pass.png");
-        lbRole.setSize(35, 35);
-        Untils.setImageLabel(lbRole, Constants.PATH_IMAGES + "quyen.png");
+//        lbRole.setSize(35, 35);
+//        Untils.setImageLabel(lbRole, Constants.PATH_IMAGES + "quyen.png");
 
     }
 
@@ -47,15 +50,21 @@ public class MH001 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel(){
+            ImageIcon icon = new ImageIcon(MH001.class.getResource("/Images/nennv.jpg"));
+            public void paintComponent(Graphics g){
+                Dimension d = getSize();
+                g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
+                setOpaque(false);
+                super.paintComponent(g);
+            }
+        };
         btnLogin = new javax.swing.JButton();
         lbPassWord = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
         lbUserName = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
-        cbbRole = new javax.swing.JComboBox<>();
         lbTitle = new javax.swing.JLabel();
-        lbRole = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ĐĂNG NHẬP");
@@ -98,17 +107,9 @@ public class MH001 extends javax.swing.JFrame {
             }
         });
 
-        cbbRole.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        cbbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhân viên", "Quản lý" }));
-
         lbTitle.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 102));
         lbTitle.setText("QUẢN LÝ QUÁN CAFE");
-
-        lbRole.setBackground(new java.awt.Color(255, 255, 255));
-        lbRole.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        lbRole.setForeground(new java.awt.Color(255, 255, 255));
-        lbRole.setText("Quyền:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -122,29 +123,26 @@ public class MH001 extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnLogin)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                                     .addComponent(lbPassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbRole, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtUserName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(cbbRole, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)))))))
-                .addContainerGap(57, Short.MAX_VALUE))
+                                    .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnLogin, cbbRole, txtPassword, txtUserName});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtPassword, txtUserName});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -152,13 +150,9 @@ public class MH001 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(lbPassWord)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbbRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbRole))
-                .addGap(32, 32, 32)
-                .addComponent(btnLogin)
-                .addGap(21, 21, 21))
+                .addGap(44, 44, 44)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtPassword, txtUserName});
@@ -167,11 +161,13 @@ public class MH001 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 46, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,16 +178,16 @@ public class MH001 extends javax.swing.JFrame {
         if (Untils.validateText(txtUserName) || Untils.validateText(txtPassword)) {
             return;
         }
-        boolean check = true;
         String userName = txtUserName.getText();
         String password = new String(txtPassword.getPassword());
         User user = userDAO.Login(userName, password);
         
-        
         try {
                 if (user != null) {
-//                    new quanly(userName).setVisible(true);
-                    dispose();
+                    if (user.getRole() == 1) {
+                        //go to Manager mode
+                        //new quanly(userName).setVisible(true);
+                    }
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu", "Thông báo", 1);
@@ -199,31 +195,6 @@ public class MH001 extends javax.swing.JFrame {
             } catch (Exception ex) {
                 //ex.printStackTrace();
             }
-        
-        int index = 0;
-        index = cbbRole.getSelectedIndex();
-        if (index == 1) {
-            try {
-//                if (userDAO.dangNhap(userName, Untils.hashMD5(passWord))) {
-//                    check = false;
-//                    new quanly(userName).setVisible(true);
-//                    dispose();
-//                }
-            } catch (Exception ex) {
-                //ex.printStackTrace();
-            }
-        } else {
-            try {
-//                String manv = nhanVienDAO.dangNhap(taikhoan, hoTro.md5(matkhau));
-//                if (!manv.equals("")) {
-//                    check = false;
-//                    new nhanVien(manv).setVisible(true);
-//                    dispose();
-//                }
-            } catch (Exception ex) {
-                //ex.printStackTrace();
-            }
-        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -268,10 +239,8 @@ public class MH001 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
-    private javax.swing.JComboBox<String> cbbRole;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbPassWord;
-    private javax.swing.JLabel lbRole;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbUserName;
     private javax.swing.JPasswordField txtPassword;

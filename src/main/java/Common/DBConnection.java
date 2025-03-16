@@ -21,6 +21,8 @@ public class DBConnection {
         HikariConfig config = new HikariConfig();
         
         String jdbcUrl = String.format("%s:%s/%s", AppConfig.DB.url, AppConfig.DB.port, AppConfig.DB.name);
+        config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        
         config.setJdbcUrl(jdbcUrl);
         config.setUsername(AppConfig.DB.username);
         config.setPassword(AppConfig.DB.password);

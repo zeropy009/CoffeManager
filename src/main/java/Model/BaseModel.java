@@ -15,17 +15,17 @@ public class BaseModel {
     protected Date createdAt;
     protected String lastUpdatedBy;
     protected Date lastUpdatedAt;
-    protected boolean delete;
+    protected boolean deleted;
 
     public BaseModel() {
     }
 
-    public BaseModel(String createdBy, Date createdAt, String lastUpdatedBy, Date lastUpdatedAt, boolean delete) {
+    public BaseModel(String createdBy, Date createdAt, String lastUpdatedBy, Date lastUpdatedAt, boolean deleted) {
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.lastUpdatedBy = lastUpdatedBy;
         this.lastUpdatedAt = lastUpdatedAt;
-        this.delete = delete;
+        this.deleted = deleted;
     }
 
     public String getCreatedBy() {
@@ -60,11 +60,11 @@ public class BaseModel {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
-    public boolean isDelete() {
-        return delete;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setDelete(boolean delete) {
-        this.delete = delete;
+    public void setDelete(boolean deleted) {
+        this.deleted = deleted;
     }
 }

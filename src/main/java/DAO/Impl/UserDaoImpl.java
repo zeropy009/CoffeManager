@@ -4,7 +4,9 @@
  */
 package DAO.Impl;
 
+import Common.ConnectDB;
 import Common.DBConnection;
+import Common.Untils;
 import Common.UserSession;
 import DAO.UserDAO;
 import Model.User;
@@ -22,28 +24,44 @@ public class UserDaoImpl implements UserDAO {
     
     @Override
     public User Login(String userName, String passWord){
-        String query = "SELECT * FROM users WHERE USER_NAME = ? AND PASS_WORD = ? AND DELETE = FALSE";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        String query = "SELECT * FROM [USER] WHERE USER_NAME = ? AND PASS_WORD = ? AND DELETED = 0";
+//        try (Connection conn = DBConnection.getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(query)) {
+//
+//            stmt.setString(1, userName);
+//            stmt.setString(2, passWord); 
+//            ResultSet rs = stmt.executeQuery();
+//
+//            if (rs.next()) {
+//                User user = getUserInfor(rs);
+//                UserSession.createSession(user.getUserName(), user.getRole());
+//                return user;
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
-            stmt.setString(1, userName);
-            stmt.setString(2, passWord);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                User user = getUserInfor(rs);
-                UserSession.createSession(user.getUserName(), user.getRole());
-                return user;
+            try {
+                ConnectDB.getConnection();
+                PreparedStatement stmt = ConnectDB.con.prepareStatement(query);
+                stmt.setString(1, userName);
+                stmt.setString(2, Untils.hashMD5(passWord));
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    User user = getUserInfor(rs);
+                    UserSession.createSession(user.getUserName(), user.getFullName(), user.getRole());
+                    return user;
+                }
+            } catch (Exception e) {
+                System.out.println("Loi ban");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            ConnectDB.close();
         return null;
     }
 
     @Override
     public User getUserByUserName(String userName) {
-        String query = "SELECT * FROM users WHERE USER_NAME = ? AND delete = FALSE";
+        String query = "SELECT * FROM [USER] WHERE USER_NAME = ? AND DELETED = 0";
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
 

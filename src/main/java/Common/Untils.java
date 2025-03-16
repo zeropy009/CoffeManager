@@ -4,6 +4,7 @@
  */
 package Common;
 
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,9 +88,23 @@ public class Untils {
     
     public static void openFile(String fileName) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("Notepad.exe", Constants.PATH_FILES + fileName + Constants.EXTENSION_TXT);
-            pb.start();
-        } catch (IOException ex) {
+            String path = Constants.PATH_FILES + fileName + Constants.EXTENSION_TXT;
+            URL resource = Untils.class.getResource(path);
+
+            if (resource == null) {
+                throw new IOException("Không tìm thấy tệp: " + path);
+            }
+
+            File file = new File(resource.toURI());
+
+            if (!file.exists()) {
+                throw new IOException("Tệp không tồn tại: " + file.getAbsolutePath());
+            }
+
+            // Mở file bằng ứng dụng mặc định của hệ điều hành
+            Desktop.getDesktop().open(file);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
     
@@ -108,7 +124,7 @@ public class Untils {
     
     public static void setImageButton(JButton button, String fileName) {
         try {
-            BufferedImage image = ImageIO.read(new File(fileName));
+            BufferedImage image = ImageIO.read(Untils.class.getResource(fileName));
             int w = button.getSize().width;
             int h = button.getSize().height;
             int iw = image.getWidth();
@@ -132,7 +148,7 @@ public class Untils {
     
     public static void setImageLabel(JLabel label, String fileName) {
         try {
-            BufferedImage image = ImageIO.read(new File(fileName));
+            BufferedImage image = ImageIO.read(Untils.class.getResource(fileName));
             int w = label.getSize().width;
             int h = label.getSize().height;
             int iw = image.getWidth();

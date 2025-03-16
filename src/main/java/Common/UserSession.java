@@ -10,16 +10,18 @@ package Common;
  */
 public class UserSession {
     private static UserSession instance;
-    private String username;
+    private String userName;
+    private String fullName;
     private int role;
 
-    private UserSession(String username, int role) {
-        this.username = username;
+    private UserSession(String userName, String fullName, int role) {
+        this.userName = userName;
+        this.fullName = fullName;
         this.role = role;
     }
 
-    public static void createSession(String username, int role) {
-        instance = new UserSession(username, role);
+    public static void createSession(String username, String fullName, int role) {
+        instance = new UserSession(username, fullName, role);
     }
 
     public static UserSession getInstance() {
@@ -31,7 +33,11 @@ public class UserSession {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public int getRole() {
