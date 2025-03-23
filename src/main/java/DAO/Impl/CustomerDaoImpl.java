@@ -102,12 +102,13 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public boolean deleteCustomer(int id) {
-        String query = "DELETE FROM CUSTOMER WHERE ID = ?";
+        String query = "UPDATE CUSTOMER SET LAST_UPDATE_BY = ?, DELETED = 1 WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, id);
+            stmt.setString(1, UserSession.getInstance().getUsername());
+            stmt.setInt(2, id);
 
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
