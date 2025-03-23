@@ -4,111 +4,67 @@
  */
 package Model;
 
+import java.util.Date;
+
 /**
  *
  * @author DZUNG
  */
 public class Customer extends BaseModel {
-    private String ID;
-    private String NAME;
-    private String PHONE;
-    private String EMAIL;
-    private String TIER_ID;
-    private String CREATED_BY;
-    private String CREATED_AT;
-    private String LAST_UPDATED_BY;
-    private String LAST_UPDATED_AT;
-    private String DELETED;
+    private int id;
+    private String name;
+    private String phone;
+    private String email;
+    private int tier_id;
 
     public Customer() {
     }
 
-    public Customer(String ID, String NAME, String PHONE, String EMAIL, String TIER_ID, String CREATED_BY, String CREATED_AT, String LAST_UPDATED_BY, String LAST_UPDATED_AT, String DELETED) {
-        this.ID = ID;
-        this.NAME = NAME;
-        this.PHONE = PHONE;
-        this.EMAIL = EMAIL;
-        this.TIER_ID = TIER_ID;
-        this.CREATED_BY = CREATED_BY;
-        this.CREATED_AT = CREATED_AT;
-        this.LAST_UPDATED_BY = LAST_UPDATED_BY;
-        this.LAST_UPDATED_AT = LAST_UPDATED_AT;
-        this.DELETED = DELETED;
+    public Customer(int id, String name, String phone, String email, int tier_id) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.tier_id = tier_id;
     }
 
-    public String getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setTIER_ID(String TIER_ID) {
-        this.TIER_ID = TIER_ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getNAME() {
-        return NAME;
+    public String getName() {
+        return name;
     }
 
-    public void setNAME(String NAME) {
-        this.NAME = NAME;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPHONE() {
-        return PHONE;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPHONE(String PHONE) {
-        this.PHONE = PHONE;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getEMAIL() {
-        return EMAIL;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEMAIL(String EMAIL) {
-        this.EMAIL = EMAIL;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getCREATED_BY() {
-        return CREATED_BY;
+    public int getTier_id() {
+        return tier_id;
     }
 
-    public void setCREATED_BY(String CREATED_BY) {
-        this.CREATED_BY = CREATED_BY;
-    }
-
-    public String getCREATED_AT() {
-        return CREATED_AT;
-    }
-
-    public void setCREATED_AT(String CREATED_AT) {
-        this.CREATED_AT = CREATED_AT;
-    }
-
-    public String getLAST_UPDATED_BY() {
-        return LAST_UPDATED_BY;
-    }
-
-    public void setLAST_UPDATED_BY(String LAST_UPDATED_BY) {
-        this.LAST_UPDATED_BY = LAST_UPDATED_BY;
-    }
-    
-    public String getLAST_UPDATED_AT() {
-        return LAST_UPDATED_AT;
-    }
-
-    public void setLAST_UPDATED_AT(String LAST_UPDATED_AT) {
-        this.LAST_UPDATED_AT = LAST_UPDATED_AT;
-    }
-    
-    public String getDELETED() {
-        return DELETED;
-    }
-
-    public void setDELETED(String DELETED) {
-        this.DELETED = DELETED;
-    }
-    @Override
-    public String toString() {
-        return ID+"_"+"_"+NAME;
+    public void setTier_id(int tier_id) {
+        this.tier_id = tier_id;
     }
 }

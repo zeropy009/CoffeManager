@@ -5,135 +5,115 @@
 package DAO.Impl;
 
 import Common.DBConnection;
-import Common.Untils;
+import Common.UserSession;
 import DAO.CustomerDAO;
 import Model.Customer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author DZUNG
  */
-public class CustomerDAO implements CustomerDAO{
-    public static ArrayList<Customer> getlistCustomer() {
-        ArrayList<Customer> info = new ArrayList<>();
-        try {
-            ConnectDB.getConnection();
-            String sql = "select * from CUSTOMER";
-            ResultSet rs = ConnectDB.executeQuery(sql);
+public class CustomerDAOImpl implements CustomerDAO{
+
+    @Override
+    public Customer getCustomerByID(int id) {
+        String query = "SELECT * FROM CUSTOMER WHERE ID = ? AND DELETED = 0";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return getCustomerInfor(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Customer> getAllCustomers() {
+        ArrayList<Customer> resList = new ArrayList<>();
+        String query = "SELECT * FROM CUSTOMER WHERE DELETED = 0";
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+
             while (rs.next()) {
-                ds.add(new Customer(rs.getString("ID").trim(),
-                        rs.getString("NAME".trim()),
-                        rs.getString("PHONE").trim(),
-                        rs.getString("EMAIL").trim(),
-                        rs.getString("TIER_ID").trim(),
-                        rs.getString("CREATED_BY").trim()),
-                        rs.getString("CREATED_AT").trim(),
-                        rs.getString("LAST_UPDATED_BY").trim(),
-                        rs.getString("LAST_UPDATED_AT").trim(),
-                        rs.getString("DELETED").trim());
+                resList.add(getCustomerInfor(rs));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        ConnectDB.close();
-        return info;
+        return resList;
     }
 
-    public static ArrayList<Customer> getinfoCustomer(String Tier_ID) {
-        ArrayList<Customer> info = new ArrayList<>();
-        for (Customer ct : getlistCustomer()) {
-            if (ct.getCustomerTier().trim().toUpperCase().equals(Tier_ID.trim().toUpperCase())) {
-                info.add(ct);
-            }
+    @Override
+    public boolean addCustomer(Customer customer) {
+        StringBuilder query = new StringBuilder();
+        query.append("INSERT INTO CUSTOMER (NAME, PHONE, EMAIL, TIER_ID, CREATED_BY, LAST_UPDATE_BY) VALUES");
+        query.append("(?, ?, ?, ?, ?, ?)");
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+            
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getPhone());
+            stmt.setString(3, customer.getEmail());
+            stmt.setInt(4, customer.getTier_id());
+            stmt.setString(5, UserSession.getInstance().getUsername());
+            stmt.setString(6, UserSession.getInstance().getUsername());
+            
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return info;
     }
 
-    public static Customer getinfoCustomer(String Tier_ID, String ID) {
-        Customer ct1 = null;
-        for (Customer ct : getlistCustomer()) {
-            if (ct.getTier_ID().trim().toUpperCase().equals(Tier_ID.trim().toUpperCase())
-                    && ct.getID().trim().toUpperCase().equals(ID.trim().toUpperCase())) {
-                ct1 = ct;
-                break;
-            }
+    @Override
+    public boolean updateCustomer(Customer customer) {
+        String query = "UPDATE CUSTOMER SET NAME = ?, PHONE = ?, EMAIL = ?, TIER_ID = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
+    
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getPhone());
+            stmt.setString(3, customer.getEmail());
+            stmt.setInt(4, customer.getTier_id());
+            stmt.setString(5, UserSession.getInstance().getUsername());
+            stmt.setInt(6, customer.getId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        return ct1;
     }
 
-    public static int deleteCustomer(String ID) {
-        int i = -1;
-        String sql = "delete Customer where ID='" + Customer + "'";
-        try {
-            ConnectDB.getConnection();
-            i = ConnectDB.executeUpdate(sql);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error", "Warning", 1);
+    @Override
+    public boolean deleteCustomer(int id) {
+        String query = "DELETE FROM CUSTOMER WHERE ID = ?";
+    
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-        ConnectDB.close();
-        return i;
-    }
-
-    public static int addCustomer(String ID, String NAME, String PHONE, String EMAIL, String TIER_ID, String CREATED_BY, String CREATED_AT, String LAST_UPDATE_BY, String LAST_UPDATE_AT, String DELETED) {
-        int i = -1;
-        String sql = "insert into CUSTOMER values(?,?,?,?,?,?,?,?,?,?)";
-        try {
-            ConnectDB.getConnection();
-            PreparedStatement pre = ConnectDB.con.prepareStatement(sql);
-            pre.setString(1, ID);
-            pre.setString(2, NAME);
-            pre.setString(3, PHONE);
-            pre.setString(4, EMAIL);
-            pre.setString(5, TIER_ID);
-            pre.setString(6, CREATED_BY);
-            pre.setString(7, CREATED_AT);
-            pre.setString(8, LAST_UPDATE_BY);
-            pre.setString(9, LAST_UPDATE_AT);
-            pre.setString(10, DELETED);
-            i = pre.executeUpdate();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error", "Warning", 1);
-
-        }
-        ConnectDB.close();
-        return i;
-    }
-
-    public static int editCustomer(String ID, String NAME, String PHONE, String EMAIL, String TIER_ID, String DELETED) {
-        int i = -1;
-        String sql = "update CUSTOMER set ID=?,NAME=?,PHONE=?,EMAIL=?,TIER_ID=?,DELETED=? where ID=?";
-        try {
-            ConnectDB.getConnection();
-            PreparedStatement pre = ConnectDB.con.prepareStatement(sql);
-            pre.setString(6, ID);
-            pre.setString(1, NAME);
-            pre.setString(2, PHONE);
-            pre.setString(3, EMAIL);
-            pre.setString(4, TIER_ID);
-            pre.setString(5, DELETED);
-            i = pre.executeUpdate();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error", "Warning", 1);
-
-        }
-        ConnectDB.close();
-        return i;
-    }
-
-    public static ResultSet searchCustomer(String ID) {
-        String sql = "select * from CUSTOMER,CUSTOMER_TIER where CUSTOMER.TIER_ID=CUSTOMER_TIER.ID and ID=?";
-        ResultSet rs = null;
-        try {
-            ConnectDB.getConnection();
-            PreparedStatement pre = ConnectDB.getCon().prepareStatement(sql);
-            pre.setString(1, ID);
-            rs = pre.executeQuery();
-        } catch (Exception ex) {
-
-        }
-        return rs;
     }
 }
