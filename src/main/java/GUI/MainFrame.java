@@ -36,20 +36,16 @@ public class MainFrame extends JFrame {
         headerPanel.add(logoutButton, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.EAST);
         
-        // Footer Panel
-        JPanel footerPanel = new JPanel();
-        footerPanel.add(new JLabel("hihihi"));
-        
         // Card Layout Panel
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         
         // Screens
         JPanel screen1 = createScreen("Màn hình 1", Color.CYAN);
-        JPanel screen2 = createScreen("Màn hình 2", Color.LIGHT_GRAY);
+        Menu menu = new Menu();
         
         cardPanel.add(screen1, "Screen1");
-        cardPanel.add(screen2, "Screen2");
+        cardPanel.add(menu, "Menu");
         
         // Switch Button
         JPanel buttonPanel = new JPanel();
@@ -59,12 +55,20 @@ public class MainFrame extends JFrame {
         });
         buttonPanel.add(switchButton);
         
+        // Footer Panel
+        JPanel footerPanel = new JPanel();
+        footerPanel.add(new JLabel("hihihi"));
+        
+        // Container for button and footer
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(buttonPanel, BorderLayout.CENTER);
+        bottomPanel.add(footerPanel, BorderLayout.SOUTH);
+        
         // Main Layout
         setLayout(new BorderLayout());
         add(headerPanel, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
-        add(footerPanel, BorderLayout.SOUTH);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
     
     private JPanel createScreen(String text, Color bgColor) {
