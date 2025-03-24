@@ -17,16 +17,16 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author zero
- * MH001 Login
+ * Login
  */
-public class MH001 extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form JFrame
      */
     private UserDAO userDAO;
     
-    public MH001() {
+    public Login() {
         this.userDAO = new UserDaoImpl();
         initComponents();
         setLocationRelativeTo(null);
@@ -51,7 +51,7 @@ public class MH001 extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel(){
-            ImageIcon icon = new ImageIcon(MH001.class.getResource("/Images/nennv.jpg"));
+            ImageIcon icon = new ImageIcon(Login.class.getResource("/Images/nennv.jpg"));
             public void paintComponent(Graphics g){
                 Dimension d = getSize();
                 g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
@@ -182,10 +182,8 @@ public class MH001 extends javax.swing.JFrame {
         
         try {
                 if (user != null) {
-                    if (user.getRole() == 1) {
-                        //go to Manager mode
-                        //new quanly(userName).setVisible(true);
-                    }
+                    new MainFrame().setVisible(true);
+                    dispose();
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Sai tên tài khoản hoặc mật khẩu", "Thông báo", 1);
@@ -212,26 +210,18 @@ public class MH001 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MH001.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MH001.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MH001.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MH001.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new MH001().setVisible(true);
+            new Login().setVisible(true);
         });
     }
 
