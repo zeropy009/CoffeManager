@@ -7,7 +7,7 @@ package DAO;
 import Model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,10 +16,10 @@ import java.util.List;
 public interface UserDAO {
     User Login(String userName, String passWord);
     User getUserByUserName(String userName);
-    List<User> getAllUsers();
+    ArrayList<User> getAllUsers();
     boolean addUser(User user);
     boolean updateUser(User user);
-    boolean deleteUser(int id);
+    boolean deleteUser(String userName);
     default User getUserInfor(ResultSet rs) throws SQLException {
         return new User(rs.getString("USER_NAME"),
                         rs.getString("PASS_WORD"),
@@ -30,6 +30,6 @@ public interface UserDAO {
                         rs.getInt("YEAR_OF_BIRTH"),
                         rs.getString("PHONE"),
                         rs.getString("EMAIL"),
-                        rs.getFloat("SALARY"));
+                        rs.getInt("SALARY"));
     }
 }

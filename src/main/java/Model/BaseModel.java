@@ -4,7 +4,7 @@
  */
 package Model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
@@ -12,15 +12,15 @@ import java.util.Date;
  */
 public class BaseModel {
     protected String createdBy;
-    protected Date createdAt;
+    protected Timestamp createdAt;
     protected String lastUpdatedBy;
-    protected Date lastUpdatedAt;
+    protected Timestamp lastUpdatedAt;
     protected boolean deleted;
 
     public BaseModel() {
     }
 
-    public BaseModel(String createdBy, Date createdAt, String lastUpdatedBy, Date lastUpdatedAt, boolean deleted) {
+    public BaseModel(String createdBy, Timestamp createdAt, String lastUpdatedBy, Timestamp lastUpdatedAt, boolean deleted) {
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.lastUpdatedBy = lastUpdatedBy;
@@ -36,11 +36,11 @@ public class BaseModel {
         this.createdBy = createdBy;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -52,11 +52,11 @@ public class BaseModel {
         this.lastUpdatedBy = lastUpdatedBy;
     }
 
-    public Date getLastUpdatedAt() {
+    public Timestamp getLastUpdatedAt() {
         return lastUpdatedAt;
     }
 
-    public void setLastUpdatedAt(Date lastUpdatedAt) {
+    public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 

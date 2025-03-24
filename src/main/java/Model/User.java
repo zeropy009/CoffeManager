@@ -18,12 +18,12 @@ public class User extends BaseModel {
     private int yearOfBirth;
     private String phone;
     private String email;
-    private float salary;
+    private int salary;
 
     public User() {
     }
 
-    public User(String userName, String passWord, int role, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email,float salary) {
+    public User(String userName, String passWord, int role, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email, int salary) {
         this.userName = userName;
         this.passWord = passWord;
         this.role = role;
@@ -108,11 +108,11 @@ public class User extends BaseModel {
         this.email = email;
     }
 
-    public float getSalary() {
+    public int getSalary() {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 }
