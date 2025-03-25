@@ -5,4 +5,3 @@ Danh sách thành viên:
 2. Phạm Trương Hữu Cường - 24410010
 3. Đào Văn Dũng - 24410017
 4. Nguyễn Minh Ý - 24410127
-5. Mã Đăng Khoa - 24410051
