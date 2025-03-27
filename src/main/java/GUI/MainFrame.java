@@ -28,9 +28,9 @@ public class MainFrame extends JFrame {
     private void initComponent() {
         // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Xin chào,", JLabel.RIGHT);
+        JLabel titleLabel = new JLabel("Hello,", JLabel.RIGHT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        JButton logoutButton = new JButton("ĐĂNG XUẤT");
+        JButton logoutButton = new JButton("LOGOUT");
         logoutButton.setForeground(Color.RED);
         
         headerPanel.add(logoutButton, BorderLayout.WEST);
