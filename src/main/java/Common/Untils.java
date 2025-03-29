@@ -124,7 +124,7 @@ public class Untils {
     
     public static void setImageButton(JButton button, String fileName) {
         try {
-            BufferedImage image = ImageIO.read(Untils.class.getResource(fileName));
+            BufferedImage image = ImageIO.read(Untils.class.getResource(Constants.PATH_IMAGES + fileName));
             int w = button.getSize().width;
             int h = button.getSize().height;
             int iw = image.getWidth();
