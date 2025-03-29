@@ -1,11 +1,9 @@
-/*
+                                                   /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package GUI;
 
-import Common.Constants;
-import Common.UserSession;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -20,38 +18,42 @@ public class MainFrame extends JFrame {
     
     public MainFrame() {
         setTitle("CardLayout Example");
-        setSize(900, 650);
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
         initComponent();
     }
     
     private void initComponent() {
         // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Hello, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
+        JLabel titleLabel = new JLabel("Hello,", JLabel.RIGHT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        JButton logoutButton = new JButton("ĐĂNG XUẤT");
-        logoutButton.setFont(new Font("Times New Roman", Font.BOLD, 24));
-        logoutButton.setForeground(new Color(255, 51, 51));
-        logoutButton.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "logout.png")));
-        logoutButton.addActionListener(e -> {
-                UserSession.clearSession();
-                new Login().setVisible(true);
-                dispose();
-            });
+        JButton logoutButton = new JButton("LOGOUT");
+        logoutButton.setForeground(Color.RED);
         
-        headerPanel.add(logoutButton, BorderLayout.EAST);
-        headerPanel.add(titleLabel, BorderLayout.WEST);
+        headerPanel.add(logoutButton, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.EAST);
         
         // Card Layout Panel
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         
         // Screens
+        JPanel screen1 = createScreen("Màn hình 1", Color.CYAN);
         Menu menu = new Menu();
         
+        cardPanel.add(screen1, "Screen1");
         cardPanel.add(menu, "Menu");
+        
+        // Switch Button
+        JPanel buttonPanel = new JPanel();
+        JButton switchButton = new JButton("Chuyển màn hình");
+        switchButton.addActionListener((ActionEvent e) -> {
+            cardLayout.next(cardPanel);
+        });
+        buttonPanel.add(switchButton);
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
@@ -59,13 +61,21 @@ public class MainFrame extends JFrame {
         
         // Container for button and footer
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.add(footerPanel, BorderLayout.CENTER);
+        bottomPanel.add(buttonPanel, BorderLayout.CENTER);
+        bottomPanel.add(footerPanel, BorderLayout.SOUTH);
         
         // Main Layout
         setLayout(new BorderLayout());
         add(headerPanel, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+    
+    private JPanel createScreen(String text, Color bgColor) {
+        JPanel panel = new JPanel();
+        panel.setBackground(bgColor);
+        panel.add(new JLabel(text));
+        return panel;
     }
     
     public static void main(String[] args) {
