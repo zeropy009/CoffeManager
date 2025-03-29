@@ -184,7 +184,7 @@ public class Login extends javax.swing.JFrame {
                     dispose();
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Wrong account or password", "Warning", 1);
+                    JOptionPane.showMessageDialog(null, "Wrong account or password", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (Exception ex) {
                 //ex.printStackTrace();

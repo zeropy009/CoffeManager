@@ -26,7 +26,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="btnStaffManagement">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; nh&#xe2;n vi&#xea;n"/>
         <Property name="horizontalTextPosition" type="int" value="0"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
@@ -49,7 +49,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnCustomerManagement">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; ch&#x1b0;&#x1a1;ng tr&#xec;nh gi&#x1ea3;m gi&#xe1; kh&#xe1;ch h&#xe0;ng"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -71,7 +71,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnPayment">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Thanh to&#xe1;n"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -93,7 +93,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnRevenue">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; doanh thu"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -134,7 +134,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnBillManagement">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; ho&#xe1; &#x111;&#x1a1;n"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -156,7 +156,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnWarehouseManagement">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="L&#x1ecb;ch s&#x1eed; b&#xe1;n h&#xe0;ng"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>
@@ -178,7 +178,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnWarehouse">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="toolTipText" type="java.lang.String" value="Nh&#x1ead;p kho"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 200]"/>
         </Property>

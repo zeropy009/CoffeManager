@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import Common.Untils;
 import Common.UserSession;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -17,6 +19,16 @@ public class Menu extends javax.swing.JPanel {
      */
     public Menu() {
         initComponents();
+        SwingUtilities.invokeLater(() -> {
+            Untils.setImageButton(btnOrder, "themmon.jpg");
+            Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
+            Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
+            Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
+            Untils.setImageButton(btnBillManagement, "quanlyhoadon.png");
+            Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
+            Untils.setImageButton(btnPayment, "thanhToan.jpg");
+            Untils.setImageButton(btnWarehouse, "nhapKho.jpeg");
+        });
         if (UserSession.getInstance().getRole() == 2) {
             btnPayment.setVisible(false);
             btnWarehouse.setVisible(false);
@@ -46,7 +58,7 @@ public class Menu extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(500, 400));
         setLayout(new java.awt.GridBagLayout());
 
-        btnStaffManagement.setToolTipText("Thêm món");
+        btnStaffManagement.setToolTipText("Quản lý nhân viên");
         btnStaffManagement.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnStaffManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnStaffManagement.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -62,7 +74,7 @@ public class Menu extends javax.swing.JPanel {
         add(btnStaffManagement, gridBagConstraints);
         btnStaffManagement.getAccessibleContext().setAccessibleDescription("Quản lý nhân viên");
 
-        btnCustomerManagement.setToolTipText("Thêm món");
+        btnCustomerManagement.setToolTipText("Quản lý chương trình giảm giá khách hàng");
         btnCustomerManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnCustomerManagement.setPreferredSize(new java.awt.Dimension(200, 200));
         btnCustomerManagement.addActionListener(new java.awt.event.ActionListener() {
@@ -77,7 +89,7 @@ public class Menu extends javax.swing.JPanel {
         add(btnCustomerManagement, gridBagConstraints);
         btnCustomerManagement.getAccessibleContext().setAccessibleDescription("Quản lý chương trình giảm giá khách hàng");
 
-        btnPayment.setToolTipText("Thêm món");
+        btnPayment.setToolTipText("Thanh toán");
         btnPayment.setMinimumSize(new java.awt.Dimension(200, 200));
         btnPayment.setPreferredSize(new java.awt.Dimension(200, 200));
         btnPayment.addActionListener(new java.awt.event.ActionListener() {
@@ -92,7 +104,7 @@ public class Menu extends javax.swing.JPanel {
         add(btnPayment, gridBagConstraints);
         btnPayment.getAccessibleContext().setAccessibleDescription("Thanh toán");
 
-        btnRevenue.setToolTipText("Thêm món");
+        btnRevenue.setToolTipText("Quản lý doanh thu");
         btnRevenue.setMinimumSize(new java.awt.Dimension(200, 200));
         btnRevenue.setPreferredSize(new java.awt.Dimension(200, 200));
         btnRevenue.addActionListener(new java.awt.event.ActionListener() {
@@ -121,7 +133,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnOrder, gridBagConstraints);
 
-        btnBillManagement.setToolTipText("Thêm món");
+        btnBillManagement.setToolTipText("Quản lý hoá đơn");
         btnBillManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnBillManagement.setPreferredSize(new java.awt.Dimension(200, 200));
         btnBillManagement.addActionListener(new java.awt.event.ActionListener() {
@@ -136,7 +148,7 @@ public class Menu extends javax.swing.JPanel {
         add(btnBillManagement, gridBagConstraints);
         btnBillManagement.getAccessibleContext().setAccessibleDescription("Quản lý hoá đơn");
 
-        btnWarehouseManagement.setToolTipText("Thêm món");
+        btnWarehouseManagement.setToolTipText("Lịch sử bán hàng");
         btnWarehouseManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnWarehouseManagement.setPreferredSize(new java.awt.Dimension(200, 200));
         btnWarehouseManagement.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +163,7 @@ public class Menu extends javax.swing.JPanel {
         add(btnWarehouseManagement, gridBagConstraints);
         btnWarehouseManagement.getAccessibleContext().setAccessibleDescription("Lịch sử bán hàng");
 
-        btnWarehouse.setToolTipText("Thêm món");
+        btnWarehouse.setToolTipText("Nhập kho");
         btnWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
         btnWarehouse.setPreferredSize(new java.awt.Dimension(200, 200));
         btnWarehouse.addActionListener(new java.awt.event.ActionListener() {
