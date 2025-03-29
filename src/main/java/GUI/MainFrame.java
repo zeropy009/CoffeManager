@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Common.UserSession;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
@@ -21,14 +22,13 @@ public class MainFrame extends JFrame {
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
         initComponent();
     }
     
     private void initComponent() {
         // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
-        JLabel titleLabel = new JLabel("Hello,", JLabel.RIGHT);
+        JLabel titleLabel = new JLabel("Hello, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         JButton logoutButton = new JButton("LOGOUT");
         logoutButton.setForeground(Color.RED);

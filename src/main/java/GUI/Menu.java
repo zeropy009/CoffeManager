@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Common.UserSession;
+
 /**
  *
  * @author zero
@@ -15,6 +17,10 @@ public class Menu extends javax.swing.JPanel {
      */
     public Menu() {
         initComponents();
+        if (UserSession.getInstance().getRole() == 2) {
+            btnPayment.setVisible(false);
+            btnWarehouse.setVisible(false);
+        }
     }
 
     /**
@@ -27,26 +33,181 @@ public class Menu extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
+        btnStaffManagement = new javax.swing.JButton();
+        btnCustomerManagement = new javax.swing.JButton();
+        btnPayment = new javax.swing.JButton();
+        btnRevenue = new javax.swing.JButton();
+        btnOrder = new javax.swing.JButton();
+        btnBillManagement = new javax.swing.JButton();
+        btnWarehouseManagement = new javax.swing.JButton();
+        btnWarehouse = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(500, 400));
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(500, 400));
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Đây là Menu");
-        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel1.setMaximumSize(new java.awt.Dimension(22222222, 2222222));
-        jLabel1.setMinimumSize(new java.awt.Dimension(800, 600));
-        jLabel1.setPreferredSize(new java.awt.Dimension(800, 600));
-        add(jLabel1, new java.awt.GridBagConstraints());
+        btnStaffManagement.setToolTipText("Thêm món");
+        btnStaffManagement.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnStaffManagement.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnStaffManagement.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnStaffManagement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStaffManagementActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnStaffManagement, gridBagConstraints);
+        btnStaffManagement.getAccessibleContext().setAccessibleDescription("Quản lý nhân viên");
+
+        btnCustomerManagement.setToolTipText("Thêm món");
+        btnCustomerManagement.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnCustomerManagement.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnCustomerManagement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCustomerManagementActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnCustomerManagement, gridBagConstraints);
+        btnCustomerManagement.getAccessibleContext().setAccessibleDescription("Quản lý chương trình giảm giá khách hàng");
+
+        btnPayment.setToolTipText("Thêm món");
+        btnPayment.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnPayment.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnPayment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPaymentActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnPayment, gridBagConstraints);
+        btnPayment.getAccessibleContext().setAccessibleDescription("Thanh toán");
+
+        btnRevenue.setToolTipText("Thêm món");
+        btnRevenue.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnRevenue.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnRevenue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevenueActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnRevenue, gridBagConstraints);
+        btnRevenue.getAccessibleContext().setAccessibleDescription("Quản lý doanh thu");
+
+        btnOrder.setToolTipText("Thêm món");
+        btnOrder.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnOrder.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOrderActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnOrder, gridBagConstraints);
+
+        btnBillManagement.setToolTipText("Thêm món");
+        btnBillManagement.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnBillManagement.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnBillManagement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBillManagementActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnBillManagement, gridBagConstraints);
+        btnBillManagement.getAccessibleContext().setAccessibleDescription("Quản lý hoá đơn");
+
+        btnWarehouseManagement.setToolTipText("Thêm món");
+        btnWarehouseManagement.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnWarehouseManagement.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnWarehouseManagement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWarehouseManagementActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnWarehouseManagement, gridBagConstraints);
+        btnWarehouseManagement.getAccessibleContext().setAccessibleDescription("Lịch sử bán hàng");
+
+        btnWarehouse.setToolTipText("Thêm món");
+        btnWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnWarehouse.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnWarehouse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWarehouseActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        add(btnWarehouse, gridBagConstraints);
+        btnWarehouse.getAccessibleContext().setAccessibleDescription("Nhập kho");
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOrderActionPerformed
+
+    private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStaffManagementActionPerformed
+
+    private void btnCustomerManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerManagementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCustomerManagementActionPerformed
+
+    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPaymentActionPerformed
+
+    private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRevenueActionPerformed
+
+    private void btnBillManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillManagementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBillManagementActionPerformed
+
+    private void btnWarehouseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseManagementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnWarehouseManagementActionPerformed
+
+    private void btnWarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnWarehouseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton btnBillManagement;
+    private javax.swing.JButton btnCustomerManagement;
+    private javax.swing.JButton btnOrder;
+    private javax.swing.JButton btnPayment;
+    private javax.swing.JButton btnRevenue;
+    private javax.swing.JButton btnStaffManagement;
+    private javax.swing.JButton btnWarehouse;
+    private javax.swing.JButton btnWarehouseManagement;
     // End of variables declaration//GEN-END:variables
 }
