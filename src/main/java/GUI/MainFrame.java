@@ -5,6 +5,7 @@
 package GUI;
 
 import Common.Constants;
+import Common.Untils;
 import Common.UserSession;
 import java.awt.*;
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class MainFrame extends JFrame {
     private JPanel cardPanel;
     
     public MainFrame() {
-        setTitle("CardLayout Example");
+        setTitle("QUẢN LÝ QUÁN CAFFEE");
         setSize(900, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -54,7 +55,9 @@ public class MainFrame extends JFrame {
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
-        footerPanel.add(new JLabel("hihihi"));
+        JLabel clock = new JLabel();
+        Untils.clock(clock);
+        footerPanel.add(clock);
         
         // Container for button and footer
         JPanel bottomPanel = new JPanel(new BorderLayout());
