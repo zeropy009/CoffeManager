@@ -46,7 +46,7 @@ CREATE TABLE [USER]
 );
 GO
 
-CREATE TRIGGER User_Updated
+CREATE TRIGGER USER_UPDATED
 ON [USER]
 AFTER UPDATE
 AS
@@ -61,9 +61,9 @@ GO
 
 CREATE TABLE CUSTOMER_TIER (
     [TIER_ID] INT PRIMARY KEY IDENTITY,
-    [TIER_NAME] NVARCHAR(50) NOT NULL, -- (VD: Bronze, Silver, Gold)
-    [MIN_PURCHASE] DECIMAL(10,2) NOT NULL, -- Số tiền tối thiểu để đạt cấp độ này
-    [DISCOUNT_PERCENTAGE] DECIMAL(5,2) NOT NULL -- Giảm giá được hưởng
+    [TIER_NAME] NVARCHAR(50) NOT NULL, 
+    [MIN_PURCHASE] DECIMAL(10,2) NOT NULL,
+    [DISCOUNT_PERCENTAGE] DECIMAL(5,2) NOT NULL 
 );
 GO
 
@@ -73,6 +73,7 @@ CREATE TABLE CUSTOMER (
     [PHONE] VARCHAR(15) NOT NULL UNIQUE,
     [EMAIL] VARCHAR(100),
     [TIER_ID] INT,
+	[TIER_NAME] NVARCHAR(50) NOT NULL,
 	[CREATED_BY] VARCHAR(30) DEFAULT 0,
 	[CREATED_AT] DATETIME DEFAULT GETDATE(),
 	[LAST_UPDATE_BY] VARCHAR(30) DEFAULT 0,
@@ -261,13 +262,85 @@ GO
 
 INSERT INTO [ROLE] VALUES ('MANAGER'), ('STAFF') 
 
-INSERT INTO [USER] ([USER_NAME], [PASS_WORD], [ROLE_ID], [FULL_NAME], [SEX], [ADDRESS], [YEAR_OF_BIRTH], [PHONE], [EMAIL], [SALARY]) VALUES
-('YNM', '192023a7bbd73250516f069df18b500', 1, N'Nguyễn Minh Ý', 1, N'P.Tân Quy, Quận 7, Tp.HCM', 1996, '0987208677', '24410127@ms.uit.edu.vn', 20000000),
-('TEST', '192023a7bbd73250516f069df18b500', 2, N'TK test', 0, N'P.Tân Quy, Quận 7, Tp.HCM', 2000, '01234567897', '123456789@gmail.com', 999999999),
-('CPTH', '192023a7bbd73250516f069df18b500', 1, N'Phạm Trương Hữu Cường', 1, N'P.Linh Chiểu, Quận Thủ Đức, Tp.HCM', 1985, '0986853817', '24410010@ms.uit.edu.vn', 20000000)
 
-GO
+INSERT INTO [USER] 
+([USER_NAME], [PASS_WORD], [ROLE_ID], [FULL_NAME], [SEX], [ADDRESS], [YEAR_OF_BIRTH], [PHONE], [EMAIL], [SALARY], [CREATED_AT], [LAST_UPDATE_AT], [DELETED]) 
+VALUES 
+(N'PTHC', N'192023a7bbd73250516f069df18b500', 1, N'PHẠM TRƯƠNG HỮU CƯỜNG', 1, N'QUẬN THỦ ĐỨC, HCM', 1985, '0986853817', '24410010@ms.uit.edu.vn', 20000000, GETDATE(), GETDATE(), 0),
+(N'NMY', N'192023a7bbd73250516f069df18b500', 1, N'NGUYỄN MINH Ý', 1, N'QUẬN 8, HCM', 1996, '0987208677', '24410127@ms.uit.edu.vn', 50000000, GETDATE(), GETDATE(), 0),
+(N'DMP', N'192023a7bbd73250516f069df18b500', 1, N'ĐÀO MINH PHONG', 1, N'QUẬN 12, HCM', 1987, '0981233818', '24410081@ms.uit.edu.vn', 20000000, GETDATE(), GETDATE(), 0),
+(N'DVD', N'192023a7bbd73250516f069df18b500', 1, N'ĐÀO VĂN DŨNG', 1, N'QUẬN 3, HCM', 1988, '0986853888', '24410017@ms.uit.edu.vn', 20000000, GETDATE(), GETDATE(), 0);
+
 
 INSERT INTO [CUSTOMER_TIER] ([TIER_NAME], [MIN_PURCHASE], [DISCOUNT_PERCENTAGE]) VALUES
-('Đồng', 1000000, 5), ('Bạc', 5000000, 10), ('Vàng', 10000000, 20)
-GO
+('BRONZE', 1000000, 5), ('SILVER', 5000000, 10), ('GOLD', 10000000, 20)
+
+INSERT INTO CUSTOMER ([NAME], [PHONE], [EMAIL], [TIER_ID], [TIER_NAME], [CREATED_BY], [CREATED_AT], [LAST_UPDATE_BY], [LAST_UPDATE_AT], [DELETED])
+VALUES
+(N'PHẠM VĂN AN', '0364123456', 'an.pham@gmail.com', 1, N'Bronze', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'LÊ MINH BẢO', '0463987654', 'bao.le@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ĐẶNG HOÀNG NAM', '0975123456', 'nam.dang@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'VŨ THỊ THU', '0976987654', 'thu.vu@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'TRẦN THANH HƯƠNG', '0945678912', 'huong.tran@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'BÙI QUANG HUY', '0463123456', 'huy.bui@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'NGUYỄN THỊ LAN', '0403654789', 'lan.nguyen@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'LÝ THỊ NGỌC', '0402789654', 'ngoc.ly@gmail.com', 1, N'Bronze', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'HOÀNG THỊ MỸ DUYÊN', '0286547893', 'duyen.hoang@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'PHAN THỊ KIM ANH', '0483789654', 'kimanh.phan@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'TỐNG THỊ HỒNG', '0354123789', 'hong.tong@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'NGUYỄN THỊ NGỌC HÀ', '0835789654', 'hanguyen@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'CHÂU MINH KHANG', '0987654789', 'khang.chau@gmail.com', 1, N'Bronze', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'VÕ ĐỨC TRUNG', '0925987654', 'trung.vo@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'HÀ TRỌNG TÍN', '0987678456', 'tin.ha@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ĐỖ HOÀNG PHÚC', '0876543212', 'phuc.do@gmail.com', 1, N'Bronze', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'TRỊNH THANH TRÚC', '0376889123', 'truc.trinh@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'NGUYỄN TRẦN MINH CHÂU', '0988325678', 'chau.nguyen@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'PHẠM ANH QUÂN', '0878496543', 'quan.pham@gmail.com', 2, N'Silver', 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'LÊ HOÀNG SƠN', '0987775432', 'son.le@gmail.com', 3, N'Gold', 'admin', GETDATE(), 'admin', GETDATE(), 0);
+
+INSERT INTO BEVERAGES_CATEGORY ([BEVERAGES_CAT_NAME])
+VALUES
+(N'COFFEE'),
+(N'MILK TEA'),
+(N'YOGURT'),
+(N'SMOOTHIE'),
+(N'MATCHA'),
+(N'ICE BLENDED'),
+(N'SODA'),
+(N'FLAVORED DRINK'),
+(N'JUICE'),
+(N'FRESH FRUIT TEA');
+
+INSERT INTO BEVERAGES ([BEVERAGES_NAME], [PRICE], [BEVERAGES_CAT_ID], [CREATED_BY], [CREATED_AT], [LAST_UPDATE_BY], [LAST_UPDATE_AT], [DELETED])
+VALUES
+(N'BLACK COFFEE', 14000, 1, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'FRESH MILK COFFEE', 18000, 1, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'EARL GREY MILK TEA', 22000, 2, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'CHOCOLATE MILK TEA', 20000, 2, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ICE YOGURT', 25000, 3, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'STRAWBERRY YOGURT', 25000, 3, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'FRUIT YOGURT', 25000, 3, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'WATERMELON SMOOTHIE', 28000, 4, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'COCONUT SMOOTHIE', 28000, 4, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ORANGE SMOOTHIE', 28000, 4, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'MATCHA HONEY', 30000, 5, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'MATCHA MANGO', 30000, 5, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'MATCHA OREO', 30000, 5, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'MATCHA RED BEAN', 30000, 5, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'STRAWBERRY ICE BLENDED', 30000, 6, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'RASPBERRY ICE BLENDED', 30000, 6, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'MINT SODA', 20000, 7, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'LEMON SODA', 20000, 7, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'BLACK TEA', 15000, 8, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'BUTTERFLY PEA TEA', 22000, 8, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'EARL GREY TEA', 25000, 8, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'OLONG TEA', 25000, 8, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ORANGE JUICE', 26000, 9, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'APPLE JUICE', 23000, 9, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'WATERMELON JUICE', 19000, 9, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'STRAWBERRY JUICE', 20000, 9, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'PINEAPPLE JUICE', 20000, 9, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'ROSE STRAWBERRY TEA', 30000, 10, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'PEACH ORANGE LEMONGRASS TEA', 30000, 10, 'admin', GETDATE(), 'admin', GETDATE(), 0),
+(N'STRAWBERRY ORANGE TEA', 30000, 10, 'admin', GETDATE(), 'admin', GETDATE(), 0);
+
