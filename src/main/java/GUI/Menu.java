@@ -6,6 +6,8 @@ package GUI;
 
 import Common.Untils;
 import Common.UserSession;
+import java.awt.CardLayout;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -14,24 +16,36 @@ import javax.swing.SwingUtilities;
  */
 public class Menu extends javax.swing.JPanel {
 
+    private final CardLayout cardLayout;
+    private final JPanel cardPanel;
     /**
      * Creates new form Menu
+     * @param cardPanel
      */
-    public Menu() {
+    public Menu(JPanel cardPanel) {
         initComponents();
+        this.cardPanel = cardPanel;
+        cardLayout = (CardLayout)(cardPanel.getLayout());
+        
         SwingUtilities.invokeLater(() -> {
-            Untils.setImageButton(btnOrder, "themmon.jpg");
-            Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
-            Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
-            Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
-            Untils.setImageButton(btnBillManagement, "quanlyhoadon.png");
-            Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
+            if (UserSession.getInstance().getRole() == 1) {
+                Untils.setImageButton(btnOrder, "themmon.jpg");
+                Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
+                Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
+                Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
+                Untils.setImageButton(btnBillManagement, "quanlyhoadon.png");
+                Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
+            }
             Untils.setImageButton(btnPayment, "thanhToan.jpg");
             Untils.setImageButton(btnWarehouse, "nhapKho.jpeg");
         });
         if (UserSession.getInstance().getRole() == 2) {
-            btnPayment.setVisible(false);
-            btnWarehouse.setVisible(false);
+            btnOrder.setVisible(false);
+            btnRevenue.setVisible(false);
+            btnStaffManagement.setVisible(false);
+            btnCustomerManagement.setVisible(false);
+            btnBillManagement.setVisible(false);
+            btnWarehouseManagement.setVisible(false);
         }
     }
 
@@ -72,7 +86,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnStaffManagement, gridBagConstraints);
-        btnStaffManagement.getAccessibleContext().setAccessibleDescription("Quản lý nhân viên");
 
         btnCustomerManagement.setToolTipText("Quản lý chương trình giảm giá khách hàng");
         btnCustomerManagement.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -87,7 +100,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnCustomerManagement, gridBagConstraints);
-        btnCustomerManagement.getAccessibleContext().setAccessibleDescription("Quản lý chương trình giảm giá khách hàng");
 
         btnPayment.setToolTipText("Thanh toán");
         btnPayment.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -102,7 +114,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnPayment, gridBagConstraints);
-        btnPayment.getAccessibleContext().setAccessibleDescription("Thanh toán");
 
         btnRevenue.setToolTipText("Quản lý doanh thu");
         btnRevenue.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -117,7 +128,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnRevenue, gridBagConstraints);
-        btnRevenue.getAccessibleContext().setAccessibleDescription("Quản lý doanh thu");
 
         btnOrder.setToolTipText("Thêm món");
         btnOrder.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -146,7 +156,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnBillManagement, gridBagConstraints);
-        btnBillManagement.getAccessibleContext().setAccessibleDescription("Quản lý hoá đơn");
 
         btnWarehouseManagement.setToolTipText("Lịch sử bán hàng");
         btnWarehouseManagement.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -161,7 +170,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnWarehouseManagement, gridBagConstraints);
-        btnWarehouseManagement.getAccessibleContext().setAccessibleDescription("Lịch sử bán hàng");
 
         btnWarehouse.setToolTipText("Nhập kho");
         btnWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -176,11 +184,10 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnWarehouse, gridBagConstraints);
-        btnWarehouse.getAccessibleContext().setAccessibleDescription("Nhập kho");
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        // TODO add your handling code here:
+        cardLayout.show(cardPanel, "Beverages");
     }//GEN-LAST:event_btnOrderActionPerformed
 
     private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed

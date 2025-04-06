@@ -11,8 +11,8 @@ import java.sql.Timestamp;
  * @author daomi
  */
 public class WarehouseDetail {
-  private int id;
-    private int warehouseid;
+    private int id;
+    private int warehouseId;
     private String userName; 
     private String productName;
     private int quantity;
@@ -22,9 +22,9 @@ public class WarehouseDetail {
     public WarehouseDetail() {
     }
 
-    public WarehouseDetail(int id, int warehouseid, String userName, String productName, int quantity, int price, int amount) {
+    public WarehouseDetail(int id, int warehouseId, String userName, String productName, int quantity, int price, int amount) {
         this.id = id;
-        this.warehouseid = warehouseid;
+        this.warehouseId = warehouseId;
         this.userName = userName;
         this.productName = productName;
         this.quantity = quantity;
@@ -40,12 +40,12 @@ public class WarehouseDetail {
         this.id = id;
     }
 
-    public int getWarehouseid() {
-        return warehouseid;
+    public int getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setWarehouseid(int warehouseid) {
-        this.warehouseid = warehouseid;
+    public void setWarehouseId(int warehouseId) {
+        this.warehouseId = warehouseId;
     }
 
     public String getUserName() {
@@ -87,5 +87,4 @@ public class WarehouseDetail {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    
 }

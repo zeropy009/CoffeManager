@@ -11,13 +11,26 @@ import java.sql.Timestamp;
  * @author daomi
  */
 public class Invoice extends BaseModel {
-   private int id;
-   private Timestamp date;
+    private int id;
+    private Timestamp date;
     private int totalAmount;
     private String userName; 
     private int customerId;
     private double discountPercentage;
     private int tableId;
+    
+    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId) {
+        this.id = id;
+        this.date = date;
+        this.totalAmount = totalAmount;
+        this.userName = userName;
+        this.customerId = customerId;
+        this.discountPercentage = discountPercentage;
+        this.tableId = tableId;
+    }
+
+    public Invoice() {
+    }
 
     public int getId() {
         return id;
@@ -74,18 +87,4 @@ public class Invoice extends BaseModel {
     public void setTableId(int tableId) {
         this.tableId = tableId;
     }
-
-    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId) {
-        this.id = id;
-        this.date = date;
-        this.totalAmount = totalAmount;
-        this.userName = userName;
-        this.customerId = customerId;
-        this.discountPercentage = discountPercentage;
-        this.tableId = tableId;
-    }
-
-    public Invoice() {
-    }
-  
 }

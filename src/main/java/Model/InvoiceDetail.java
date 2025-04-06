@@ -4,14 +4,12 @@
  */
 package Model;
 
-import java.sql.Timestamp;
-
 /**
  *
  * @author daomi
  */
 public class InvoiceDetail extends BaseModel{
-  private int id;
+    private int id;
     private int invoiceId;
     private int beveragesId; 
     private int quantity;
@@ -20,6 +18,21 @@ public class InvoiceDetail extends BaseModel{
     private int customerId; 
     private double discountPercentage;
     private int tableId;
+    
+    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount, int customerId, double discountPercentage, int tableId) {
+        this.id = id;
+        this.invoiceId = invoiceId;
+        this.beveragesId = beveragesId;
+        this.quantity = quantity;
+        this.price = price;
+        this.amount = amount;
+        this.customerId = customerId;
+        this.discountPercentage = discountPercentage;
+        this.tableId = tableId;
+    }
+
+    public InvoiceDetail() {
+    }
 
     public int getId() {
         return id;
@@ -92,22 +105,5 @@ public class InvoiceDetail extends BaseModel{
     public void setTableId(int tableId) {
         this.tableId = tableId;
     }
-
-    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount, int customerId, double discountPercentage, int tableId) {
-        this.id = id;
-        this.invoiceId = invoiceId;
-        this.beveragesId = beveragesId;
-        this.quantity = quantity;
-        this.price = price;
-        this.amount = amount;
-        this.customerId = customerId;
-        this.discountPercentage = discountPercentage;
-        this.tableId = tableId;
-    }
-
-    public InvoiceDetail() {
-    }
-    
-    
 }
     

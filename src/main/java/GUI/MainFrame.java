@@ -8,6 +8,7 @@ import Common.Constants;
 import Common.Untils;
 import Common.UserSession;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
@@ -29,29 +30,37 @@ public class MainFrame extends JFrame {
     private void initComponent() {
         // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
+        JButton btnBack = new JButton();
+        btnBack.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "back.png")));
+        btnBack.addActionListener( e -> {
+                cardLayout.show(cardPanel, "Menu");
+            });
         JLabel titleLabel = new JLabel("Hello, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        JButton logoutButton = new JButton("ĐĂNG XUẤT");
-        logoutButton.setFont(new Font("Times New Roman", Font.BOLD, 24));
-        logoutButton.setForeground(new Color(255, 51, 51));
-        logoutButton.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "logout.png")));
-        logoutButton.addActionListener(e -> {
+        JButton btnLogout = new JButton("ĐĂNG XUẤT");
+        btnLogout.setFont(new Font("Times New Roman", Font.BOLD, 24));
+        btnLogout.setForeground(new Color(255, 51, 51));
+        btnLogout.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "logout.png")));
+        btnLogout.addActionListener(e -> {
                 UserSession.clearSession();
                 new Login().setVisible(true);
                 dispose();
             });
         
-        headerPanel.add(logoutButton, BorderLayout.EAST);
-        headerPanel.add(titleLabel, BorderLayout.WEST);
+        headerPanel.add(btnLogout, BorderLayout.EAST);
+        headerPanel.add(btnBack, BorderLayout.WEST);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
         
         // Card Layout Panel
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         
         // Screens
-        Menu menu = new Menu();
+        Menu menu = new Menu(cardPanel);
+        Beverages beverages = new Beverages();
         
         cardPanel.add(menu, "Menu");
+        cardPanel.add(beverages, "Beverages");
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
