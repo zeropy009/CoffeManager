@@ -12,7 +12,8 @@ public class Beverages extends BaseModel{
     private int id;
     private String name;
     private int price;
-    private int baveragesCategooryId;
+    private int baveragesCategoryId;
+    
 
     public Beverages() {
     }
@@ -21,7 +22,7 @@ public class Beverages extends BaseModel{
         this.id = id;
         this.name = name;
         this.price = price;
-        this.baveragesCategooryId = baveragesCategooryId;
+        this.baveragesCategoryId = baveragesCategooryId;
     }
 
     public int getId() {
@@ -49,11 +50,11 @@ public class Beverages extends BaseModel{
     }
 
     public int getBaveragesCategooryId() {
-        return baveragesCategooryId;
+        return baveragesCategoryId;
     }
 
     public void setBaveragesCategooryId(int baveragesCategooryId) {
-        this.baveragesCategooryId = baveragesCategooryId;
+        this.baveragesCategoryId = baveragesCategooryId;
     }
     
     
