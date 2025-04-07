@@ -15,4 +15,7 @@ public class Constants {
     public static final String PATH_FILES = "/Files/";
     public static final String PATH_IMAGES = "/Images/";
     public static final String EXTENSION_TXT = ".txt";
+    
+    public static final String MENU = "Menu";
+    public static final String BEVERAGES = "Beverages";
 }

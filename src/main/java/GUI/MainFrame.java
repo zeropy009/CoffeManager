@@ -9,6 +9,9 @@ import Common.Untils;
 import Common.UserSession;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.Optional;
 import javax.swing.*;
 
 /**
@@ -18,15 +21,16 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    
+
     public MainFrame() {
         setTitle("QUẢN LÝ QUÁN CAFFEE");
-        setSize(900, 650);
+        setSize(1024, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         initComponent();
     }
     
+    // <editor-fold defaultstate="collapsed" desc="initComponent">
     private void initComponent() {
         // Header Panel
         JPanel headerPanel = new JPanel(new BorderLayout());
@@ -35,6 +39,17 @@ public class MainFrame extends JFrame {
         btnBack.addActionListener( e -> {
                 cardLayout.show(cardPanel, "Menu");
             });
+        // Gán phím ESC cho 1 hành động
+        btnBack.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
+
+        btnBack.getActionMap().put("escPressed", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Gọi hành động như khi bấm nút
+                btnBack.doClick();
+            }
+        });
+        
         JLabel titleLabel = new JLabel("Hello, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
         JButton btnLogout = new JButton("ĐĂNG XUẤT");
@@ -57,10 +72,7 @@ public class MainFrame extends JFrame {
         
         // Screens
         Menu menu = new Menu(cardPanel);
-        Beverages beverages = new Beverages();
-        
-        cardPanel.add(menu, "Menu");
-        cardPanel.add(beverages, "Beverages");
+        cardPanel.add(menu, Constants.MENU);
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
@@ -78,8 +90,23 @@ public class MainFrame extends JFrame {
         add(cardPanel, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
+    // </editor-fold>
     
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainFrame().setVisible(true));
+    public static void showScreen(JPanel cardPanel, String screenName){
+        CardLayout cardLayout = (CardLayout)(cardPanel.getLayout());
+        Optional<Component> existingCard = Arrays.stream(cardPanel.getComponents()).filter(component -> component.getName() != null && component.getName().equals(screenName)).findFirst();
+
+        // Nếu không tìm thấy thì tạo mới màn hình
+        if (!existingCard.isPresent()) {
+            switch (screenName) {
+                case Constants.BEVERAGES -> {
+                    Beverages beverages = new Beverages();
+                    cardPanel.add(beverages, screenName);
+                }
+                default -> {
+                }
+            }
+        }
+        cardLayout.show(cardPanel, screenName);
     }
 }

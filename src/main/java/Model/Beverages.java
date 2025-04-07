@@ -13,16 +13,18 @@ public class Beverages extends BaseModel{
     private String name;
     private int price;
     private int baveragesCategoryId;
+    private String baveragesCategoryName;
     
 
     public Beverages() {
     }
 
-    public Beverages(int id, String name, int price, int baveragesCategoryId) {
+    public Beverages(int id, String name, int price, int baveragesCategoryId, String baveragesCategoryName) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.baveragesCategoryId = baveragesCategoryId;
+        this.baveragesCategoryName = baveragesCategoryName;
     }
 
     public int getId() {
@@ -56,8 +58,19 @@ public class Beverages extends BaseModel{
     public void setBaveragesCategoryId(int baveragesCategoryId) {
         this.baveragesCategoryId = baveragesCategoryId;
     }
+
+    public String getBaveragesCategoryName() {
+        return baveragesCategoryName;
+    }
+
+    public void setBaveragesCategoryName(String baveragesCategoryName) {
+        this.baveragesCategoryName = baveragesCategoryName;
+    }
     
-    
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 
 	

@@ -6,25 +6,30 @@ package DAO.Impl;
 
 import Common.DBConnection;
 import Common.UserSession;
-import DAO.BeveregesDAO;
 import Model.Beverages;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import DAO.BeveragesDAO;
 
 /**
  *
  * @author zero
  */
-public class BeveregesImpl implements BeveregesDAO{
+public class BeveragesImpl implements BeveragesDAO{
 
     @Override
     public Beverages getBeveragesByID(int id) {
-        String query = "SELECT * FROM BEVERAGES WHERE ID = ? AND DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT b.*, bc.[NAME] AS BEVERAGES_CATEGORY_NAME");
+        query.append(" FROM BEVERAGES b");
+        query.append(" LEFT JOIN BEVERAGES_CATEGORY bc");
+        query.append(" ON b.BEVERAGES_CATEGORY_ID = bc.ID");
+        query.append(" WHERE b.ID = ? AND b.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -41,9 +46,14 @@ public class BeveregesImpl implements BeveregesDAO{
     @Override
     public ArrayList<Beverages> getAllBeverages() {
         ArrayList<Beverages> resList = new ArrayList<>();
-        String query = "SELECT * FROM BEVERAGES WHERE DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT b.*, bc.[NAME] AS BEVERAGES_CATEGORY_NAME");
+        query.append(" FROM BEVERAGES b");
+        query.append(" LEFT JOIN BEVERAGES_CATEGORY bc");
+        query.append(" ON b.BEVERAGES_CATEGORY_ID = bc.ID");
+        query.append(" WHERE b.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             ResultSet rs = stmt.executeQuery();
 
@@ -57,7 +67,7 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean addBevereges(Beverages beverages) {
+    public boolean addBeverages(Beverages beverages) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO BEVERAGES (NAME, PRICE, BEVERAGES_CATEGORY_ID, CREATED_BY, LAST_UPDATE_BY) VALUES");
         query.append("(?, ?, ?, ?, ?)");
@@ -79,7 +89,7 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean updateBevereges(Beverages bevereges) {
+    public boolean updateBeverages(Beverages bevereges) {
         String query = "UPDATE BEVERAGES SET NAME = ?, PRICE = ?, BEVERAGES_CATEGORY_ID = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
@@ -100,7 +110,7 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean deleteBevereges(int id) {
+    public boolean deleteBeverages(int id) {
         String query = "UPDATE BEVERAGES SET LAST_UPDATE_BY = ?, DELETED = 1 WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();

@@ -13,16 +13,17 @@ import java.util.ArrayList;
  *
  * @author zero
  */
-public interface BeveregesDAO {
+public interface BeveragesDAO {
     Beverages getBeveragesByID(int id);
     ArrayList<Beverages> getAllBeverages();
-    boolean addBevereges(Beverages beverages);
-    boolean updateBevereges(Beverages bevereges);
-    boolean deleteBevereges(int id);
+    boolean addBeverages(Beverages beverages);
+    boolean updateBeverages(Beverages bevereges);
+    boolean deleteBeverages(int id);
     default Beverages getBeveragesInfor(ResultSet rs) throws SQLException {
         return new Beverages(rs.getInt("ID"),
                         rs.getString("NAME"),
                         rs.getInt("PRICE"),
-                        rs.getInt("BEVERAGES_CATEGORY_ID"));
+                        rs.getInt("BEVERAGES_CATEGORY_ID"),
+                        rs.getString("BEVERAGES_CATEGORY_NAME"));
     }
 }

@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Common.Constants;
 import Common.Untils;
 import Common.UserSession;
 import java.awt.CardLayout;
@@ -187,7 +188,7 @@ public class Menu extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
-        cardLayout.show(cardPanel, "Beverages");
+        MainFrame.showScreen(cardPanel, Constants.BEVERAGES);
     }//GEN-LAST:event_btnOrderActionPerformed
 
     private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed

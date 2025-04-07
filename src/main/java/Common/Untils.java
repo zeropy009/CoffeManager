@@ -177,4 +177,12 @@ public class Untils {
             tb.getCellEditor(row, col).cancelCellEditing();           
         }
     }
+    
+    public static String formatMoney(int amount) {
+        return String.format("%,d", amount);
+    }
+    
+    public static int parseMoney(String moneyStr) throws NumberFormatException {
+        return Integer.parseInt(moneyStr.replaceAll(",", ""));
+    }
 }

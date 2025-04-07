@@ -4,17 +4,180 @@
  */
 package GUI;
 
+import Common.Untils;
+import DAO.BeveragesCategoryDAO;
+import DAO.BeveragesDAO;
+import DAO.Impl.BeveragesCategoryImpl;
+import DAO.Impl.BeveragesImpl;
+import Model.BeveragesCategory;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author DZUNG
  */
 public class Beverages extends javax.swing.JPanel {
+    
+    private final BeveragesCategoryDAO beveragesCategoryDAO;
+    private final BeveragesDAO beveragesDAO;
+    private DefaultTreeModel modelTree;
+    private ArrayList<Model.Beverages> beveragesList;
+    private ArrayList<BeveragesCategory> beveragesCategoryList;
+    private DefaultMutableTreeNode root = null;
+    private DefaultTableModel modelTable;
+    private Model.Beverages beveragesSelected;
+    private BeveragesCategory beveragesCategorySelected;
 
     /**
      * Creates new form Beverages
      */
     public Beverages() {
+        beveragesCategoryDAO = new BeveragesCategoryImpl();
+        beveragesDAO = new BeveragesImpl();
         initComponents();
+        root = (DefaultMutableTreeNode) CategoryTree.getModel().getRoot();
+        modelTree = (DefaultTreeModel) CategoryTree.getModel();
+        CategoryTree.setModel(modelTree);
+        modelTable = (DefaultTableModel) tblBeverages.getModel();
+        tblBeverages.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tblBeverages.getSelectedRow();
+                if (selectedRow == -1) {
+                    clearBevetages();
+                }
+                else {
+                    if (tblBeverages.getValueAt(selectedRow, 0) instanceof Model.Beverages b) {
+                        beveragesSelected = b;
+                        txtBeveragesName.setText(b.getName());
+                        int index = 0;
+                        for (int i = 0; i < ccbBeveragesCategory.getItemCount(); i++) {
+                            BeveragesCategory item = ccbBeveragesCategory.getItemAt(i);
+                            if (item.getId() == b.getBaveragesCategoryId()) {
+                                index = i;
+                            }
+                        }
+                        ccbBeveragesCategory.setSelectedIndex(index);
+                        txtPrice.setText(Untils.formatMoney(b.getPrice()));
+                        btnAddBeverages.setEnabled(false);
+                        btnUpdateBeverages.setEnabled(true);
+                        btnDeleteBeverages.setEnabled(true);
+                    }
+                    
+                }
+            }
+        });
+        loadBeveragesCategory();
+        loadBeverages();
+    }
+    
+    private void loadBeveragesCategory (){
+        ccbBeveragesCategory.removeAllItems();
+        while (root.getChildCount() != 0) {
+            root.remove(root.getChildCount() - 1);
+        }
+        beveragesCategoryList = beveragesCategoryDAO.getAllBeveragesCategory();
+        //default value
+        ccbBeveragesCategory.addItem(new BeveragesCategory(0, ""));
+        for (BeveragesCategory category : beveragesCategoryList) {
+            ccbBeveragesCategory.addItem(category);
+            DefaultMutableTreeNode parent = new DefaultMutableTreeNode(category);
+            root.add(parent);
+        }
+        modelTree.reload(root);
+//        for (int i = 0; i < CategoryTree.getRowCount(); i++) {
+//            CategoryTree.expandRow(i);
+//        }
+    }
+    
+    private void loadBeverages(){
+        modelTable.setRowCount(0);
+        beveragesList = beveragesDAO.getAllBeverages();
+        for (Model.Beverages b : beveragesList) {
+            Object[] row = new Object[3];
+            row[0] = b;
+            row[1] = b.getBaveragesCategoryName();
+            row[2] = Untils.formatMoney(b.getPrice());
+            modelTable.addRow(row);
+        }
+    }
+    
+    private void reloadBeverages(){
+        clearBevetages();
+        modelTable.setRowCount(0);
+        for (Model.Beverages b : beveragesList) {
+            Object[] row = new Object[3];
+            row[0] = b;
+            row[1] = b.getBaveragesCategoryName();
+            row[2] = Untils.formatMoney(b.getPrice());
+            modelTable.addRow(row);
+        }
+    }
+    
+    private void reloadBeverages(int beveragesCategoryId){
+        clearBevetages();
+        modelTable.setRowCount(0);
+        List<Model.Beverages> newbeveragesList = beveragesList.stream().filter(beverage -> beverage.getBaveragesCategoryId() == beveragesCategoryId).toList();       
+        for (Model.Beverages b : newbeveragesList) {
+            Object[] row = new Object[3];
+            row[0] = b;
+            row[1] = b.getBaveragesCategoryName();
+            row[2] = Untils.formatMoney(b.getPrice());
+            modelTable.addRow(row);
+        }
+    }
+    
+    private boolean checkInputBeveragesCategory(){
+        if (txtCategoryName.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên loại nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
+            txtCategoryName.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean checkInputBeverages(){
+        if (txtBeveragesName.getText().trim().length() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
+            txtBeveragesName.requestFocus();
+            return false;
+        }
+        if (ccbBeveragesCategory.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn loại nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
+            ccbBeveragesCategory.requestFocus();
+            return false;
+        }
+        if (txtPrice.getText().trim().length() == 0 || Untils.parseMoney(txtPrice.getText().trim()) == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn loại nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
+            txtPrice.requestFocus();
+            return false;
+        } 
+        return true;
+    }
+    
+    private void clearBevetages(){
+        beveragesSelected = null;
+        tblBeverages.clearSelection();
+        txtBeveragesName.setText("");
+        ccbBeveragesCategory.setSelectedIndex(0);
+        txtPrice.setText("");
+        btnAddBeverages.setEnabled(true);
+        btnUpdateBeverages.setEnabled(false);
+        btnDeleteBeverages.setEnabled(false);
+    }
+    
+    private void clearCategory(){
+        beveragesCategorySelected = null;
+        CategoryTree.clearSelection();
+        txtCategoryName.setText("");
+        btnAddCategory.setEnabled(true);
+        btnUpdateCategory.setEnabled(false);
+        btnDeleteCategory.setEnabled(false);
+        reloadBeverages();
     }
 
     /**
@@ -35,21 +198,27 @@ public class Beverages extends javax.swing.JPanel {
         menuBar3 = new java.awt.MenuBar();
         menu5 = new java.awt.Menu();
         menu6 = new java.awt.Menu();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextBeveragesCategory = new javax.swing.JTextField();
-        jTextCategory = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblBeverages = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextPrice = new javax.swing.JTextField();
-        jTextName = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        txtPrice = new javax.swing.JTextField();
+        txtBeveragesName = new javax.swing.JTextField();
+        btnClose = new javax.swing.JButton();
+        btnAddBeverages = new javax.swing.JButton();
+        btnUpdateBeverages = new javax.swing.JButton();
+        btnDeleteBeverages = new javax.swing.JButton();
+        btnRefreshBeverages = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        CategoryTree = new javax.swing.JTree();
+        btnAddCategory = new javax.swing.JButton();
+        btnCategoryRefresh = new javax.swing.JButton();
+        btnUpdateCategory = new javax.swing.JButton();
+        btnDeleteCategory = new javax.swing.JButton();
+        txtCategoryName = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        ccbBeveragesCategory = new javax.swing.JComboBox<>();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -71,204 +240,389 @@ public class Beverages extends javax.swing.JPanel {
 
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 204, 255));
-        jLabel1.setText("CategoryID:");
-
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 204, 255));
-        jLabel2.setText("Beverages Category:");
+        jLabel2.setText("Loại nước");
 
-        jTextCategory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextCategoryActionPerformed(evt);
-            }
-        });
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblBeverages.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "CategoryID", "Name", "Beverages Category", "Price"
+                "TÊN NƯỚC", "TÊN LOẠI NƯỚC", "ĐƠN GIÁ"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblBeverages.setToolTipText("");
+        tblBeverages.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tblBeverages);
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 204, 255));
-        jLabel3.setText("Name:");
+        jLabel3.setText("Tên nước");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 204, 255));
-        jLabel4.setText("Price:");
+        jLabel4.setText("Giá");
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
-        jButton1.setText("Close");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPriceFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPriceFocusLost(evt);
+            }
+        });
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPriceKeyTyped(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
-        jButton2.setText("Add");
-        jButton2.setName(""); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnClose.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnCloseActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
-        jButton3.setText("Edit");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnAddBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAddBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
+        btnAddBeverages.setText("Add");
+        btnAddBeverages.setName(""); // NOI18N
+        btnAddBeverages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnAddBeveragesActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
-        jButton4.setText("Delete");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnUpdateBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
+        btnUpdateBeverages.setText("Edit");
+        btnUpdateBeverages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnUpdateBeveragesActionPerformed(evt);
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
-        jButton5.setText("Refresh");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDeleteBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
+        btnDeleteBeverages.setText("Delete");
+        btnDeleteBeverages.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnDeleteBeveragesActionPerformed(evt);
             }
         });
+
+        btnRefreshBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnRefreshBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
+        btnRefreshBeverages.setText("Refresh");
+        btnRefreshBeverages.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshBeveragesActionPerformed(evt);
+            }
+        });
+
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Danh sách các loại nước");
+        CategoryTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        CategoryTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                CategoryTreeValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(CategoryTree);
+
+        btnAddCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAddCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
+        btnAddCategory.setText("Add");
+        btnAddCategory.setName(""); // NOI18N
+        btnAddCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCategoryActionPerformed(evt);
+            }
+        });
+
+        btnCategoryRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnCategoryRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
+        btnCategoryRefresh.setText("Refresh");
+        btnCategoryRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCategoryRefreshActionPerformed(evt);
+            }
+        });
+
+        btnUpdateCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnUpdateCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
+        btnUpdateCategory.setText("Edit");
+        btnUpdateCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateCategoryActionPerformed(evt);
+            }
+        });
+
+        btnDeleteCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDeleteCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
+        btnDeleteCategory.setText("Delete");
+        btnDeleteCategory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteCategoryActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel5.setText("Tên loại nước");
+
+        ccbBeveragesCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new BeveragesCategory[] {new BeveragesCategory(0, "")}));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAddBeverages)
+                                .addGap(65, 65, 65)
+                                .addComponent(btnUpdateBeverages)
+                                .addGap(76, 76, 76))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtBeveragesName, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(104, 104, 104)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextName, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnDeleteBeverages)
+                                .addGap(70, 70, 70)
+                                .addComponent(btnRefreshBeverages)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnClose)
+                                .addGap(53, 53, 53))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(822, 822, 822)
-                                .addComponent(jButton1))
+                                .addComponent(ccbBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addGap(89, 89, 89)
-                                .addComponent(jButton3)
-                                .addGap(115, 115, 115)
-                                .addComponent(jButton4)
-                                .addGap(85, 85, 85)
-                                .addComponent(jButton5)))
-                        .addGap(0, 19, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnDeleteCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAddCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnUpdateCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCategoryRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(23, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(25, 25, 25))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
+                            .addComponent(jLabel5)
+                            .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnAddCategory)
+                            .addComponent(btnUpdateCategory))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))))
-                .addGap(46, 46, 46)
+                            .addComponent(btnDeleteCategory)
+                            .addComponent(btnCategoryRefresh))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton5))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(txtBeveragesName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ccbBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnClose)
+                    .addComponent(btnRefreshBeverages)
+                    .addComponent(btnAddBeverages)
+                    .addComponent(btnUpdateBeverages)
+                    .addComponent(btnDeleteBeverages))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnCloseActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnAddBeveragesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBeveragesActionPerformed
+        if (beveragesSelected != null || !checkInputBeverages()) {
+            return;
+        }
+        beveragesSelected = new Model.Beverages();
+        beveragesSelected.setName(txtBeveragesName.getText().trim());
+        beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
+        beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
+        if (beveragesDAO.addBeverages(beveragesSelected)) {
+            loadBeverages();
+            if (beveragesCategorySelected != null) {
+                reloadBeverages(beveragesCategorySelected.getId());
+            }
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Thêm nước", JOptionPane.INFORMATION_MESSAGE);
+            beveragesSelected = null;
+        }
+    }//GEN-LAST:event_btnAddBeveragesActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnUpdateBeveragesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBeveragesActionPerformed
+        if (beveragesSelected == null || !checkInputBeverages()) {
+            return;
+        }
+        beveragesSelected.setName(txtBeveragesName.getText().trim());
+        beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
+        beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
+        if (beveragesDAO.updateBeverages(beveragesSelected)) {
+            loadBeverages();
+            if (beveragesCategorySelected != null) {
+                reloadBeverages(beveragesCategorySelected.getId());
+            }
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);  
+        }
+    }//GEN-LAST:event_btnUpdateBeveragesActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnDeleteBeveragesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBeveragesActionPerformed
+        if (beveragesSelected == null) {
+            return;
+        }
+        if (beveragesDAO.deleteBeverages(beveragesSelected.getId())) {
+            loadBeverages();
+            if (beveragesCategorySelected != null) {
+                reloadBeverages(beveragesCategorySelected.getId());
+            }
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Thêm nước", JOptionPane.INFORMATION_MESSAGE);  
+            beveragesSelected = null;
+        }
+    }//GEN-LAST:event_btnDeleteBeveragesActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnRefreshBeveragesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshBeveragesActionPerformed
+        clearBevetages();
+    }//GEN-LAST:event_btnRefreshBeveragesActionPerformed
 
-    private void jTextCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextCategoryActionPerformed
+    private void btnAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextCategoryActionPerformed
+    }//GEN-LAST:event_btnAddCategoryActionPerformed
+
+    private void btnCategoryRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryRefreshActionPerformed
+        clearCategory();
+    }//GEN-LAST:event_btnCategoryRefreshActionPerformed
+
+    private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateCategoryActionPerformed
+
+    private void btnDeleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteCategoryActionPerformed
+
+    private void CategoryTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_CategoryTreeValueChanged
+        if (root.getChildCount() == 0 || CategoryTree.getSelectionPath() == null) {
+            clearCategory();
+            return;
+        }
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) CategoryTree.getLastSelectedPathComponent();
+        if (selectedNode == root) {
+            clearCategory();
+            return;
+        }
+        Object selectObject = selectedNode.getUserObject();
+        if (selectObject instanceof BeveragesCategory category) {
+            beveragesCategorySelected = category;
+            CategoryTree.clearSelection();
+            txtCategoryName.setText(category.getName());
+            btnAddCategory.setEnabled(false);
+            btnUpdateCategory.setEnabled(true);
+            btnDeleteCategory.setEnabled(true);
+            reloadBeverages(category.getId());
+        }
+    }//GEN-LAST:event_CategoryTreeValueChanged
+
+    private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPriceKeyTyped
+
+    private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
+        String text = txtPrice.getText().trim();
+        txtPrice.setText(String.valueOf(Untils.parseMoney(text)));
+    }//GEN-LAST:event_txtPriceFocusGained
+
+    private void txtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusLost
+        try {
+            String text = txtPrice.getText().trim();
+            if (!text.isEmpty()) {
+                int value = Untils.parseMoney(text);
+                txtPrice.setText(Untils.formatMoney(value));
+            }
+        } catch (NumberFormatException ex) {
+            txtPrice.setText("0");
+        }
+    }//GEN-LAST:event_txtPriceFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTree CategoryTree;
+    private javax.swing.JButton btnAddBeverages;
+    private javax.swing.JButton btnAddCategory;
+    private javax.swing.JButton btnCategoryRefresh;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnDeleteBeverages;
+    private javax.swing.JButton btnDeleteCategory;
+    private javax.swing.JButton btnRefreshBeverages;
+    private javax.swing.JButton btnUpdateBeverages;
+    private javax.swing.JButton btnUpdateCategory;
+    private javax.swing.JComboBox<BeveragesCategory> ccbBeveragesCategory;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextBeveragesCategory;
-    private javax.swing.JTextField jTextCategory;
-    private javax.swing.JTextField jTextName;
-    private javax.swing.JTextField jTextPrice;
+    private javax.swing.JScrollPane jScrollPane2;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.Menu menu3;
@@ -278,5 +632,9 @@ public class Beverages extends javax.swing.JPanel {
     private java.awt.MenuBar menuBar1;
     private java.awt.MenuBar menuBar2;
     private java.awt.MenuBar menuBar3;
+    private javax.swing.JTable tblBeverages;
+    private javax.swing.JTextField txtBeveragesName;
+    private javax.swing.JTextField txtCategoryName;
+    private javax.swing.JTextField txtPrice;
     // End of variables declaration//GEN-END:variables
 }
