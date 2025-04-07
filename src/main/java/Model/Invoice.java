@@ -19,6 +19,9 @@ public class Invoice extends BaseModel {
     private double discountPercentage;
     private int tableId;
     
+    public Invoice() {
+    }
+    
     public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId) {
         this.id = id;
         this.date = date;
@@ -28,10 +31,7 @@ public class Invoice extends BaseModel {
         this.discountPercentage = discountPercentage;
         this.tableId = tableId;
     }
-
-    public Invoice() {
-    }
-
+    
     public int getId() {
         return id;
     }

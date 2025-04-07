@@ -5,9 +5,10 @@
 package DAO.Impl;
 
 import Common.DBConnection;
+import Common.Untils;
 import Common.UserSession;
-import DAO.BeveregesDAO;
-import Model.Beverages;
+import DAO.InvoiceDAO;
+import Model.Invoice;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,19 +19,19 @@ import java.util.ArrayList;
  *
  * @author zero
  */
-public class BeveregesImpl implements BeveregesDAO{
+public class InvoiceImpl implements InvoiceDAO {
 
     @Override
-    public Beverages getBeveragesByID(int id) {
-        String query = "SELECT * FROM BEVERAGES WHERE ID = ? AND DELETED = 0";
+    public Invoice getInvoiceById(int id) {
+        String query = "SELECT * FROM INVOICE WHERE ID = ? AND DELETED = 0";
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return getBeveragesInfor(rs);
+                return getInvoiceInfor(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -39,16 +40,16 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public ArrayList<Beverages> getAllBeverages() {
-        ArrayList<Beverages> resList = new ArrayList<>();
-        String query = "SELECT * FROM BEVERAGES WHERE DELETED = 0";
+    public ArrayList<Invoice> getAllInvoices() {
+        ArrayList<Invoice> resList = new ArrayList<>();
+        String query = "SELECT * FROM INVOICE WHERE DELETED = 0";
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                resList.add(getBeveragesInfor(rs));
+                resList.add(getInvoiceInfor(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,18 +58,21 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean addBevereges(Beverages beverages) {
+    public boolean addInvoice(Invoice invoice) {
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO BEVERAGES (NAME, PRICE, BEVERAGES_CATEGORY_ID, CREATED_BY, LAST_UPDATE_BY) VALUES");
-        query.append("(?, ?, ?, ?, ?)");
+        query.append("INSERT INTO INVOICE (DATE, TOTAL_AMOUNT, USER_NAME, CUSTOMER_ID, DISCOUNT_PERCENTAGE, TABLE_ID, CREATED_BY, LAST_UPDATE_BY) VALUES");
+        query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             
-            stmt.setString(1, beverages.getName());
-            stmt.setInt(2, beverages.getPrice());
-            stmt.setInt(3, beverages.getBaveragesCategoryId());
-            stmt.setString(4, UserSession.getInstance().getUsername());
-            stmt.setString(5, UserSession.getInstance().getUsername());
+            stmt.setTimestamp(1, invoice.getDate());
+            stmt.setInt(2, invoice.getTotalAmount());
+            stmt.setString(3, invoice.getUserName());
+            stmt.setInt(4, invoice.getCustomerId());
+            stmt.setDouble(5, invoice.getDiscountPercentage());
+            stmt.setInt(6, invoice.getTableId());
+            stmt.setString(7, UserSession.getInstance().getUsername());
+            stmt.setString(8, UserSession.getInstance().getUsername());
             
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
@@ -79,17 +83,20 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean updateBevereges(Beverages bevereges) {
-        String query = "UPDATE BEVERAGES SET NAME = ?, PRICE = ?, BEVERAGES_CATEGORY_ID = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
+    public boolean updateInvoice(Invoice invoice) {
+        String query = "UPDATE INVOICE SET DATE = ?, TOTAL_AMOUNT = ?, USER_NAME = ?, CUSTOMER_ID = ?, DISCOUNT_PERCENTAGE = ?, TABLE_ID = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setString(1, bevereges.getName());
-            stmt.setInt(2, bevereges.getPrice());
-            stmt.setInt(3, bevereges.getBaveragesCategoryId());
-            stmt.setString(4, UserSession.getInstance().getUsername());
-            stmt.setInt(5, bevereges.getId());
+            stmt.setTimestamp(1, invoice.getDate());
+            stmt.setInt(2, invoice.getTotalAmount());
+            stmt.setString(3, invoice.getUserName());
+            stmt.setInt(4, invoice.getCustomerId());
+            stmt.setDouble(5, invoice.getDiscountPercentage());
+            stmt.setInt(6, invoice.getTableId());
+            stmt.setString(7, UserSession.getInstance().getUsername());
+            stmt.setInt(8, invoice.getId());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -100,8 +107,8 @@ public class BeveregesImpl implements BeveregesDAO{
     }
 
     @Override
-    public boolean deleteBevereges(int id) {
-        String query = "UPDATE BEVERAGES SET LAST_UPDATE_BY = ?, DELETED = 1 WHERE ID = ?";
+    public boolean deleteInvoice(int id) {
+        String query = "UPDATE INVOICE SET LAST_UPDATE_BY = ?, DELETED = 1 WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {

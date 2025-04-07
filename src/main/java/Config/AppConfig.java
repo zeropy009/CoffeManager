@@ -15,6 +15,7 @@ import java.util.Properties;
 public class AppConfig {
     public static final DBConfig DB;
 
+    //Tự động khởi chạy 1 lần duy nhất khi AppConfig được gọi lần đầu tiên
     static {
         DB = loadDBConfig();
     }
@@ -40,5 +41,6 @@ public class AppConfig {
         }
     }
     
+    //chặn việc tạo Object khác
     private AppConfig() {}
 }

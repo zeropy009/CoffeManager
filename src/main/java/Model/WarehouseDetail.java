@@ -4,8 +4,6 @@
  */
 package Model;
 
-import java.sql.Timestamp;
-
 /**
  *
  * @author daomi
@@ -13,7 +11,6 @@ import java.sql.Timestamp;
 public class WarehouseDetail {
     private int id;
     private int warehouseId;
-    private String userName; 
     private String productName;
     private int quantity;
     private int price;
@@ -22,10 +19,9 @@ public class WarehouseDetail {
     public WarehouseDetail() {
     }
 
-    public WarehouseDetail(int id, int warehouseId, String userName, String productName, int quantity, int price, int amount) {
+    public WarehouseDetail(int id, int warehouseId, String productName, int quantity, int price, int amount) {
         this.id = id;
         this.warehouseId = warehouseId;
-        this.userName = userName;
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
@@ -46,14 +42,6 @@ public class WarehouseDetail {
 
     public void setWarehouseId(int warehouseId) {
         this.warehouseId = warehouseId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getProductName() {

@@ -14,24 +14,18 @@ public class InvoiceDetail extends BaseModel{
     private int beveragesId; 
     private int quantity;
     private int price;
-    private int amount;  
-    private int customerId; 
-    private double discountPercentage;
-    private int tableId;
+    private int amount;
     
-    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount, int customerId, double discountPercentage, int tableId) {
+    public InvoiceDetail() {
+    }
+
+    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.beveragesId = beveragesId;
         this.quantity = quantity;
         this.price = price;
         this.amount = amount;
-        this.customerId = customerId;
-        this.discountPercentage = discountPercentage;
-        this.tableId = tableId;
-    }
-
-    public InvoiceDetail() {
     }
 
     public int getId() {
@@ -81,29 +75,7 @@ public class InvoiceDetail extends BaseModel{
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public double getDiscountPercentage() {
-        return discountPercentage;
-    }
-
-    public void setDiscountPercentage(double discountPercentage) {
-        this.discountPercentage = discountPercentage;
-    }
-
-    public int getTableId() {
-        return tableId;
-    }
-
-    public void setTableId(int tableId) {
-        this.tableId = tableId;
-    }
+    
+   
 }
     
