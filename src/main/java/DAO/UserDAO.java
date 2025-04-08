@@ -20,9 +20,11 @@ public interface UserDAO {
     boolean addUser(User user);
     boolean updateUser(User user);
     boolean deleteUser(String userName);
+    boolean resetPassword(String userName);
+    boolean changePassword(String userName, String oldPassword, String newPassword);
     default User getUserInfor(ResultSet rs) throws SQLException {
         return new User(rs.getString("USER_NAME"),
-                        rs.getString("PASS_WORD"),
+                        rs.getString("PASSWORD"),
                         rs.getInt("ROLE_ID"),
                         rs.getString("FULL_NAME"),
                         rs.getBoolean("SEX"),

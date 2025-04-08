@@ -573,7 +573,6 @@ public class Beverages extends javax.swing.JPanel {
         if (beveragesCategorySelected == null) {
             return;
         }
-        beveragesCategorySelected.setName(txtCategoryName.getText().trim());
         if (beveragesCategoryDAO.deleteBeveragesCategory(beveragesCategorySelected.getId())) {
             loadBeveragesCategory();
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);

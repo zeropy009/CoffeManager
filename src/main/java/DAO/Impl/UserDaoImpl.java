@@ -7,6 +7,7 @@ package DAO.Impl;
 import Common.DBConnection;
 import Common.Untils;
 import Common.UserSession;
+import Config.AppConfig;
 import DAO.UserDAO;
 import Model.User;
 import java.sql.Connection;
@@ -164,6 +165,45 @@ public class UserDaoImpl implements UserDAO {
 
             stmt.setString(1, UserSession.getInstance().getUsername());
             stmt.setString(2, userName);
+
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean resetPassword(String userName) {
+        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ?, DELETED = 1 WHERE [USER_NAME] = ?";
+    
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, Untils.hashMD5(AppConfig.DEFAULT_PASSWORD));
+            stmt.setString(2, UserSession.getInstance().getUsername());
+            stmt.setString(3, userName);
+
+            int rowsDeleted = stmt.executeUpdate();
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean changePassword(String userName, String oldPassword, String newPassword) {
+        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ?, DELETED = 1 WHERE [USER_NAME] = ? AND [PASSWORD] = ?";
+    
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, Untils.hashMD5(newPassword));
+            stmt.setString(2, UserSession.getInstance().getUsername());
+            stmt.setString(3, userName);
+            stmt.setString(4, Untils.hashMD5(oldPassword));
 
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;

@@ -11,6 +11,7 @@ import Enums.Roles;
 import Enums.Sex;
 import Model.User;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -173,6 +174,12 @@ public class StaffManage extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 255, 204));
         jLabel7.setText("GIới Tính:");
+
+        txtYearOfBirth.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtYearOfBirthKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 255, 204));
@@ -396,7 +403,13 @@ public class StaffManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (userSelected == null) {
+            return;
+        }
+        if (userDAO.deleteUser(userSelected.getUserName())) {
+            loadUsers();
+            JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -429,6 +442,12 @@ public class StaffManage extends javax.swing.JPanel {
             txtSalary.setText("0");
         }
     }//GEN-LAST:event_txtSalaryFocusLost
+
+    private void txtYearOfBirthKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtYearOfBirthKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtYearOfBirthKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
