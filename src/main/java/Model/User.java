@@ -4,6 +4,9 @@
  */
 package Model;
 
+import Enums.Roles;
+import Enums.Sex;
+
 /**
  *
  * @author zero
@@ -11,9 +14,9 @@ package Model;
 public class User extends BaseModel {
     private String userName;
     private String passWord;
-    private int role;
+    private Roles role;
     private String fullName;
-    private boolean sex;
+    private Sex sex;
     private String address;
     private int yearOfBirth;
     private String phone;
@@ -26,9 +29,9 @@ public class User extends BaseModel {
     public User(String userName, String passWord, int role, String fullName, boolean sex, String address, int yearOfBirth, String phone, String email, int salary) {
         this.userName = userName;
         this.passWord = passWord;
-        this.role = role;
+        this.role = Roles.fromCode(role);
         this.fullName = fullName;
-        this.sex = sex;
+        this.sex = Sex.fromSex(sex);
         this.address = address;
         this.yearOfBirth = yearOfBirth;
         this.phone = phone;
@@ -52,11 +55,11 @@ public class User extends BaseModel {
         this.passWord = passWord;
     }
 
-    public int getRole() {
+    public Roles getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Roles role) {
         this.role = role;
     }
 
@@ -68,11 +71,11 @@ public class User extends BaseModel {
         this.fullName = fullName;
     }
 
-    public boolean isSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -114,5 +117,10 @@ public class User extends BaseModel {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+    
+    @Override
+    public String toString() {
+        return userName;
     }
 }

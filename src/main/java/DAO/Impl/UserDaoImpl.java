@@ -100,9 +100,9 @@ public class UserDaoImpl implements UserDAO {
             
             stmt.setString(1, user.getUserName());
             stmt.setString(2, Untils.hashMD5(user.getPassWord()));
-            stmt.setInt(3, user.getRole());
+            stmt.setInt(3, user.getRole().getCode());
             stmt.setString(4, user.getFullName());
-            stmt.setBoolean(5, user.isSex());
+            stmt.setBoolean(5, user.getSex().getSex());
             stmt.setString(6, user.getAddress());
             stmt.setInt(7, user.getYearOfBirth());
             stmt.setString(8, user.getPhone());
@@ -123,7 +123,6 @@ public class UserDaoImpl implements UserDAO {
     public boolean updateUser(User user) {
         StringBuilder query = new StringBuilder();
         query.append("UPDATE [USER] SET");
-        query.append(" PASS_WORD = ?,");
         query.append(" ROLE_ID = ?,");
         query.append(" FULL_NAME = ?,");
         query.append(" SEX = ?,");
@@ -137,17 +136,16 @@ public class UserDaoImpl implements UserDAO {
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             
-            stmt.setString(1, Untils.hashMD5(user.getPassWord()));
-            stmt.setInt(2, user.getRole());
-            stmt.setString(3, user.getFullName());
-            stmt.setBoolean(4, user.isSex());
-            stmt.setString(5, user.getAddress());
-            stmt.setInt(6, user.getYearOfBirth());
-            stmt.setString(7, user.getPhone());
-            stmt.setString(8, user.getEmail());
-            stmt.setInt(9, user.getSalary());
-            stmt.setString(10, UserSession.getInstance().getUsername());
-            stmt.setString(11, user.getUserName());
+            stmt.setInt(1, user.getRole().getCode());
+            stmt.setString(2, user.getFullName());
+            stmt.setBoolean(3, user.getSex().getSex());
+            stmt.setString(4, user.getAddress());
+            stmt.setInt(5, user.getYearOfBirth());
+            stmt.setString(6, user.getPhone());
+            stmt.setString(7, user.getEmail());
+            stmt.setInt(8, user.getSalary());
+            stmt.setString(9, UserSession.getInstance().getUsername());
+            stmt.setString(10, user.getUserName());
             
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;

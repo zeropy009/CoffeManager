@@ -67,7 +67,6 @@ public class Beverages extends javax.swing.JPanel {
                         btnUpdateBeverages.setEnabled(true);
                         btnDeleteBeverages.setEnabled(true);
                     }
-                    
                 }
             }
         });

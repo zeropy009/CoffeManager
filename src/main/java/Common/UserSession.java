@@ -16,13 +16,13 @@ public class UserSession {
     private String fullName;
     private Roles role;
 
-    private UserSession(String userName, String fullName, int role) {
+    private UserSession(String userName, String fullName, Roles role) {
         this.userName = userName;
         this.fullName = fullName;
-        this.role = Roles.fromCode(role);
+        this.role = role;
     }
 
-    public static void createSession(String username, String fullName, int role) {
+    public static void createSession(String username, String fullName, Roles role) {
         instance = new UserSession(username, fullName, role);
     }
 

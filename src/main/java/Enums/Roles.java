@@ -18,6 +18,10 @@ public enum Roles {
         this.code = code;
     }
     
+    public int getCode(){
+        return code;
+    }
+    
     public static Roles fromCode(int code) {
         for (Roles r : Roles.values()) {
             if (r.code == code) return r;
