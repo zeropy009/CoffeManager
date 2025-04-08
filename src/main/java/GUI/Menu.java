@@ -190,7 +190,7 @@ public class Menu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBeveragesManageActionPerformed
 
     private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed
-        // TODO add your handling code here:
+        MainFrame.showScreen(cardPanel, Constants.STAFF_MANAGE);
     }//GEN-LAST:event_btnStaffManagementActionPerformed
 
     private void btnCustomerManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerManagementActionPerformed

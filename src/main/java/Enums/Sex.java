@@ -28,4 +28,9 @@ public enum Sex {
         }
         throw new IllegalArgumentException("Giá trị giới tính không hợp lệ: " + sex);
     }
+    
+    @Override
+    public String toString() {
+        return sex ? "Nam" : "Nữ";
+    }
 }

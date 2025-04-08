@@ -150,7 +150,7 @@ public class Beverages extends javax.swing.JPanel {
             return false;
         }
         if (txtPrice.getText().trim().length() == 0 || Untils.parseMoney(txtPrice.getText().trim()) == 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn loại nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui đặt giá tiền lớn hơn 0 !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
             txtPrice.requestFocus();
             return false;
         } 

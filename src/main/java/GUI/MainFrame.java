@@ -103,6 +103,10 @@ public class MainFrame extends JFrame {
                     Beverages beverages = new Beverages();
                     cardPanel.add(beverages, screenName);
                 }
+                case Constants.STAFF_MANAGE -> {
+                    StaffManage staffManage = new StaffManage();
+                    cardPanel.add(staffManage, screenName);
+                }
                 default -> {
                 }
             }

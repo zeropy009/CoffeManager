@@ -28,4 +28,9 @@ public enum Roles {
         }
         throw new IllegalArgumentException("Mã vai trò không hợp lệ: " + code);
     }
+    
+    @Override
+    public String toString() {
+        return code == 1 ? "Quản lý" : "Nhân viên";
+    }
 }

@@ -16,6 +16,8 @@ public class Constants {
     public static final String PATH_IMAGES = "/Images/";
     public static final String EXTENSION_TXT = ".txt";
     
+    // Tên các màn hình
     public static final String MENU = "Menu";
     public static final String BEVERAGES = "Beverages";
+    public static final String STAFF_MANAGE = "StaffManage";
 }

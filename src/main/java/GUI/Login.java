@@ -21,24 +21,20 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form JFrame
-     */
     private UserDAO userDAO;
     
+    /**
+     * Creates new form Login
+     */
     public Login() {
         this.userDAO = new UserDaoImpl();
         initComponents();
         setLocationRelativeTo(null);
         setResizable(false);
         lbUserName.setSize(30, 30);
-
         Untils.setImageLabel(lbUserName, Constants.PATH_IMAGES + "user.png");
         lbPassWord.setSize(30, 30);        
         Untils.setImageLabel(lbPassWord, Constants.PATH_IMAGES + "pass.png");
-//        lbRole.setSize(35, 35);
-//        Untils.setImageLabel(lbRole, Constants.PATH_IMAGES + "quyen.png");
-
     }
 
     /**
@@ -51,7 +47,7 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel(){
-            ImageIcon icon = new ImageIcon(Login.class.getResource("/Images/login_main.png"));
+            ImageIcon icon = new ImageIcon(Login.class.getResource(Constants.PATH_IMAGES + "login_main.png"));
             public void paintComponent(Graphics g){
                 Dimension d = getSize();
                 g.drawImage(icon.getImage(), 0, 0, d.width, d.height, null);
