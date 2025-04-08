@@ -89,9 +89,7 @@ public class Beverages extends javax.swing.JPanel {
             root.add(parent);
         }
         modelTree.reload(root);
-//        for (int i = 0; i < CategoryTree.getRowCount(); i++) {
-//            CategoryTree.expandRow(i);
-//        }
+        clearCategory();
     }
     
     private void loadBeverages(){
@@ -104,6 +102,7 @@ public class Beverages extends javax.swing.JPanel {
             row[2] = Untils.formatMoney(b.getPrice());
             modelTable.addRow(row);
         }
+        clearBevetages();
     }
     
     private void reloadBeverages(){
@@ -504,8 +503,7 @@ public class Beverages extends javax.swing.JPanel {
             if (beveragesCategorySelected != null) {
                 reloadBeverages(beveragesCategorySelected.getId());
             }
-            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Thêm nước", JOptionPane.INFORMATION_MESSAGE);
-            beveragesSelected = null;
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddBeveragesActionPerformed
 
@@ -534,7 +532,7 @@ public class Beverages extends javax.swing.JPanel {
             if (beveragesCategorySelected != null) {
                 reloadBeverages(beveragesCategorySelected.getId());
             }
-            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Thêm nước", JOptionPane.INFORMATION_MESSAGE);  
+            JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);  
             beveragesSelected = null;
         }
     }//GEN-LAST:event_btnDeleteBeveragesActionPerformed
@@ -544,7 +542,16 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshBeveragesActionPerformed
 
     private void btnAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoryActionPerformed
-        // TODO add your handling code here:
+        if (beveragesCategorySelected != null || !checkInputBeverages()) {
+            return;
+        }
+        beveragesCategorySelected = new BeveragesCategory();
+        beveragesCategorySelected.setName(txtCategoryName.getText().trim());
+        if (beveragesCategoryDAO.addBeveragesCategory(beveragesCategorySelected)) {
+            loadBeveragesCategory();
+            clearCategory();
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddCategoryActionPerformed
 
     private void btnCategoryRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryRefreshActionPerformed
@@ -552,11 +559,26 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCategoryRefreshActionPerformed
 
     private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed
-        // TODO add your handling code here:
+        if (beveragesCategorySelected == null || !checkInputBeverages()) {
+            return;
+        }
+        beveragesCategorySelected.setName(txtCategoryName.getText().trim());
+        if (beveragesCategoryDAO.updateBeveragesCategory(beveragesCategorySelected)) {
+            loadBeveragesCategory();
+            loadBeverages();
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateCategoryActionPerformed
 
     private void btnDeleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCategoryActionPerformed
-        // TODO add your handling code here:
+        if (beveragesCategorySelected == null || !checkInputBeverages()) {
+            return;
+        }
+        beveragesCategorySelected.setName(txtCategoryName.getText().trim());
+        if (beveragesCategoryDAO.deleteBeveragesCategory(beveragesCategorySelected.getId())) {
+            loadBeveragesCategory();
+            JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteCategoryActionPerformed
 
     private void CategoryTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_CategoryTreeValueChanged
