@@ -542,7 +542,7 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshBeveragesActionPerformed
 
     private void btnAddCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCategoryActionPerformed
-        if (beveragesCategorySelected != null || !checkInputBeverages()) {
+        if (beveragesCategorySelected != null || !checkInputBeveragesCategory()) {
             return;
         }
         beveragesCategorySelected = new BeveragesCategory();
@@ -559,7 +559,7 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCategoryRefreshActionPerformed
 
     private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed
-        if (beveragesCategorySelected == null || !checkInputBeverages()) {
+        if (beveragesCategorySelected == null || !checkInputBeveragesCategory()) {
             return;
         }
         beveragesCategorySelected.setName(txtCategoryName.getText().trim());
@@ -571,7 +571,7 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateCategoryActionPerformed
 
     private void btnDeleteCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteCategoryActionPerformed
-        if (beveragesCategorySelected == null || !checkInputBeverages()) {
+        if (beveragesCategorySelected == null) {
             return;
         }
         beveragesCategorySelected.setName(txtCategoryName.getText().trim());
