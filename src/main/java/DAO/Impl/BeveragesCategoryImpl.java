@@ -60,7 +60,7 @@ public class BeveragesCategoryImpl implements BeveragesCategoryDAO{
     public boolean addBeveragesCategory(BeveragesCategory beveragesCategory) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO BEVERAGES_CATEGORY (NAME, CREATED_BY, LAST_UPDATE_BY) VALUES");
-        query.append("(?)");
+        query.append("(?, ?, ?)");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             

@@ -25,9 +25,9 @@ public class Beverages extends javax.swing.JPanel {
     
     private final BeveragesCategoryDAO beveragesCategoryDAO;
     private final BeveragesDAO beveragesDAO;
-    private DefaultTreeModel modelTree;
     private ArrayList<Model.Beverages> beveragesList;
     private ArrayList<BeveragesCategory> beveragesCategoryList;
+    private DefaultTreeModel modelTree;
     private DefaultMutableTreeNode root = null;
     private DefaultTableModel modelTable;
     private Model.Beverages beveragesSelected;
@@ -40,9 +40,6 @@ public class Beverages extends javax.swing.JPanel {
         beveragesCategoryDAO = new BeveragesCategoryImpl();
         beveragesDAO = new BeveragesImpl();
         initComponents();
-        root = (DefaultMutableTreeNode) CategoryTree.getModel().getRoot();
-        modelTree = (DefaultTreeModel) CategoryTree.getModel();
-        CategoryTree.setModel(modelTree);
         modelTable = (DefaultTableModel) tblBeverages.getModel();
         tblBeverages.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -70,6 +67,9 @@ public class Beverages extends javax.swing.JPanel {
                 }
             }
         });
+        root = (DefaultMutableTreeNode) categoryTree.getModel().getRoot();
+        modelTree = (DefaultTreeModel) categoryTree.getModel();
+        categoryTree.setModel(modelTree);
         loadBeveragesCategory();
         loadBeverages();
     }
@@ -170,12 +170,11 @@ public class Beverages extends javax.swing.JPanel {
     
     private void clearCategory(){
         beveragesCategorySelected = null;
-        CategoryTree.clearSelection();
+        categoryTree.clearSelection();
         txtCategoryName.setText("");
         btnAddCategory.setEnabled(true);
         btnUpdateCategory.setEnabled(false);
         btnDeleteCategory.setEnabled(false);
-        reloadBeverages();
     }
 
     /**
@@ -203,13 +202,10 @@ public class Beverages extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         txtPrice = new javax.swing.JTextField();
         txtBeveragesName = new javax.swing.JTextField();
-        btnClose = new javax.swing.JButton();
         btnAddBeverages = new javax.swing.JButton();
         btnUpdateBeverages = new javax.swing.JButton();
         btnDeleteBeverages = new javax.swing.JButton();
         btnRefreshBeverages = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        CategoryTree = new javax.swing.JTree();
         btnAddCategory = new javax.swing.JButton();
         btnCategoryRefresh = new javax.swing.JButton();
         btnUpdateCategory = new javax.swing.JButton();
@@ -217,6 +213,8 @@ public class Beverages extends javax.swing.JPanel {
         txtCategoryName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         ccbBeveragesCategory = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        categoryTree = new javax.swing.JTree();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -291,15 +289,6 @@ public class Beverages extends javax.swing.JPanel {
             }
         });
 
-        btnClose.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/close.png"))); // NOI18N
-        btnClose.setText("Close");
-        btnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseActionPerformed(evt);
-            }
-        });
-
         btnAddBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAddBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
         btnAddBeverages.setText("Add");
@@ -336,15 +325,6 @@ public class Beverages extends javax.swing.JPanel {
                 btnRefreshBeveragesActionPerformed(evt);
             }
         });
-
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Danh sách các loại nước");
-        CategoryTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        CategoryTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                CategoryTreeValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(CategoryTree);
 
         btnAddCategory.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAddCategory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
@@ -389,6 +369,45 @@ public class Beverages extends javax.swing.JPanel {
 
         ccbBeveragesCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new BeveragesCategory[] {new BeveragesCategory(0, "")}));
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Danh sách loại nước");
+        javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");
+        javax.swing.tree.DefaultMutableTreeNode treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("blue");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("violet");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("red");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("yellow");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("sports");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("basketball");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("soccer");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("football");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("hockey");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("food");
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("hot dogs");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("pizza");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("ravioli");
+        treeNode2.add(treeNode3);
+        treeNode3 = new javax.swing.tree.DefaultMutableTreeNode("bananas");
+        treeNode2.add(treeNode3);
+        treeNode1.add(treeNode2);
+        categoryTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        categoryTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                categoryTreeValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(categoryTree);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -396,37 +415,40 @@ public class Beverages extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
                                 .addComponent(btnAddBeverages)
                                 .addGap(65, 65, 65)
                                 .addComponent(btnUpdateBeverages)
                                 .addGap(76, 76, 76))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtBeveragesName, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addComponent(ccbBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btnDeleteBeverages)
-                                .addGap(70, 70, 70)
-                                .addComponent(btnRefreshBeverages)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnClose)
-                                .addGap(53, 53, 53))
+                                .addGap(31, 31, 31)))
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(ccbBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
+                                .addComponent(btnRefreshBeverages)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
+                                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,18 +463,17 @@ public class Beverages extends javax.swing.JPanel {
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(23, Short.MAX_VALUE))
+                        .addGap(0, 76, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
-                        .addGap(25, 25, 25))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                        .addGap(51, 51, 51)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
                             .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -463,7 +484,10 @@ public class Beverages extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnDeleteCategory)
-                            .addComponent(btnCategoryRefresh))))
+                            .addComponent(btnCategoryRefresh)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
@@ -476,7 +500,6 @@ public class Beverages extends javax.swing.JPanel {
                     .addComponent(ccbBeveragesCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClose)
                     .addComponent(btnRefreshBeverages)
                     .addComponent(btnAddBeverages)
                     .addComponent(btnUpdateBeverages)
@@ -484,10 +507,6 @@ public class Beverages extends javax.swing.JPanel {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnAddBeveragesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBeveragesActionPerformed
         if (beveragesSelected != null || !checkInputBeverages()) {
@@ -548,13 +567,14 @@ public class Beverages extends javax.swing.JPanel {
         beveragesCategorySelected.setName(txtCategoryName.getText().trim());
         if (beveragesCategoryDAO.addBeveragesCategory(beveragesCategorySelected)) {
             loadBeveragesCategory();
-            clearCategory();
+            reloadBeverages();
             JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddCategoryActionPerformed
 
     private void btnCategoryRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryRefreshActionPerformed
         clearCategory();
+        reloadBeverages();
     }//GEN-LAST:event_btnCategoryRefreshActionPerformed
 
     private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed
@@ -575,31 +595,10 @@ public class Beverages extends javax.swing.JPanel {
         }
         if (beveragesCategoryDAO.deleteBeveragesCategory(beveragesCategorySelected.getId())) {
             loadBeveragesCategory();
+            reloadBeverages();
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteCategoryActionPerformed
-
-    private void CategoryTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_CategoryTreeValueChanged
-        if (root.getChildCount() == 0 || CategoryTree.getSelectionPath() == null) {
-            clearCategory();
-            return;
-        }
-        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) CategoryTree.getLastSelectedPathComponent();
-        if (selectedNode == root) {
-            clearCategory();
-            return;
-        }
-        Object selectObject = selectedNode.getUserObject();
-        if (selectObject instanceof BeveragesCategory category) {
-            beveragesCategorySelected = category;
-            CategoryTree.clearSelection();
-            txtCategoryName.setText(category.getName());
-            btnAddCategory.setEnabled(false);
-            btnUpdateCategory.setEnabled(true);
-            btnDeleteCategory.setEnabled(true);
-            reloadBeverages(category.getId());
-        }
-    }//GEN-LAST:event_CategoryTreeValueChanged
 
     private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
         if (!Character.isDigit(evt.getKeyChar())) {
@@ -624,25 +623,45 @@ public class Beverages extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtPriceFocusLost
 
+    private void categoryTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_categoryTreeValueChanged
+        if (root.getChildCount() == 0 || categoryTree.getSelectionPath() == null) {
+            clearCategory();
+            return;
+        }
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) categoryTree.getLastSelectedPathComponent();
+        if (selectedNode == root) {
+            clearCategory();
+            return;
+        }
+        Object selectObject = selectedNode.getUserObject();
+        if (selectObject instanceof BeveragesCategory category) {
+            beveragesCategorySelected = category;
+            txtCategoryName.setText(category.getName());
+            btnAddCategory.setEnabled(false);
+            btnUpdateCategory.setEnabled(true);
+            btnDeleteCategory.setEnabled(true);
+            reloadBeverages(category.getId());
+        }
+    }//GEN-LAST:event_categoryTreeValueChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTree CategoryTree;
     private javax.swing.JButton btnAddBeverages;
     private javax.swing.JButton btnAddCategory;
     private javax.swing.JButton btnCategoryRefresh;
-    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDeleteBeverages;
     private javax.swing.JButton btnDeleteCategory;
     private javax.swing.JButton btnRefreshBeverages;
     private javax.swing.JButton btnUpdateBeverages;
     private javax.swing.JButton btnUpdateCategory;
+    private javax.swing.JTree categoryTree;
     private javax.swing.JComboBox<BeveragesCategory> ccbBeveragesCategory;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;
     private java.awt.Menu menu3;

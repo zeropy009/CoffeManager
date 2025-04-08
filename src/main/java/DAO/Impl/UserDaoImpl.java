@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDAO {
     
     @Override
     public User Login(String userName, String passWord){
-        String query = "SELECT * FROM [USER] WHERE USER_NAME = ? AND PASS_WORD = ? AND DELETED = 0";
+        String query = "SELECT * FROM [USER] WHERE USER_NAME = ? AND [PASSWORD] = ? AND DELETED = 0";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
