@@ -7,7 +7,7 @@ package GUI;
 import Common.Constants;
 import Common.Untils;
 import Common.UserSession;
-import java.awt.CardLayout;
+import Enums.Roles;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -17,20 +17,18 @@ import javax.swing.SwingUtilities;
  */
 public class Menu extends javax.swing.JPanel {
 
-    private final CardLayout cardLayout;
     private final JPanel cardPanel;
     /**
      * Creates new form Menu
      * @param cardPanel
      */
     public Menu(JPanel cardPanel) {
-        initComponents();
         this.cardPanel = cardPanel;
-        cardLayout = (CardLayout)(cardPanel.getLayout());
+        initComponents();
         
         SwingUtilities.invokeLater(() -> {
-            if (UserSession.getInstance().getRole() == 1) {
-                Untils.setImageButton(btnOrder, "themmon.jpg");
+            if (UserSession.getInstance().getRole() == Roles.MANAGER) {
+                Untils.setImageButton(btnBeveragesManage, "themmon.jpg");
                 Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
                 Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
                 Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
@@ -40,8 +38,8 @@ public class Menu extends javax.swing.JPanel {
             Untils.setImageButton(btnPayment, "thanhToan.jpg");
             Untils.setImageButton(btnWarehouse, "nhapKho.jpeg");
         });
-        if (UserSession.getInstance().getRole() == 2) {
-            btnOrder.setVisible(false);
+        if (UserSession.getInstance().getRole() == Roles.STAFF) {
+            btnBeveragesManage.setVisible(false);
             btnRevenue.setVisible(false);
             btnStaffManagement.setVisible(false);
             btnCustomerManagement.setVisible(false);
@@ -64,7 +62,7 @@ public class Menu extends javax.swing.JPanel {
         btnCustomerManagement = new javax.swing.JButton();
         btnPayment = new javax.swing.JButton();
         btnRevenue = new javax.swing.JButton();
-        btnOrder = new javax.swing.JButton();
+        btnBeveragesManage = new javax.swing.JButton();
         btnBillManagement = new javax.swing.JButton();
         btnWarehouseManagement = new javax.swing.JButton();
         btnWarehouse = new javax.swing.JButton();
@@ -130,19 +128,19 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnRevenue, gridBagConstraints);
 
-        btnOrder.setToolTipText("Thêm món");
-        btnOrder.setMinimumSize(new java.awt.Dimension(200, 200));
-        btnOrder.setPreferredSize(new java.awt.Dimension(200, 200));
-        btnOrder.addActionListener(new java.awt.event.ActionListener() {
+        btnBeveragesManage.setToolTipText("Thêm món");
+        btnBeveragesManage.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnBeveragesManage.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnBeveragesManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOrderActionPerformed(evt);
+                btnBeveragesManageActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnOrder, gridBagConstraints);
+        add(btnBeveragesManage, gridBagConstraints);
 
         btnBillManagement.setToolTipText("Quản lý hoá đơn");
         btnBillManagement.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -187,9 +185,9 @@ public class Menu extends javax.swing.JPanel {
         add(btnWarehouse, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOrderActionPerformed
+    private void btnBeveragesManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeveragesManageActionPerformed
         MainFrame.showScreen(cardPanel, Constants.BEVERAGES);
-    }//GEN-LAST:event_btnOrderActionPerformed
+    }//GEN-LAST:event_btnBeveragesManageActionPerformed
 
     private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed
         // TODO add your handling code here:
@@ -221,9 +219,9 @@ public class Menu extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBeveragesManage;
     private javax.swing.JButton btnBillManagement;
     private javax.swing.JButton btnCustomerManagement;
-    private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnStaffManagement;

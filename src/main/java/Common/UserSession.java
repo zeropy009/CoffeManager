@@ -4,6 +4,8 @@
  */
 package Common;
 
+import Enums.Roles;
+
 /**
  *
  * @author zero
@@ -12,12 +14,12 @@ public class UserSession {
     private static UserSession instance;
     private String userName;
     private String fullName;
-    private int role;
+    private Roles role;
 
     private UserSession(String userName, String fullName, int role) {
         this.userName = userName;
         this.fullName = fullName;
-        this.role = role;
+        this.role = Roles.fromCode(role);
     }
 
     public static void createSession(String username, String fullName, int role) {
@@ -40,7 +42,7 @@ public class UserSession {
         return fullName;
     }
 
-    public int getRole() {
+    public Roles getRole() {
         return role;
     }
 }
