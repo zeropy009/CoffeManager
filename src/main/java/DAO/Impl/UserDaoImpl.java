@@ -100,7 +100,7 @@ public class UserDaoImpl implements UserDAO {
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             
             stmt.setString(1, user.getUserName());
-            stmt.setString(2, Untils.hashMD5(user.getPassWord()));
+            stmt.setString(2, Untils.hashMD5(AppConfig.DEFAULT_PASSWORD));
             stmt.setInt(3, user.getRole().getCode());
             stmt.setString(4, user.getFullName());
             stmt.setBoolean(5, user.getSex().getSex());

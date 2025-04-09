@@ -4,12 +4,14 @@
  */
 package GUI;
 
+import Common.Constants;
 import Common.Untils;
 import DAO.Impl.UserDaoImpl;
 import DAO.UserDAO;
 import Enums.Roles;
 import Enums.Sex;
 import Model.User;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +26,7 @@ public class StaffManage extends javax.swing.JPanel {
     private ArrayList<User> userList;
     private DefaultTableModel modelTable;
     private User userSelected;
+    private final int currentYear = LocalDate.now().getYear();
 
     /**
      * Creates new form StaffManage
@@ -31,6 +34,8 @@ public class StaffManage extends javax.swing.JPanel {
     public StaffManage() {
         userDAO = new UserDaoImpl();
         initComponents();
+        Untils.setMaxLength(txtYearOfBirth, 4);
+        Untils.setMaxLength(txtPhone, 12);
         modelTable = (DefaultTableModel) tblUser.getModel();
         tblUser.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -85,36 +90,49 @@ public class StaffManage extends javax.swing.JPanel {
     }
     
     private boolean checkInputUser(){
-        if (txtUserName.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên tài khoản !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
-            txtUserName.requestFocus();
+        if (!Untils.validateText(txtUserName)) {
             return false;
-        } else if (userDAO.getUserByUserName(txtUserName.getText().trim()) != null) {
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn tên tài khoản khác !", "Trùng tên tài khoản", JOptionPane.WARNING_MESSAGE);
-            txtUserName.requestFocus();
-            txtUserName.selectAll();
-            return false;
+        }
+        // Kiểm tra userName đã dùng chưa với trường hợp add mới và trường hợp thay đổi userName khi update
+        else if (userSelected == null || !userSelected.getUserName().equals(txtUserName.getText().trim())) {
+            if (userDAO.getUserByUserName(txtUserName.getText().trim()) != null) {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn tên tài khoản khác !", "Trùng tên tài khoản", JOptionPane.WARNING_MESSAGE);
+                txtUserName.requestFocus();
+                txtUserName.selectAll();
+                return false;
+            }
         }
         if (!rdFemale.isSelected() && !rdMale.isSelected()) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn giới tính !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
             rdFemale.requestFocus();
             return false;
         }
-        return true;
+        if (txtYearOfBirth.getText().trim().length() > 0) {
+            int birthYear = Untils.parseToInt(txtYearOfBirth.getText());
+            if (birthYear < 1900 || birthYear >= currentYear) {
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập năm sinh lớn hơn 1900 và bé hơn năm hiện tại !", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                txtYearOfBirth.requestFocus();
+                return false;
+            }
+        }
+        if (txtPhone.getText().trim().length() > 0 && !Untils.validatePhoneNumber(txtPhone)) {
+            return false;
+        }
+        return !(txtEmail.getText().trim().length() > 0 && !Untils.validateEmail(txtEmail));
     }
     
     private void clear(){
         userSelected = null;
         tblUser.clearSelection();
-        txtUserName.setText("");
-        txtFullName.setText("");
+        txtUserName.setText(Constants.STR_EMPTY);
+        txtFullName.setText(Constants.STR_EMPTY);
         ccbRole.setSelectedItem(Roles.STAFF);
         buttonGroup1.clearSelection();
-        txtAddress.setText("");
-        txtYearOfBirth.setText("");
-        txtPhone.setText("");
-        txtEmail.setText("");
-        txtSalary.setText("");
+        txtAddress.setText(Constants.STR_EMPTY);
+        txtYearOfBirth.setText(Constants.STR_EMPTY);
+        txtPhone.setText(Constants.STR_EMPTY);
+        txtEmail.setText(Constants.STR_EMPTY);
+        txtSalary.setText(Constants.STR_EMPTY);
         btnAdd.setEnabled(true);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
@@ -188,28 +206,43 @@ public class StaffManage extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(0, 255, 204));
         jLabel4.setText("Tên TK:");
 
+        txtUserName.setName("Tên TK"); // NOI18N
+
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 255, 204));
         jLabel6.setText("Tên:");
 
+        txtFullName.setName("Tên"); // NOI18N
+
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 255, 204));
-        jLabel7.setText("GIới Tính:");
+        jLabel7.setText("Giới Tính:");
 
+        txtYearOfBirth.setName("Năm Sinh"); // NOI18N
         txtYearOfBirth.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtYearOfBirthKeyTyped(evt);
             }
         });
 
+        txtPhone.setName("SĐT"); // NOI18N
+        txtPhone.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPhoneKeyTyped(evt);
+            }
+        });
+
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 255, 204));
-        jLabel9.setText("Năm sinh:");
+        jLabel9.setText("Năm Sinh:");
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 255, 204));
         jLabel10.setText("SĐT:");
 
+        txtEmail.setName("Email"); // NOI18N
+
+        txtSalary.setName("Lương"); // NOI18N
         txtSalary.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtSalaryFocusGained(evt);
@@ -269,6 +302,8 @@ public class StaffManage extends javax.swing.JPanel {
         jLabel12.setForeground(new java.awt.Color(0, 255, 204));
         jLabel12.setText("Địa Chỉ:");
 
+        txtAddress.setName("Địa chỉ"); // NOI18N
+
         jLabel14.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(0, 255, 204));
         jLabel14.setText("Lương:");
@@ -295,6 +330,26 @@ public class StaffManage extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(jLabel12)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rdMale)
+                                .addGap(270, 270, 270)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(7, 7, 7)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(102, 102, 102))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -334,29 +389,10 @@ public class StaffManage extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(txtPhone)
-                                            .addComponent(txtYearOfBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(126, 126, 126)
-                                .addComponent(jLabel12)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(rdMale)
-                                        .addGap(270, 270, 270)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(txtSalary))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(15, 15, 15)))))
+                                        .addGap(21, 21, 21)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                                            .addComponent(txtYearOfBirth))))))
                         .addGap(87, 87, 87))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -416,7 +452,27 @@ public class StaffManage extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        if (userSelected != null || !checkInputUser()) {
+            return;
+        }
+        userSelected = new User();
+        userSelected.setUserName(txtUserName.getText().trim());
+        userSelected.setFullName(txtFullName.getText().trim());
+        userSelected.setRole((Roles) ccbRole.getSelectedItem());
+        if (rdMale.isSelected()) {
+            userSelected.setSex(Sex.MALE);
+        } else {
+            userSelected.setSex(Sex.FEMALE);
+        }
+        userSelected.setAddress(txtAddress.getText().trim());
+        userSelected.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
+        userSelected.setPhone(txtPhone.getText().trim());
+        userSelected.setEmail(txtEmail.getText().trim());
+        userSelected.setSalary(Untils.parseMoney(txtSalary.getText().trim()));
+        if (userDAO.addUser(userSelected)) {
+            loadUsers();
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -434,7 +490,26 @@ public class StaffManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        if (userSelected == null || !checkInputUser()) {
+            return;
+        }
+        userSelected.setUserName(txtUserName.getText().trim());
+        userSelected.setFullName(txtFullName.getText().trim());
+        userSelected.setRole((Roles) ccbRole.getSelectedItem());
+        if (rdMale.isSelected()) {
+            userSelected.setSex(Sex.MALE);
+        } else {
+            userSelected.setSex(Sex.FEMALE);
+        }
+        userSelected.setAddress(txtAddress.getText().trim());
+        userSelected.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
+        userSelected.setPhone(txtPhone.getText().trim());
+        userSelected.setEmail(txtEmail.getText().trim());
+        userSelected.setSalary(Untils.parseMoney(txtSalary.getText().trim()));
+        if (userDAO.updateUser(userSelected)) {
+            loadUsers();
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void txtSalaryKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSalaryKeyTyped
@@ -466,6 +541,11 @@ public class StaffManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtYearOfBirthKeyTyped
 
+    private void txtPhoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPhoneKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPhoneKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

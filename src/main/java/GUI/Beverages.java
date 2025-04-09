@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Common.Constants;
 import Common.Untils;
 import DAO.BeveragesCategoryDAO;
 import DAO.BeveragesDAO;
@@ -81,7 +82,7 @@ public class Beverages extends javax.swing.JPanel {
         }
         beveragesCategoryList = beveragesCategoryDAO.getAllBeveragesCategory();
         //default value
-        ccbBeveragesCategory.addItem(new BeveragesCategory(0, ""));
+        ccbBeveragesCategory.addItem(new BeveragesCategory(0, Constants.STR_EMPTY));
         for (BeveragesCategory category : beveragesCategoryList) {
             ccbBeveragesCategory.addItem(category);
             DefaultMutableTreeNode parent = new DefaultMutableTreeNode(category);
@@ -130,18 +131,11 @@ public class Beverages extends javax.swing.JPanel {
     }
     
     private boolean checkInputBeveragesCategory(){
-        if (txtCategoryName.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên loại nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
-            txtCategoryName.requestFocus();
-            return false;
-        }
-        return true;
+        return Untils.validateText(txtCategoryName);
     }
     
     private boolean checkInputBeverages(){
-        if (txtBeveragesName.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhập tên nước !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
-            txtBeveragesName.requestFocus();
+        if (!Untils.validateText(txtBeveragesName)) {
             return false;
         }
         if (ccbBeveragesCategory.getSelectedIndex() == 0) {
@@ -160,9 +154,9 @@ public class Beverages extends javax.swing.JPanel {
     private void clearBevetages(){
         beveragesSelected = null;
         tblBeverages.clearSelection();
-        txtBeveragesName.setText("");
+        txtBeveragesName.setText(Constants.STR_EMPTY);
         ccbBeveragesCategory.setSelectedIndex(0);
-        txtPrice.setText("");
+        txtPrice.setText(Constants.STR_EMPTY);
         btnAddBeverages.setEnabled(true);
         btnUpdateBeverages.setEnabled(false);
         btnDeleteBeverages.setEnabled(false);
@@ -171,7 +165,7 @@ public class Beverages extends javax.swing.JPanel {
     private void clearCategory(){
         beveragesCategorySelected = null;
         categoryTree.clearSelection();
-        txtCategoryName.setText("");
+        txtCategoryName.setText(Constants.STR_EMPTY);
         btnAddCategory.setEnabled(true);
         btnUpdateCategory.setEnabled(false);
         btnDeleteCategory.setEnabled(false);
@@ -275,6 +269,7 @@ public class Beverages extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(0, 204, 255));
         jLabel4.setText("Giá");
 
+        txtPrice.setName("Giá"); // NOI18N
         txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtPriceFocusGained(evt);
@@ -288,6 +283,8 @@ public class Beverages extends javax.swing.JPanel {
                 txtPriceKeyTyped(evt);
             }
         });
+
+        txtBeveragesName.setName("Tên nước"); // NOI18N
 
         btnAddBeverages.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAddBeverages.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
@@ -363,11 +360,14 @@ public class Beverages extends javax.swing.JPanel {
             }
         });
 
+        txtCategoryName.setName("Tên loại nước"); // NOI18N
+
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 204, 255));
         jLabel5.setText("Tên loại nước");
 
         ccbBeveragesCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new BeveragesCategory[] {new BeveragesCategory(0, "")}));
+        ccbBeveragesCategory.setName("Loại nước"); // NOI18N
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Danh sách loại nước");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("colors");

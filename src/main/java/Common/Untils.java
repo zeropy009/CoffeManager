@@ -6,6 +6,7 @@ package Common;
 
 import java.awt.Desktop;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,6 +24,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
 
 /**
  *
@@ -52,18 +58,28 @@ public class Untils {
     public static boolean validateText(JTextField txt) {
         String str = txt.getText();
         if (str == null || str.isEmpty()) {
-            JOptionPane.showMessageDialog(null, txt.getName() + " không được rỗng", "Thông báo", 1);
+            JOptionPane.showMessageDialog(null, String.format("Vui lòng nhập %s !", txt.getName()) , "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
             txt.requestFocus();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     
     public static boolean validatePhoneNumber(JTextField txt) {
         if (!txt.getText().trim().matches(Constants.REGEX_PHONE)) {
-            JOptionPane.showMessageDialog(null, txt.getName() + " không hợp lệ", "Thông báo", 1);
-            txt.setText(Constants.STR_EMPTY);
+            JOptionPane.showMessageDialog(null, String.format("%s không hợp lệ", txt.getName()), "Thông báo", JOptionPane.WARNING_MESSAGE);
             txt.requestFocus();
+            txt.selectAll();
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean validateEmail(JTextField txt) {
+        if (!txt.getText().trim().matches(Constants.REGEX_EMAIL)) {
+            JOptionPane.showMessageDialog(null, String.format("%s không hợp lệ", txt.getName()), "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txt.requestFocus();
+            txt.selectAll();
             return false;
         }
         return true;
@@ -178,11 +194,40 @@ public class Untils {
         }
     }
     
+    public static int parseToInt(String str) throws NumberFormatException {
+        return Integer.parseInt(str);
+    }
+    
     public static String formatMoney(int amount) {
         return String.format("%,d", amount);
     }
     
     public static int parseMoney(String moneyStr) throws NumberFormatException {
-        return Integer.parseInt(moneyStr.replaceAll(",", ""));
+        return parseToInt(moneyStr.replaceAll(",", ""));
+    }
+    
+    public static void setMaxLength(JTextField textField, int maxLength) {
+        Document doc = textField.getDocument();
+        if (doc instanceof AbstractDocument abstractDocument) {
+            abstractDocument.setDocumentFilter(new DocumentFilter() {
+                @Override
+                public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                    if (fb.getDocument().getLength() + string.length() <= maxLength) {
+                        super.insertString(fb, offset, string, attr);
+                    } else {
+                        Toolkit.getDefaultToolkit().beep(); // Optional: phát âm cảnh báo
+                    }
+                }
+
+                @Override
+                public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                    if (fb.getDocument().getLength() - length + text.length() <= maxLength) {
+                        super.replace(fb, offset, length, text, attrs);
+                    } else {
+                        Toolkit.getDefaultToolkit().beep(); // Optional
+                    }
+                }
+            });
+        }
     }
 }
