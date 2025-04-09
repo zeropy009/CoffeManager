@@ -10,6 +10,7 @@ import DAO.BeveragesCategoryDAO;
 import DAO.BeveragesDAO;
 import DAO.Impl.BeveragesCategoryImpl;
 import DAO.Impl.BeveragesImpl;
+import Model.Beverages;
 import Model.BeveragesCategory;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import javax.swing.tree.DefaultTreeModel;
  *
  * @author DZUNG
  */
-public class Beverages extends javax.swing.JPanel {
+public class BeveragesManage extends javax.swing.JPanel {
     
     private final BeveragesCategoryDAO beveragesCategoryDAO;
     private final BeveragesDAO beveragesDAO;
@@ -35,9 +36,9 @@ public class Beverages extends javax.swing.JPanel {
     private BeveragesCategory beveragesCategorySelected;
 
     /**
-     * Creates new form Beverages
+     * Creates new form BeveragesManage
      */
-    public Beverages() {
+    public BeveragesManage() {
         beveragesCategoryDAO = new BeveragesCategoryImpl();
         beveragesDAO = new BeveragesImpl();
         initComponents();
@@ -50,7 +51,7 @@ public class Beverages extends javax.swing.JPanel {
                     clearBevetages();
                 }
                 else {
-                    if (tblBeverages.getValueAt(selectedRow, 0) instanceof Model.Beverages b) {
+                    if (tblBeverages.getValueAt(selectedRow, 0) instanceof Beverages b) {
                         beveragesSelected = b;
                         txtBeveragesName.setText(b.getName());
                         int index = 0;
@@ -85,7 +86,7 @@ public class Beverages extends javax.swing.JPanel {
     }
     
     /**
-    * Lấy dữ liệu Beverages vào beveragesList.
+    * Lấy dữ liệu BeveragesManage vào beveragesList.
     * 
     */
     private void getDataBeverages(){
@@ -113,13 +114,13 @@ public class Beverages extends javax.swing.JPanel {
     }
     
     /**
-    * Đổ dữ liệu Beverages cho JTable.
+    * Đổ dữ liệu BeveragesManage cho JTable.
     * 
     */
     private void loadBeverages(){
         clearBevetages();
         modelTable.setRowCount(0);
-        for (Model.Beverages b : beveragesList) {
+        for (Beverages b : beveragesList) {
             Object[] row = new Object[3];
             row[0] = b;
             row[1] = b.getBaveragesCategoryName();
@@ -137,8 +138,8 @@ public class Beverages extends javax.swing.JPanel {
     private void loadBeverages(int beveragesCategoryId){
         clearBevetages();
         modelTable.setRowCount(0);
-        List<Model.Beverages> newbeveragesList = beveragesList.stream().filter(beverage -> beverage.getBaveragesCategoryId() == beveragesCategoryId).toList();       
-        for (Model.Beverages b : newbeveragesList) {
+        List<Beverages> newbeveragesList = beveragesList.stream().filter(beverage -> beverage.getBaveragesCategoryId() == beveragesCategoryId).toList();       
+        for (Beverages b : newbeveragesList) {
             Object[] row = new Object[3];
             row[0] = b;
             row[1] = b.getBaveragesCategoryName();
@@ -543,7 +544,7 @@ public class Beverages extends javax.swing.JPanel {
         if (beveragesSelected != null || !checkInputBeverages()) {
             return;
         }
-        beveragesSelected = new Model.Beverages();
+        beveragesSelected = new Beverages();
         beveragesSelected.setName(txtBeveragesName.getText().trim());
         beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
         beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());

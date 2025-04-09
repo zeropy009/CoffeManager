@@ -8,12 +8,12 @@ package GUI;
  *
  * @author DZUNG
  */
-public class Promotion extends javax.swing.JPanel {
+public class CustomerManage extends javax.swing.JPanel {
 
     /**
      * Creates new form Promotion
      */
-    public Promotion() {
+    public CustomerManage() {
         initComponents();
     }
 

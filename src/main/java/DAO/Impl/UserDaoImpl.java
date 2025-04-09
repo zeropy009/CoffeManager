@@ -84,7 +84,7 @@ public class UserDaoImpl implements UserDAO {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO [USER]");
         query.append(" (USER_NAME,");
-        query.append(" PASS_WORD,");
+        query.append(" [PASSWORD],");
         query.append(" ROLE_ID,");
         query.append(" FULL_NAME,");
         query.append(" SEX,");

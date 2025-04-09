@@ -195,6 +195,9 @@ public class Untils {
     }
     
     public static int parseToInt(String str) throws NumberFormatException {
+        if (str == null || str.trim().length() == 0) {
+            str = "0";
+        }
         return Integer.parseInt(str);
     }
     

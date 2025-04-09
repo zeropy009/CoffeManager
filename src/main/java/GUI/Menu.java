@@ -186,7 +186,7 @@ public class Menu extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBeveragesManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeveragesManageActionPerformed
-        MainFrame.showScreen(cardPanel, Constants.BEVERAGES);
+        MainFrame.showScreen(cardPanel, Constants.BEVERAGES_MANAGE);
     }//GEN-LAST:event_btnBeveragesManageActionPerformed
 
     private void btnStaffManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffManagementActionPerformed
@@ -194,7 +194,7 @@ public class Menu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnStaffManagementActionPerformed
 
     private void btnCustomerManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerManagementActionPerformed
-        // TODO add your handling code here:
+        MainFrame.showScreen(cardPanel, Constants.CUSTOMER_MANAGE);
     }//GEN-LAST:event_btnCustomerManagementActionPerformed
 
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
@@ -210,7 +210,7 @@ public class Menu extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBillManagementActionPerformed
 
     private void btnWarehouseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseManagementActionPerformed
-        // TODO add your handling code here:
+        MainFrame.showScreen(cardPanel, Constants.WAREHOUSE_MANAGE);
     }//GEN-LAST:event_btnWarehouseManagementActionPerformed
 
     private void btnWarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseActionPerformed

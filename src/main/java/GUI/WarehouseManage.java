@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author DZUNG
  */
-public class GoodsReceipt extends javax.swing.JPanel {
+public class WarehouseManage extends javax.swing.JPanel {
     
     private final WarehouseDAO warehouseDAO;
     private final WarehouseDetailDAO warehouseDetailDAO;
@@ -33,7 +33,7 @@ public class GoodsReceipt extends javax.swing.JPanel {
     /**
      * Creates new form GoodsReceipt
      */
-    public GoodsReceipt() {
+    public WarehouseManage() {
         warehouseDAO = new WarehouseImpl();
         warehouseDetailDAO = new WarehouseDetailImpl();
         initComponents();

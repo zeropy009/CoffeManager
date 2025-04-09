@@ -99,13 +99,21 @@ public class MainFrame extends JFrame {
         // Nếu không tìm thấy thì tạo mới màn hình
         if (!existingCard.isPresent()) {
             switch (screenName) {
-                case Constants.BEVERAGES -> {
-                    Beverages beverages = new Beverages();
+                case Constants.BEVERAGES_MANAGE -> {
+                    BeveragesManage beverages = new BeveragesManage();
                     cardPanel.add(beverages, screenName);
                 }
                 case Constants.STAFF_MANAGE -> {
                     StaffManage staffManage = new StaffManage();
                     cardPanel.add(staffManage, screenName);
+                }
+                case Constants.CUSTOMER_MANAGE -> {
+                    CustomerManage customerManage = new CustomerManage();
+                    cardPanel.add(customerManage, screenName);
+                }
+                case Constants.WAREHOUSE_MANAGE -> {
+                    WarehouseManage warehouseManage = new WarehouseManage();
+                    cardPanel.add(warehouseManage, screenName);
                 }
                 default -> {
                 }
