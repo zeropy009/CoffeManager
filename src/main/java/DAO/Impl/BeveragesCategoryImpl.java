@@ -22,7 +22,7 @@ public class BeveragesCategoryImpl implements BeveragesCategoryDAO{
 
     @Override
     public BeveragesCategory getBeveragesCategoryByID(int id) {
-         String query = "SELECT * FROM BEVERAGES_CATEGORY WHERE ID = ? AND DELETED = 0";
+        String query = "SELECT * FROM BEVERAGES_CATEGORY WHERE ID = ? AND DELETED = 0";
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
 

@@ -137,6 +137,5 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
             e.printStackTrace();
             return false;
         }
-    }
-    
+    }   
 }

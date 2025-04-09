@@ -70,6 +70,10 @@ public class StaffManage extends javax.swing.JPanel {
         loadUsers();
     }
     
+    /**
+    * Lấy dữ liệu Beverages và đổ dữ liệu cho JTable.
+    * 
+    */
     private void loadUsers(){
         modelTable.setRowCount(0);
         userList = userDAO.getAllUsers();
@@ -89,6 +93,11 @@ public class StaffManage extends javax.swing.JPanel {
         clear();
     }
     
+    /**
+    * Kiểm tra dữ liệu người dùng nhập trước khi cập nhật vào kho dữ liệu.
+    * 
+    * @return Trạng thái nhập đã hơp lệ True hoặc chưa hợp lệ False.
+    */
     private boolean checkInputUser(){
         if (!Untils.validateText(txtUserName)) {
             return false;
@@ -121,6 +130,10 @@ public class StaffManage extends javax.swing.JPanel {
         return !(txtEmail.getText().trim().length() > 0 && !Untils.validateEmail(txtEmail));
     }
     
+    /**
+    * Trả các thông tin trên màn hình về mặc định và bỏ chọn ở JTable.
+    * 
+    */
     private void clear(){
         userSelected = null;
         tblUser.clearSelection();

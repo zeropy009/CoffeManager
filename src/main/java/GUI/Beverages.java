@@ -71,16 +71,37 @@ public class Beverages extends javax.swing.JPanel {
         root = (DefaultMutableTreeNode) categoryTree.getModel().getRoot();
         modelTree = (DefaultTreeModel) categoryTree.getModel();
         categoryTree.setModel(modelTree);
+        getDataBeveragesCategory();
+        getDataBeverages();
         loadBeveragesCategory();
-        loadBeverages();
     }
     
+    /**
+    * Lấy dữ liệu BeveragesCategory vào beveragesCategoryList.
+    * 
+    */
+    private void getDataBeveragesCategory(){
+        beveragesCategoryList = beveragesCategoryDAO.getAllBeveragesCategory();
+    }
+    
+    /**
+    * Lấy dữ liệu Beverages vào beveragesList.
+    * 
+    */
+    private void getDataBeverages(){
+        beveragesList = beveragesDAO.getAllBeverages();
+    }
+    
+    /**
+    * Đổ dữ liệu BeveragesCategory cho JTree và Combobox ccbBeveragesCategory.
+    * 
+    */
     private void loadBeveragesCategory (){
+        clearCategory();
         ccbBeveragesCategory.removeAllItems();
         while (root.getChildCount() != 0) {
             root.remove(root.getChildCount() - 1);
         }
-        beveragesCategoryList = beveragesCategoryDAO.getAllBeveragesCategory();
         //default value
         ccbBeveragesCategory.addItem(new BeveragesCategory(0, Constants.STR_EMPTY));
         for (BeveragesCategory category : beveragesCategoryList) {
@@ -89,23 +110,13 @@ public class Beverages extends javax.swing.JPanel {
             root.add(parent);
         }
         modelTree.reload(root);
-        clearCategory();
     }
     
+    /**
+    * Đổ dữ liệu Beverages cho JTable.
+    * 
+    */
     private void loadBeverages(){
-        modelTable.setRowCount(0);
-        beveragesList = beveragesDAO.getAllBeverages();
-        for (Model.Beverages b : beveragesList) {
-            Object[] row = new Object[3];
-            row[0] = b;
-            row[1] = b.getBaveragesCategoryName();
-            row[2] = Untils.formatMoney(b.getPrice());
-            modelTable.addRow(row);
-        }
-        clearBevetages();
-    }
-    
-    private void reloadBeverages(){
         clearBevetages();
         modelTable.setRowCount(0);
         for (Model.Beverages b : beveragesList) {
@@ -117,7 +128,13 @@ public class Beverages extends javax.swing.JPanel {
         }
     }
     
-    private void reloadBeverages(int beveragesCategoryId){
+    
+    /**
+    * Đổ lại dữ liệu cho JTable (có lọc theo loại).
+    * 
+    * @param beveragesCategoryId Id của loại nước uống.
+    */
+    private void loadBeverages(int beveragesCategoryId){
         clearBevetages();
         modelTable.setRowCount(0);
         List<Model.Beverages> newbeveragesList = beveragesList.stream().filter(beverage -> beverage.getBaveragesCategoryId() == beveragesCategoryId).toList();       
@@ -130,6 +147,11 @@ public class Beverages extends javax.swing.JPanel {
         }
     }
     
+    /**
+    * Kiểm tra dữ liệu người dùng nhập trước khi cập nhật vào kho dữ liệu.
+    * 
+    * @return Trạng thái nhập đã hơp lệ True hoặc chưa hợp lệ False.
+    */
     private boolean checkInputBeveragesCategory(){
         return Untils.validateText(txtCategoryName);
     }
@@ -151,6 +173,24 @@ public class Beverages extends javax.swing.JPanel {
         return true;
     }
     
+    /**
+    * Trả các thông tin trên màn hình về mặc định và bỏ chọn ở JTable, JTree.
+    * 
+    */
+    private void clearCategory(){
+        beveragesCategorySelected = null;
+        categoryTree.clearSelection();
+        txtCategoryName.setText(Constants.STR_EMPTY);
+        btnAddCategory.setEnabled(true);
+        btnUpdateCategory.setEnabled(false);
+        btnDeleteCategory.setEnabled(false);
+        loadBeverages();
+    }
+    
+    /**
+    * Trả các thông tin của nước uống trên màn hình về mặc định và bỏ chọn ở JTable.
+    * 
+    */
     private void clearBevetages(){
         beveragesSelected = null;
         tblBeverages.clearSelection();
@@ -160,15 +200,6 @@ public class Beverages extends javax.swing.JPanel {
         btnAddBeverages.setEnabled(true);
         btnUpdateBeverages.setEnabled(false);
         btnDeleteBeverages.setEnabled(false);
-    }
-    
-    private void clearCategory(){
-        beveragesCategorySelected = null;
-        categoryTree.clearSelection();
-        txtCategoryName.setText(Constants.STR_EMPTY);
-        btnAddCategory.setEnabled(true);
-        btnUpdateCategory.setEnabled(false);
-        btnDeleteCategory.setEnabled(false);
     }
 
     /**
@@ -517,9 +548,11 @@ public class Beverages extends javax.swing.JPanel {
         beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
         beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
         if (beveragesDAO.addBeverages(beveragesSelected)) {
-            loadBeverages();
+            getDataBeverages();
             if (beveragesCategorySelected != null) {
-                reloadBeverages(beveragesCategorySelected.getId());
+                loadBeverages(beveragesCategorySelected.getId());
+            } else {
+                loadBeverages();
             }
             JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -533,9 +566,11 @@ public class Beverages extends javax.swing.JPanel {
         beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
         beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
         if (beveragesDAO.updateBeverages(beveragesSelected)) {
-            loadBeverages();
+            getDataBeverages();
             if (beveragesCategorySelected != null) {
-                reloadBeverages(beveragesCategorySelected.getId());
+                loadBeverages(beveragesCategorySelected.getId());
+            } else {
+                loadBeverages();
             }
             JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);  
         }
@@ -546,12 +581,13 @@ public class Beverages extends javax.swing.JPanel {
             return;
         }
         if (beveragesDAO.deleteBeverages(beveragesSelected.getId())) {
-            loadBeverages();
+            getDataBeverages();
             if (beveragesCategorySelected != null) {
-                reloadBeverages(beveragesCategorySelected.getId());
+                loadBeverages(beveragesCategorySelected.getId());
+            } else {
+                loadBeverages();
             }
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);  
-            beveragesSelected = null;
         }
     }//GEN-LAST:event_btnDeleteBeveragesActionPerformed
 
@@ -566,15 +602,14 @@ public class Beverages extends javax.swing.JPanel {
         beveragesCategorySelected = new BeveragesCategory();
         beveragesCategorySelected.setName(txtCategoryName.getText().trim());
         if (beveragesCategoryDAO.addBeveragesCategory(beveragesCategorySelected)) {
+            getDataBeveragesCategory();
             loadBeveragesCategory();
-            reloadBeverages();
             JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddCategoryActionPerformed
 
     private void btnCategoryRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryRefreshActionPerformed
         clearCategory();
-        reloadBeverages();
     }//GEN-LAST:event_btnCategoryRefreshActionPerformed
 
     private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed
@@ -583,8 +618,9 @@ public class Beverages extends javax.swing.JPanel {
         }
         beveragesCategorySelected.setName(txtCategoryName.getText().trim());
         if (beveragesCategoryDAO.updateBeveragesCategory(beveragesCategorySelected)) {
+            getDataBeveragesCategory();
+            getDataBeverages();
             loadBeveragesCategory();
-            loadBeverages();
             JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateCategoryActionPerformed
@@ -594,8 +630,9 @@ public class Beverages extends javax.swing.JPanel {
             return;
         }
         if (beveragesCategoryDAO.deleteBeveragesCategory(beveragesCategorySelected.getId())) {
+            getDataBeveragesCategory();
+            getDataBeverages();
             loadBeveragesCategory();
-            reloadBeverages();
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteCategoryActionPerformed
@@ -640,7 +677,7 @@ public class Beverages extends javax.swing.JPanel {
             btnAddCategory.setEnabled(false);
             btnUpdateCategory.setEnabled(true);
             btnDeleteCategory.setEnabled(true);
-            reloadBeverages(category.getId());
+            loadBeverages(category.getId());
         }
     }//GEN-LAST:event_categoryTreeValueChanged
 
