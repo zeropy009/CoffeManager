@@ -65,7 +65,7 @@ public class WarehouseImpl implements WarehouseDAO {
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             
             stmt.setTimestamp(1, warehouse.getInputDate());
-            stmt.setString(2, warehouse.getUserName());
+            stmt.setString(2, UserSession.getInstance().getUsername());
             stmt.setInt(3, warehouse.getTotalAmount());
             stmt.setString(4, UserSession.getInstance().getUsername());
             stmt.setString(5, UserSession.getInstance().getUsername());

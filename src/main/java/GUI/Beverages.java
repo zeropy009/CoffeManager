@@ -42,6 +42,7 @@ public class Beverages extends javax.swing.JPanel {
         beveragesDAO = new BeveragesImpl();
         initComponents();
         modelTable = (DefaultTableModel) tblBeverages.getModel();
+        // Tạo sự kiện khi SelectedRow của JTable thay đổi giá trị.
         tblBeverages.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = tblBeverages.getSelectedRow();
@@ -70,7 +71,6 @@ public class Beverages extends javax.swing.JPanel {
         });
         root = (DefaultMutableTreeNode) categoryTree.getModel().getRoot();
         modelTree = (DefaultTreeModel) categoryTree.getModel();
-        categoryTree.setModel(modelTree);
         getDataBeveragesCategory();
         getDataBeverages();
         loadBeveragesCategory();
@@ -609,7 +609,9 @@ public class Beverages extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddCategoryActionPerformed
 
     private void btnCategoryRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryRefreshActionPerformed
-        clearCategory();
+        getDataBeveragesCategory();
+        getDataBeverages();
+        loadBeveragesCategory();
     }//GEN-LAST:event_btnCategoryRefreshActionPerformed
 
     private void btnUpdateCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCategoryActionPerformed

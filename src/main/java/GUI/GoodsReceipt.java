@@ -4,17 +4,145 @@
  */
 package GUI;
 
+import Common.Constants;
+import Common.Untils;
+import DAO.Impl.WarehouseDetailImpl;
+import DAO.Impl.WarehouseImpl;
+import DAO.WarehouseDAO;
+import DAO.WarehouseDetailDAO;
+import Model.Warehouse;
+import Model.WarehouseDetail;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DZUNG
  */
 public class GoodsReceipt extends javax.swing.JPanel {
+    
+    private final WarehouseDAO warehouseDAO;
+    private final WarehouseDetailDAO warehouseDetailDAO;
+    private ArrayList<Warehouse> warehouseList;
+    private ArrayList<WarehouseDetail> warehouseDetailList;
+    private DefaultTableModel modelTableWarehouse;
+    private DefaultTableModel modelTableDetail;
+    private Warehouse warehouseSelected;
+    private WarehouseDetail warehouseDetailSelected;
 
     /**
      * Creates new form GoodsReceipt
      */
     public GoodsReceipt() {
+        warehouseDAO = new WarehouseImpl();
+        warehouseDetailDAO = new WarehouseDetailImpl();
         initComponents();
+        modelTableWarehouse = (DefaultTableModel) tbWarehouse.getModel();
+        modelTableDetail = (DefaultTableModel) tbWarehouseDetail.getModel();
+        // Tạo sự kiện khi SelectedRow của JTable thay đổi giá trị.
+        tbWarehouse.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tbWarehouse.getSelectedRow();
+                if (selectedRow == -1) {
+                    clear();
+                    modelTableDetail.setRowCount(0);
+                }
+                else {
+                    if (tbWarehouse.getValueAt(selectedRow, 0) instanceof Warehouse warehouse) {
+                        warehouseSelected = warehouse;
+                        getDataWarehouseDetail();
+                        loadWarehouseDetail();
+                    }
+                }
+            }
+        });
+        tbWarehouseDetail.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tbWarehouseDetail.getSelectedRow();
+                if (selectedRow == -1) {
+                    clear();
+                }
+                else {
+                    if (tbWarehouseDetail.getValueAt(selectedRow, 0) instanceof WarehouseDetail detail) {
+                        warehouseDetailSelected = detail;
+                        txtProductName.setText(detail.getProductName());
+                        txtQuantity.setText(String.valueOf(detail.getQuantity()));
+                        txtPrice.setText(Untils.formatMoney(detail.getPrice()));
+                        lblAmount.setText(Untils.formatMoney(detail.getAmount()));
+                        btnAdd.setEnabled(false);
+                        btnUpdate.setEnabled(true);
+                        btnDelete.setEnabled(true);
+                    }
+                }
+            }
+        });
+        getDataWarehouse();
+        loadWarehouse();
+    }
+    
+    /**
+    * Lấy dữ liệu Warehouse vào warehouseList.
+    * 
+    */
+    private void getDataWarehouse(){
+        warehouseList = warehouseDAO.getAllWarehouses();
+    }
+    
+    /**
+    * Lấy dữ liệu WarehouseDetail vào warehouseDetailList.
+    * 
+    */
+    private void getDataWarehouseDetail(){
+        warehouseDetailList = warehouseDetailDAO.getAllWarehouseDetailsByWarehouseId(warehouseSelected.getId());
+    }
+    
+    /**
+    * Đổ dữ liệu Warehouse cho JTable tbWarehouse.
+    * 
+    */
+    private void loadWarehouse(){
+        clear();
+        modelTableWarehouse.setRowCount(0);
+        for (Warehouse warehouse : warehouseList) {
+            Object[] row = new Object[3];
+            row[0] = warehouse;
+            row[1] = warehouse.getUserName();
+            row[2] = Untils.formatMoney(warehouse.getTotalAmount());
+            modelTableDetail.addRow(row);
+        }
+    }
+    
+    /**
+    * Đổ dữ liệu WarehouseDetail cho JTable tbWarehouseDetail.
+    * 
+    */
+    private void loadWarehouseDetail(){
+        clear();
+        modelTableDetail.setRowCount(0);
+        for (WarehouseDetail detail : warehouseDetailList) {
+            Object[] row = new Object[4];
+            row[0] = detail;
+            row[1] = detail.getQuantity();
+            row[2] = Untils.formatMoney(detail.getPrice());
+            row[3] = Untils.formatMoney(detail.getAmount());
+            modelTableDetail.addRow(row);
+        }
+    }
+    
+    /**
+    * Trả các thông tin trên màn hình về mặc định và bỏ chọn ở JTable tbWarehouseDetail.
+    * 
+    */
+    private void clear(){
+        warehouseDetailSelected = null;
+        tbWarehouseDetail.clearSelection();
+        txtProductName.setText(Constants.STR_EMPTY);
+        txtQuantity.setText(Constants.STR_EMPTY);
+        txtPrice.setText(Constants.STR_EMPTY);
+        lblAmount.setText("0");
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
     }
 
     /**
@@ -30,9 +158,8 @@ public class GoodsReceipt extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtProductNam = new javax.swing.JTextField();
+        txtProductName = new javax.swing.JTextField();
         txtPrice = new javax.swing.JTextField();
-        txtAmount = new javax.swing.JTextField();
         txtQuantity = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -45,6 +172,7 @@ public class GoodsReceipt extends javax.swing.JPanel {
         tbWarehouse = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        lblAmount = new javax.swing.JLabel();
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 255, 204));
@@ -153,6 +281,9 @@ public class GoodsReceipt extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 255, 204));
         jLabel3.setText("Chi tiết:");
 
+        lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAmount.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,7 +312,7 @@ public class GoodsReceipt extends javax.swing.JPanel {
                                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtProductNam, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(86, 86, 86)
@@ -197,9 +328,9 @@ public class GoodsReceipt extends javax.swing.JPanel {
                                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(79, 79, 79)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtPrice, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                                    .addComponent(lblAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1)
@@ -224,7 +355,7 @@ public class GoodsReceipt extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5)
-                        .addComponent(txtProductNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -237,7 +368,7 @@ public class GoodsReceipt extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblAmount))))
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefresh)
@@ -261,7 +392,9 @@ public class GoodsReceipt extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
+        getDataWarehouse();
+        loadWarehouse();
+        modelTableDetail.setRowCount(0);
     }//GEN-LAST:event_btnRefreshActionPerformed
 
 
@@ -279,11 +412,11 @@ public class GoodsReceipt extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblAmount;
     private javax.swing.JTable tbWarehouse;
     private javax.swing.JTable tbWarehouseDetail;
-    private javax.swing.JTextField txtAmount;
     private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtProductNam;
+    private javax.swing.JTextField txtProductName;
     private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

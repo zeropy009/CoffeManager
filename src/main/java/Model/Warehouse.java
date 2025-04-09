@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Common.Untils;
 import java.sql.Timestamp;
 
 /**
@@ -58,5 +59,8 @@ public class Warehouse extends BaseModel{
         this.totalAmount = totalAmount;
     }
     
-   
+    @Override
+    public String toString() {
+        return Untils.ft.format(inputDate);
+    }
 }

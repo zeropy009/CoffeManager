@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /**
@@ -76,26 +78,81 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
 
     @Override
     public boolean addWarehouseDetail(WarehouseDetail warehouseDetail) {
-        StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
-        query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
-        try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
-            
-            stmt.setInt(1, warehouseDetail.getWarehouseId());
-            stmt.setString(2, warehouseDetail.getProductName());
-            stmt.setInt(3, warehouseDetail.getQuantity());
-            stmt.setInt(4, warehouseDetail.getPrice());
-            stmt.setInt(5, warehouseDetail.getAmount());
-            stmt.setString(6, UserSession.getInstance().getUsername());
-            stmt.setString(7, UserSession.getInstance().getUsername());
-            
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+        if (warehouseDetail.getWarehouseId() != 0) {
+            StringBuilder query = new StringBuilder();
+            query.append("INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
+            query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+            try (Connection conn = DBConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+
+                stmt.setInt(1, warehouseDetail.getWarehouseId());
+                stmt.setString(2, warehouseDetail.getProductName());
+                stmt.setInt(3, warehouseDetail.getQuantity());
+                stmt.setInt(4, warehouseDetail.getPrice());
+                stmt.setInt(5, warehouseDetail.getAmount());
+                stmt.setString(6, UserSession.getInstance().getUsername());
+                stmt.setString(7, UserSession.getInstance().getUsername());
+
+                int rowsInserted = stmt.executeUpdate();
+                return rowsInserted > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+        else {
+            StringBuilder insertSql = new StringBuilder();
+            insertSql.append("INSERT INTO WAREHOUSE (INPUT_DATE, USER_NAME, TOTAL_AMOUNT, CREATED_BY, LAST_UPDATE_BY) OUTPUT INSERTED.ID VALUES");
+            insertSql.append("(?, ?, ?, ?, ?)");
+            
+            StringBuilder query = new StringBuilder();
+            query.append("INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
+            query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+            
+            try (Connection conn = DBConnection.getConnection()) {
+                conn.setAutoCommit(false);
+                
+                try (
+                        PreparedStatement insertStmt = conn.prepareStatement(insertSql.toString());
+                        PreparedStatement stmt = conn.prepareStatement(query.toString())   
+                    ) {
+                    insertStmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+                    insertStmt.setString(2, UserSession.getInstance().getUsername());
+                    insertStmt.setInt(3, warehouseDetail.getAmount());
+                    insertStmt.setString(4, UserSession.getInstance().getUsername());
+                    insertStmt.setString(5, UserSession.getInstance().getUsername());
+
+                    ResultSet rs = insertStmt.executeQuery();
+                    if (rs.next()) {
+                        int id = rs.getInt(1);
+                        
+                        stmt.setInt(1, id);
+                        stmt.setString(2, warehouseDetail.getProductName());
+                        stmt.setInt(3, warehouseDetail.getQuantity());
+                        stmt.setInt(4, warehouseDetail.getPrice());
+                        stmt.setInt(5, warehouseDetail.getAmount());
+                        stmt.setString(6, UserSession.getInstance().getUsername());
+                        stmt.setString(7, UserSession.getInstance().getUsername());
+
+                        if (stmt.executeUpdate() > 0) {
+                            conn.commit();
+                            return true;
+                        }
+                    } else {
+                        conn.rollback();
+                        return false;
+                    }
+                } catch (SQLException e) {
+                    conn.rollback();
+                    e.printStackTrace();
+                    return false;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
