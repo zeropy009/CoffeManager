@@ -1,6 +1,12 @@
 ﻿USE MASTER
 GO
 
+IF DB_ID('COFFEE_MANAGER') IS NOT NULL
+BEGIN
+    ALTER DATABASE COFFEE_MANAGER SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+END
+GO
+
 DROP DATABASE IF EXISTS COFFEE_MANAGER
 GO
 
@@ -359,4 +365,29 @@ VALUES
 (N'ROSE STRAWBERRY TEA', 30000, 10),
 (N'PEACH ORANGE LEMONGRASS TEA', 30000, 10),
 (N'STRAWBERRY ORANGE TEA', 30000, 10);
+
+-- Insert dữ liệu bảng WAREHOUSE
+INSERT INTO WAREHOUSE ([INPUT_DATE], [USER_NAME], [TOTAL_AMOUNT])
+VALUES 
+('2024-11-10', 'YNM', 295000),
+('2024-12-03', 'YNM', 435000),
+('2025-01-15', 'YNM', 500000);
+
+-- Insert dữ liệu bảng WAREHOUSE_DETAIL (nguyên liệu pha chế + đơn vị)
+INSERT INTO WAREHOUSE_DETAIL ([WAREHOUSE_ID], [PRODUCT_NAME], [QUANTITY], [PRICE], [AMOUNT])
+VALUES 
+-- Phiếu 1
+(1, N'Bột cà phê (gói)', 2, 75000, 150000),
+(1, N'Sữa đặc (hộp)', 3, 35000, 105000),
+(1, N'Đường trắng (kg)', 2, 20000, 40000),
+
+-- Phiếu 2
+(2, N'Trà olong (gói)', 2, 50000, 100000),
+(2, N'Siro dâu (chai)', 3, 65000, 195000),
+(2, N'Sữa tươi không đường (hộp)', 4, 35000, 140000),
+
+-- Phiếu 3
+(3, N'Bột matcha (gói)', 2, 95000, 190000),
+(3, N'Bột cacao (gói)', 2, 90000, 180000),
+(3, N'Trân châu đen (kg)', 2, 65000, 130000);
 
