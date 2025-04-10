@@ -137,6 +137,23 @@ public class WarehouseManage extends javax.swing.JPanel {
         }
     }
     
+    private boolean checkInputWahouseDetail(){
+        if (!Untils.validateText(txtProductName)) {
+            return false;
+        }
+        if (Untils.parseToInt(txtQuantity.getText().trim()) <= 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhâpj số lượng lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txtQuantity.requestFocus();
+            return false;
+        }
+        if (Untils.parseToInt(txtPrice.getText().trim()) <= 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txtPrice.requestFocus();
+            return false;
+        }
+        return true;
+    }
+    
     /**
     * Trả các thông tin trên màn hình về mặc định và bỏ chọn ở JTable tbWarehouseDetail.
     * 
@@ -198,6 +215,12 @@ public class WarehouseManage extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(0, 255, 204));
         jLabel9.setText("Thành Tiền:");
 
+        txtProductName.setName("Tên Sản Phẩm"); // NOI18N
+
+        txtPrice.setName("Đơn Giá"); // NOI18N
+
+        txtQuantity.setName("Số Lượng"); // NOI18N
+
         btnAdd.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
         btnAdd.setText("Add");
@@ -245,6 +268,7 @@ public class WarehouseManage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tbWarehouseDetail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbWarehouseDetail);
 
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -279,6 +303,7 @@ public class WarehouseManage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tbWarehouse.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tbWarehouse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tbWarehouseMouseClicked(evt);
@@ -398,7 +423,20 @@ public class WarehouseManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (warehouseDetailSelected == null) {
+            return;
+        }
+        if (warehouseDetailDAO.deleteWarehouseDetail(warehouseDetailSelected.getId())) {
+            // Cập nhật lại thông tin mới từ database.
+            Warehouse newWarehouse = warehouseDAO.getWarehouseByID(warehouseDetailSelected.getWarehouseId());
+            int index = warehouseList.indexOf(warehouseSelected);
+            warehouseList.set(index, newWarehouse);
+            loadWarehouse();
+            // Cọn lại data của Warehouse.
+            tbWarehouse.setRowSelectionInterval(index, 0);
+            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -410,9 +448,12 @@ public class WarehouseManage extends javax.swing.JPanel {
     private void tbWarehouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbWarehouseMouseClicked
         int selectedCol = tbWarehouse.getSelectedColumn();
         int selectedRow = tbWarehouse.getSelectedRow();
-        if (selectedCol == 3) {
-            if (JOptionPane.showConfirmDialog(null,"Bạn có chắc muốn xóa dòng này không ?") == JOptionPane.YES_OPTION) {
-                modelTableWarehouse.removeRow(selectedRow);
+        if (selectedCol == 3 && warehouseSelected != null) {
+            if (JOptionPane.showConfirmDialog(null,"Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (warehouseDAO.deleteWarehouse(warehouseSelected.getId())) {
+                    warehouseList.remove(warehouseSelected);
+                    modelTableWarehouse.removeRow(selectedRow);
+                }
             }
         }
     }//GEN-LAST:event_tbWarehouseMouseClicked

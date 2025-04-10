@@ -18,7 +18,7 @@ public interface WarehouseDAO {
     ArrayList<Warehouse> getAllWarehouses();
     boolean addWarehouse(Warehouse warehouse);
     boolean updateWarehouse(Warehouse warehouse);
-    boolean deleteCustomer(int id);
+    boolean deleteWarehouse(int id);
     default Warehouse getWarehouseInfor(ResultSet rs) throws SQLException {
         return new Warehouse(rs.getInt("ID"),
                         rs.getTimestamp("INPUT_DATE"),

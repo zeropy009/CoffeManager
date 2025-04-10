@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
     
     /**
      * Creates new form Login
@@ -162,7 +162,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        // TODO add your handling code here:
         if (!Untils.validateText(txtUserName) || !Untils.validateText(txtPassword)) {
             return;
         }

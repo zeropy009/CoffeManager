@@ -100,7 +100,7 @@ public class WarehouseImpl implements WarehouseDAO {
     }
 
     @Override
-    public boolean deleteCustomer(int id) {
+    public boolean deleteWarehouse(int id) {
         String query = "UPDATE WAREHOUSE SET LAST_UPDATE_BY = ?, DELETED = 1 WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
