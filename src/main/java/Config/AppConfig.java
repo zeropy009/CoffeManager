@@ -39,6 +39,7 @@ public class AppConfig {
     // Load DB config from properties
     private static DBConfig loadDBConfig(Properties properties) {
         return new DBConfig(
+            properties.getProperty("db.driverClassName", ""),
             properties.getProperty("db.url", ""),
             properties.getProperty("db.port", ""),
             properties.getProperty("db.name", ""),

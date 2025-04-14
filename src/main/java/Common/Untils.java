@@ -44,7 +44,7 @@ public class Untils {
         Runnable runnable = () -> {
             while (true) {
                 try {
-                    LocalDate t = LocalDate.now();
+                    LocalDateTime t = LocalDateTime.now();
                     lbTime.setText(t.format(ft));
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
