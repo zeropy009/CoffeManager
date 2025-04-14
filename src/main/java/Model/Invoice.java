@@ -4,6 +4,7 @@
  */
 package Model;
 
+import Common.Untils;
 import java.sql.Timestamp;
 
 /**
@@ -18,11 +19,13 @@ public class Invoice extends BaseModel {
     private int customerId;
     private double discountPercentage;
     private int tableId;
+    private String customerName;
+    private String tableName;
     
     public Invoice() {
     }
     
-    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId) {
+    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId, String customerName, String tableName) {
         this.id = id;
         this.date = date;
         this.totalAmount = totalAmount;
@@ -30,6 +33,8 @@ public class Invoice extends BaseModel {
         this.customerId = customerId;
         this.discountPercentage = discountPercentage;
         this.tableId = tableId;
+        this.customerName = customerName;
+        this.tableName = tableName;
     }
     
     public int getId() {
@@ -86,5 +91,26 @@ public class Invoice extends BaseModel {
 
     public void setTableId(int tableId) {
         this.tableId = tableId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+    
+    @Override
+    public String toString() {
+        return date.toLocalDateTime().format(Untils.fd);
     }
 }

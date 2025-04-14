@@ -8,12 +8,12 @@ package GUI;
  *
  * @author DZUNG
  */
-public class Invoice extends javax.swing.JPanel {
+public class InvoiceManage extends javax.swing.JPanel {
 
     /**
-     * Creates new form Invoice
+     * Creates new form InvoiceManage
      */
-    public Invoice() {
+    public InvoiceManage() {
         initComponents();
     }
 
@@ -158,7 +158,6 @@ public class Invoice extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(150, 150, 150))
         );

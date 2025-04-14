@@ -61,6 +61,6 @@ public class Warehouse extends BaseModel{
     
     @Override
     public String toString() {
-        return Untils.ft.format(inputDate);
+        return inputDate.toLocalDateTime().format(Untils.fd);
     }
 }

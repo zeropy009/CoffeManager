@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,14 +37,15 @@ import javax.swing.text.DocumentFilter;
  * @author zero
  */
 public class Untils {
-    public static final SimpleDateFormat ft = new SimpleDateFormat(Constants.DATE_TIME_FORMAT);
+    public static final DateTimeFormatter ft = DateTimeFormatter.ofPattern(Constants.DATE_TIME_FORMAT);
+    public static final DateTimeFormatter fd = DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
     
     public static void clock(JLabel lbTime) {
         Runnable runnable = () -> {
             while (true) {
                 try {
-                    Date t = new Date();
-                    lbTime.setText(ft.format(t));
+                    LocalDate t = LocalDate.now();
+                    lbTime.setText(t.format(ft));
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
@@ -78,6 +81,16 @@ public class Untils {
     public static boolean validateEmail(JTextField txt) {
         if (!txt.getText().trim().matches(Constants.REGEX_EMAIL)) {
             JOptionPane.showMessageDialog(null, String.format("%s không hợp lệ", txt.getName()), "Thông báo", JOptionPane.WARNING_MESSAGE);
+            txt.requestFocus();
+            txt.selectAll();
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean validateDate(JTextField txt) {
+        if (!txt.getText().trim().matches(Constants.REGEX_DATE)) {
+            JOptionPane.showMessageDialog(null, String.format("%s không hợp lệ. Vui lòng nhập theo định đạng dd/MM/yyyy.", txt.getName()), "Thông báo", JOptionPane.WARNING_MESSAGE);
             txt.requestFocus();
             txt.selectAll();
             return false;
@@ -195,18 +208,26 @@ public class Untils {
     }
     
     public static int parseToInt(String str) throws NumberFormatException {
-        if (str == null || str.trim().length() == 0) {
-            str = "0";
+        try {
+            if (str == null || str.trim().length() == 0) {
+                str = "0";
+            }
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            return 0;
         }
-        return Integer.parseInt(str);
     }
     
     public static String formatMoney(int amount) {
         return String.format("%,d", amount);
     }
     
-    public static int parseMoney(String moneyStr) throws NumberFormatException {
+    public static int parseMoneyI(String moneyStr) throws NumberFormatException {
         return parseToInt(moneyStr.replaceAll(",", ""));
+    }
+    
+    public static double parseMoneyD(String moneyStr) throws NumberFormatException {
+        return Double.parseDouble(moneyStr.replaceAll(",", ""));
     }
     
     public static void setMaxLength(JTextField textField, int maxLength) {
@@ -231,6 +252,17 @@ public class Untils {
                     }
                 }
             });
+        }
+    }
+    
+    public static Timestamp parseStringToTimestamp(String dateStr) {
+        try {
+            LocalDate localDate = LocalDate.parse(dateStr, fd);
+            LocalDateTime localDateTime = localDate.atStartOfDay();
+            return Timestamp.valueOf(localDateTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

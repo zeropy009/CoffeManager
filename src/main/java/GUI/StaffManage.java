@@ -23,10 +23,10 @@ import javax.swing.table.DefaultTableModel;
 public class StaffManage extends javax.swing.JPanel {
     
     private final UserDAO userDAO;
-    private ArrayList<User> userList;
-    private DefaultTableModel modelTable;
-    private User userSelected;
+    private final DefaultTableModel modelTable;
     private final int currentYear = LocalDate.now().getYear();
+    private ArrayList<User> userList; 
+    private User userSelected;
 
     /**
      * Creates new form StaffManage
@@ -479,7 +479,7 @@ public class StaffManage extends javax.swing.JPanel {
         userSelected.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
         userSelected.setPhone(txtPhone.getText().trim());
         userSelected.setEmail(txtEmail.getText().trim());
-        userSelected.setSalary(Untils.parseMoney(txtSalary.getText().trim()));
+        userSelected.setSalary(Untils.parseMoneyI(txtSalary.getText().trim()));
         if (userDAO.addUser(userSelected)) {
             loadUsers();
             JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
@@ -516,7 +516,7 @@ public class StaffManage extends javax.swing.JPanel {
         userSelected.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
         userSelected.setPhone(txtPhone.getText().trim());
         userSelected.setEmail(txtEmail.getText().trim());
-        userSelected.setSalary(Untils.parseMoney(txtSalary.getText().trim()));
+        userSelected.setSalary(Untils.parseMoneyI(txtSalary.getText().trim()));
         if (userDAO.updateUser(userSelected)) {
             loadUsers();
             JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
@@ -531,18 +531,16 @@ public class StaffManage extends javax.swing.JPanel {
 
     private void txtSalaryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSalaryFocusGained
         String text = txtSalary.getText().trim();
-        txtSalary.setText(String.valueOf(Untils.parseMoney(text)));
+        if (!text.isEmpty()) {
+            txtSalary.setText(String.valueOf(Untils.parseMoneyI(text)));
+        }
     }//GEN-LAST:event_txtSalaryFocusGained
 
     private void txtSalaryFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSalaryFocusLost
-        try {
-            String text = txtSalary.getText().trim();
-            if (!text.isEmpty()) {
-                int value = Untils.parseMoney(text);
-                txtSalary.setText(Untils.formatMoney(value));
-            }
-        } catch (NumberFormatException ex) {
-            txtSalary.setText("0");
+        String text = txtSalary.getText().trim();
+        if (!text.isEmpty()) {
+            int value = Untils.parseMoneyI(text);
+            txtSalary.setText(Untils.formatMoney(value));
         }
     }//GEN-LAST:event_txtSalaryFocusLost
 
