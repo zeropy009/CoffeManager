@@ -24,8 +24,8 @@ public class InvoiceImpl implements InvoiceDAO {
     @Override
     public Invoice getInvoiceById(int id) {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT i.*,c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
-        query.append(" FROM INVOICE i WHERE");
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
         query.append(" LEFT JOIN [CUSTOMER] c");
         query.append(" ON i.CUSTOMER_ID = c.ID");
         query.append(" LEFT JOIN [TABLE] t");
@@ -50,8 +50,8 @@ public class InvoiceImpl implements InvoiceDAO {
     public ArrayList<Invoice> getAllInvoices() {
         ArrayList<Invoice> resList = new ArrayList<>();
         StringBuilder query = new StringBuilder();
-        query.append("SELECT i.*,c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
-        query.append(" FROM INVOICE i WHERE");
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
         query.append(" LEFT JOIN [CUSTOMER] c");
         query.append(" ON i.CUSTOMER_ID = c.ID");
         query.append(" LEFT JOIN [TABLE] t");
@@ -75,8 +75,8 @@ public class InvoiceImpl implements InvoiceDAO {
     public ArrayList<Invoice> getAllInvoices(int id, Timestamp fromDate, Timestamp toDate){
         ArrayList<Invoice> resList = new ArrayList<>();
         StringBuilder query = new StringBuilder();
-        query.append("SELECT i.*,c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
-        query.append(" FROM INVOICE i WHERE");
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
         query.append(" LEFT JOIN [CUSTOMER] c");
         query.append(" ON i.CUSTOMER_ID = c.ID");
         query.append(" LEFT JOIN [TABLE] t");
@@ -95,7 +95,6 @@ public class InvoiceImpl implements InvoiceDAO {
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
-            ResultSet rs = stmt.executeQuery();
             int index = 1;
             if (id != 0) {
                 stmt.setInt(index, id);
@@ -108,6 +107,7 @@ public class InvoiceImpl implements InvoiceDAO {
             if (toDate != null) {
                 stmt.setTimestamp(index, toDate);
             }
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 resList.add(getInvoiceInfor(rs));

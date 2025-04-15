@@ -114,6 +114,11 @@ public class MainFrame extends JFrame {
                     customerManage.setName(Constants.CUSTOMER_MANAGE);
                     cardPanel.add(customerManage, screenName);
                 }
+                case Constants.INVOICE_MANAGE -> {
+                    InvoiceManage invoiceManage = new InvoiceManage();
+                    invoiceManage.setName(Constants.INVOICE_MANAGE);
+                    cardPanel.add(invoiceManage, screenName);
+                }
                 case Constants.WAREHOUSE_MANAGE -> {
                     WarehouseManage warehouseManage = new WarehouseManage();
                     warehouseManage.setName(Constants.WAREHOUSE_MANAGE);

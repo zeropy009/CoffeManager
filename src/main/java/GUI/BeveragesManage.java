@@ -30,9 +30,9 @@ public class BeveragesManage extends javax.swing.JPanel {
     private final DefaultTreeModel modelTree;
     private final DefaultMutableTreeNode root;
     private final DefaultTableModel modelTable;
-    private ArrayList<Model.Beverages> beveragesList;
+    private ArrayList<Beverages> beveragesList;
     private ArrayList<BeveragesCategory> beveragesCategoryList;
-    private Model.Beverages beveragesSelected;
+    private Beverages beveragesSelected;
     private BeveragesCategory beveragesCategorySelected;
 
     /**

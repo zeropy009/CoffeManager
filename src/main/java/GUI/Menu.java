@@ -32,7 +32,7 @@ public class Menu extends javax.swing.JPanel {
                 Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
                 Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
                 Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
-                Untils.setImageButton(btnBillManagement, "quanlyhoadon.png");
+                Untils.setImageButton(btnInvoiceManagement, "quanlyhoadon.png");
                 Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
             }
             Untils.setImageButton(btnPayment, "thanhToan.jpg");
@@ -43,7 +43,7 @@ public class Menu extends javax.swing.JPanel {
             btnRevenue.setVisible(false);
             btnStaffManagement.setVisible(false);
             btnCustomerManagement.setVisible(false);
-            btnBillManagement.setVisible(false);
+            btnInvoiceManagement.setVisible(false);
             btnWarehouseManagement.setVisible(false);
         }
     }
@@ -63,7 +63,7 @@ public class Menu extends javax.swing.JPanel {
         btnPayment = new javax.swing.JButton();
         btnRevenue = new javax.swing.JButton();
         btnBeveragesManage = new javax.swing.JButton();
-        btnBillManagement = new javax.swing.JButton();
+        btnInvoiceManagement = new javax.swing.JButton();
         btnWarehouseManagement = new javax.swing.JButton();
         btnWarehouse = new javax.swing.JButton();
 
@@ -142,19 +142,19 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnBeveragesManage, gridBagConstraints);
 
-        btnBillManagement.setToolTipText("Quản lý hoá đơn");
-        btnBillManagement.setMinimumSize(new java.awt.Dimension(200, 200));
-        btnBillManagement.setPreferredSize(new java.awt.Dimension(200, 200));
-        btnBillManagement.addActionListener(new java.awt.event.ActionListener() {
+        btnInvoiceManagement.setToolTipText("Quản lý hoá đơn");
+        btnInvoiceManagement.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnInvoiceManagement.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnInvoiceManagement.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBillManagementActionPerformed(evt);
+                btnInvoiceManagementActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnBillManagement, gridBagConstraints);
+        add(btnInvoiceManagement, gridBagConstraints);
 
         btnWarehouseManagement.setToolTipText("Lịch sử bán hàng");
         btnWarehouseManagement.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -205,9 +205,9 @@ public class Menu extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRevenueActionPerformed
 
-    private void btnBillManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillManagementActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBillManagementActionPerformed
+    private void btnInvoiceManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceManagementActionPerformed
+        MainFrame.showScreen(cardPanel, Constants.INVOICE_MANAGE);
+    }//GEN-LAST:event_btnInvoiceManagementActionPerformed
 
     private void btnWarehouseManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseManagementActionPerformed
         MainFrame.showScreen(cardPanel, Constants.WAREHOUSE_MANAGE);
@@ -220,8 +220,8 @@ public class Menu extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBeveragesManage;
-    private javax.swing.JButton btnBillManagement;
     private javax.swing.JButton btnCustomerManagement;
+    private javax.swing.JButton btnInvoiceManagement;
     private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnStaffManagement;

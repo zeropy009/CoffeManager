@@ -281,6 +281,8 @@ BEGIN
 END;
 GO
 
+INSERT INTO [TABLE] ([TABLE_NAME]) VALUES (N'Bàn 1'), (N'Bàn 2'), (N'Bàn 3'), (N'Bàn 4'), (N'Bàn 5'), (N'Bàn 6'), (N'Bàn 7'), (N'Bàn 8'), (N'Bàn 9'), (N'Bàn 10')
+
 INSERT INTO [ROLE] VALUES ('MANAGER'), ('STAFF') 
 
 
@@ -390,3 +392,17 @@ VALUES
 (3, N'Bột matcha (gói)', 2, 95000, 190000),
 (3, N'Bột cacao (gói)', 2, 90000, 180000),
 (3, N'Trân châu đen (kg)', 2, 65000, 130000);
+
+INSERT INTO INVOICE ([DATE], USER_NAME, CUSTOMER_ID, DISCOUNT_PERCENTAGE, TABLE_ID)
+VALUES 
+    ('2024-03-01 10:00:00', 'YNM', 1, 10.00, 1),
+    ('2024-03-05 14:30:00', 'YNM', 2, 0.00, 2),
+    ('2024-03-10 18:45:00', 'YNM', NULL, 5.00, 3);
+
+INSERT INTO INVOICE_DETAIL (INVOICE_ID, BEVERAGES_ID, QUANTITY, PRICE, AMOUNT)
+VALUES 
+    (1, 1, 2, 20000, 40000),
+    (1, 2, 1, 30000, 30000),
+    (2, 1, 1, 20000, 20000), 
+    (2, 2, 2, 30000, 60000), 
+    (3, 1, 3, 15000, 45000);

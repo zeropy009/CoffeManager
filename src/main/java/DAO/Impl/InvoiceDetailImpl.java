@@ -22,9 +22,14 @@ public class InvoiceDetailImpl implements InvoiceDetailDAO {
 
     @Override
     public Model.InvoiceDetail getInvoiceDetailByID(int id) {
-        String query = "SELECT * FROM INVOICE_DETAIL WHERE ID = ? AND DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT d.*, b.[NAME] BEVERAGES_NAME");
+        query.append(" FROM INVOICE_DETAIL d");
+        query.append(" LEFT JOIN BEVERAGES b");
+        query.append(" ON d.BEVERAGES_ID = b.ID");
+        query.append(" WHERE d.ID = ? AND d.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -41,9 +46,14 @@ public class InvoiceDetailImpl implements InvoiceDetailDAO {
     @Override
     public ArrayList<InvoiceDetail> getAllInvoiceDetails() {
         ArrayList<InvoiceDetail> resList = new ArrayList<>();
-        String query = "SELECT * FROM INVOICE_DETAIL WHERE DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT d.*, b.[NAME] BEVERAGES_NAME");
+        query.append(" FROM INVOICE_DETAIL d");
+        query.append(" LEFT JOIN BEVERAGES b");
+        query.append(" ON d.BEVERAGES_ID = b.ID");
+        query.append(" WHERE d.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             ResultSet rs = stmt.executeQuery();
 
@@ -59,9 +69,14 @@ public class InvoiceDetailImpl implements InvoiceDetailDAO {
     @Override
     public ArrayList<InvoiceDetail> getAllInvoiceDetailsByInvoiceId(int invoiceId) {
         ArrayList<InvoiceDetail> resList = new ArrayList<>();
-        String query = "SELECT * FROM INVOICE_DETAIL WHERE DELETED = 0 AND INVOICE_ID = ?";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT d.*, b.[NAME] BEVERAGES_NAME");
+        query.append(" FROM INVOICE_DETAIL d");
+        query.append(" LEFT JOIN BEVERAGES b");
+        query.append(" ON d.BEVERAGES_ID = b.ID");
+        query.append(" WHERE d.DELETED = 0  AND d.INVOICE_ID = ?");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             stmt.setInt(1, invoiceId);
             ResultSet rs = stmt.executeQuery();

@@ -15,7 +15,7 @@ public class Invoice extends BaseModel {
     private int id;
     private Timestamp date;
     private int totalAmount;
-    private String userName; 
+    private String userName;
     private int customerId;
     private double discountPercentage;
     private int tableId;

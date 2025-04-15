@@ -26,6 +26,7 @@ public interface InvoiceDetailDAO {
                         rs.getInt("BEVERAGES_ID"),
                         rs.getInt("QUANTITY"),
                         rs.getInt("PRICE"),
-                        rs.getInt("AMOUNT"));
+                        rs.getInt("AMOUNT"),
+                        rs.getString("BEVERAGES_NAME"));
     }
 }

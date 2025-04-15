@@ -71,7 +71,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
     }
     
     private boolean checkInputDate(JTextField txt){
-        if (txt.getText().trim() != null && !Untils.validateDate(txt)) {
+        if (txt.getText().trim().length() > 0 && !Untils.validateDate(txt)) {
             txt.requestFocus();
             txt.selectAll();
             return false;
@@ -176,8 +176,8 @@ public class InvoiceSearch extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtFromDate, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
