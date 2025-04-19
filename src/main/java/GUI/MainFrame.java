@@ -50,8 +50,8 @@ public class MainFrame extends JFrame {
             }
         });
         
-        JLabel titleLabel = new JLabel("Xin chào, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
-        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        JLabel titleLabel = new JLabel("Xin chào, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.CENTER);
+        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
         JButton btnLogout = new JButton("ĐĂNG XUẤT");
         btnLogout.setFont(new Font("Times New Roman", Font.BOLD, 24));
         btnLogout.setForeground(new Color(255, 51, 51));
