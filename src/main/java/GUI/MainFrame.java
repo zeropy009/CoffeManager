@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     private JPanel cardPanel;
 
     public MainFrame() {
-        setTitle("QUẢN LÝ QUÁN CAFFEE");
+        setTitle("QUẢN LÝ QUÁN COFFEE");
         setSize(1024, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -50,8 +50,8 @@ public class MainFrame extends JFrame {
             }
         });
         
-        JLabel titleLabel = new JLabel("Hello, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        JLabel titleLabel = new JLabel("Xin chào, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.RIGHT);
+        titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 16));
         JButton btnLogout = new JButton("ĐĂNG XUẤT");
         btnLogout.setFont(new Font("Times New Roman", Font.BOLD, 24));
         btnLogout.setForeground(new Color(255, 51, 51));
