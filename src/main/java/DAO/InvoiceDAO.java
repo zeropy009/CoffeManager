@@ -7,6 +7,7 @@ package DAO;
 import Model.Invoice;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public interface InvoiceDAO {
     Invoice getInvoiceById(int id);
     ArrayList<Invoice> getAllInvoices();
+    ArrayList<Invoice> getAllInvoices(int id, Timestamp fromDate, Timestamp toDate);
     boolean addInvoice(Invoice invoice);
     boolean updateInvoice(Invoice user);
     boolean deleteInvoice(int id);
@@ -26,6 +28,8 @@ public interface InvoiceDAO {
                         rs.getString("USER_NAME"),
                         rs.getInt("CUSTOMER_ID"),
                         rs.getDouble("DISCOUNT_PERCENTAGE"),
-                        rs.getInt("TABLE_ID"));
+                        rs.getInt("TABLE_ID"),
+                        rs.getString("CUSTOMER_NAME"),
+                        rs.getString("TABLE_NAME"));
     }
 }

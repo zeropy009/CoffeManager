@@ -27,15 +27,15 @@ public class WarehouseManage extends javax.swing.JPanel {
     
     private final WarehouseDAO warehouseDAO;
     private final WarehouseDetailDAO warehouseDetailDAO;
+    private final DefaultTableModel modelTableWarehouse;
+    private final DefaultTableModel modelTableDetail;
     private ArrayList<Warehouse> warehouseList;
     private ArrayList<WarehouseDetail> warehouseDetailList;
-    private DefaultTableModel modelTableWarehouse;
-    private DefaultTableModel modelTableDetail;
     private Warehouse warehouseSelected;
     private WarehouseDetail warehouseDetailSelected;
 
     /**
-     * Creates new form GoodsReceipt
+     * Creates new form WarehouseManage
      */
     public WarehouseManage() {
         warehouseDAO = new WarehouseImpl();
@@ -108,6 +108,7 @@ public class WarehouseManage extends javax.swing.JPanel {
     */
     private void loadWarehouse(){
         clear();
+        warehouseSelected = null;
         modelTableWarehouse.setRowCount(0);
         for (Warehouse warehouse : warehouseList) {
             Object[] row = new Object[4];
@@ -137,21 +138,32 @@ public class WarehouseManage extends javax.swing.JPanel {
         }
     }
     
+    /**
+    * Kiểm tra dữ liệu người dùng nhập trước khi cập nhật vào kho dữ liệu.
+    * 
+    * @return Trạng thái nhập đã hơp lệ True hoặc chưa hợp lệ False.
+    */
     private boolean checkInputWahouseDetail(){
         if (!Untils.validateText(txtProductName)) {
             return false;
         }
         if (Untils.parseToInt(txtQuantity.getText().trim()) <= 0) {
-            JOptionPane.showMessageDialog(null, "Vui lòng nhâpj số lượng lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtQuantity.requestFocus();
             return false;
         }
-        if (Untils.parseToInt(txtPrice.getText().trim()) <= 0) {
+        if (Untils.parseMoneyI(txtPrice.getText().trim()) <= 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập đơn giá lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
             txtPrice.requestFocus();
             return false;
         }
         return true;
+    }
+    
+    private int CalcAmount(){
+        int quantity = Untils.parseToInt(txtQuantity.getText().trim());
+        int price = Untils.parseMoneyI(txtPrice.getText().trim());
+        return quantity * price;
     }
     
     /**
@@ -215,16 +227,45 @@ public class WarehouseManage extends javax.swing.JPanel {
         jLabel9.setForeground(new java.awt.Color(0, 255, 204));
         jLabel9.setText("Thành Tiền:");
 
+        txtProductName.setActionCommand("<Not Set>");
         txtProductName.setName("Tên Sản Phẩm"); // NOI18N
+        txtProductName.setNextFocusableComponent(txtQuantity);
 
         txtPrice.setName("Đơn Giá"); // NOI18N
+        txtPrice.setNextFocusableComponent(btnAdd);
+        txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPriceFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPriceFocusLost(evt);
+            }
+        });
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPriceKeyTyped(evt);
+            }
+        });
 
+        txtQuantity.setActionCommand("<Not Set>");
         txtQuantity.setName("Số Lượng"); // NOI18N
+        txtQuantity.setNextFocusableComponent(txtPrice);
+        txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQuantityFocusLost(evt);
+            }
+        });
+        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtQuantityKeyTyped(evt);
+            }
+        });
 
         btnAdd.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
         btnAdd.setText("Add");
         btnAdd.setName(""); // NOI18N
+        btnAdd.setNextFocusableComponent(btnUpdate);
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
@@ -234,6 +275,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
         btnUpdate.setText("Edit");
+        btnUpdate.setNextFocusableComponent(btnDelete);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -243,6 +285,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         btnDelete.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.setNextFocusableComponent(btnRefresh);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -274,6 +317,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
         btnRefresh.setText("Refresh");
+        btnRefresh.setNextFocusableComponent(txtProductName);
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
@@ -415,11 +459,53 @@ public class WarehouseManage extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        if (warehouseDetailSelected != null || !checkInputWahouseDetail()) {
+            return;
+        }
+        warehouseDetailSelected = new WarehouseDetail();
+        warehouseDetailSelected.setWarehouseId((warehouseSelected != null ? warehouseSelected.getId() : 0));
+        warehouseDetailSelected.setProductName(txtProductName.getText().trim());
+        warehouseDetailSelected.setQuantity(Untils.parseToInt(txtQuantity.getText().trim()));
+        warehouseDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
+        warehouseDetailSelected.setAmount(CalcAmount());
+        if (warehouseDetailDAO.addWarehouseDetail(warehouseDetailSelected)) {
+            // Cập nhật lại thông tin mới từ database.
+            Warehouse newWarehouse = warehouseDAO.getWarehouseByID(warehouseDetailSelected.getWarehouseId());
+            int index = 0;
+            if (warehouseSelected != null) {
+                index = warehouseList.indexOf(warehouseSelected);
+                warehouseList.set(index, newWarehouse);
+            } else {
+                warehouseList.add(newWarehouse);
+                index = warehouseList.size() - 1;
+            }
+            loadWarehouse();
+            // Chọn lại data của Warehouse.
+            tbWarehouse.setRowSelectionInterval(index, index);
+            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        if (warehouseSelected == null || warehouseDetailSelected == null || !checkInputWahouseDetail()) {
+            return;
+        }
+        warehouseDetailSelected.setProductName(txtProductName.getText().trim());
+        warehouseDetailSelected.setQuantity(Untils.parseToInt(txtQuantity.getText().trim()));
+        warehouseDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
+        warehouseDetailSelected.setAmount(CalcAmount());
+        if (warehouseDetailDAO.updateWarehouseDetail(warehouseDetailSelected)) {
+            // Cập nhật lại thông tin mới từ database.
+            Warehouse newWarehouse = warehouseDAO.getWarehouseByID(warehouseDetailSelected.getWarehouseId());
+            int index = warehouseList.indexOf(warehouseSelected);
+            warehouseList.set(index, newWarehouse);
+            loadWarehouse();
+            // Cọn lại data của Warehouse.
+            tbWarehouse.setRowSelectionInterval(index, index);
+            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -433,7 +519,7 @@ public class WarehouseManage extends javax.swing.JPanel {
             warehouseList.set(index, newWarehouse);
             loadWarehouse();
             // Cọn lại data của Warehouse.
-            tbWarehouse.setRowSelectionInterval(index, 0);
+            tbWarehouse.setRowSelectionInterval(index, index);
             tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -449,14 +535,47 @@ public class WarehouseManage extends javax.swing.JPanel {
         int selectedCol = tbWarehouse.getSelectedColumn();
         int selectedRow = tbWarehouse.getSelectedRow();
         if (selectedCol == 3 && warehouseSelected != null) {
-            if (JOptionPane.showConfirmDialog(null,"Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (warehouseDAO.deleteWarehouse(warehouseSelected.getId())) {
                     warehouseList.remove(warehouseSelected);
                     modelTableWarehouse.removeRow(selectedRow);
+                    warehouseSelected = null;
                 }
             }
         }
     }//GEN-LAST:event_tbWarehouseMouseClicked
+
+    private void txtQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtQuantityKeyTyped
+
+    private void txtQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusLost
+        lblAmount.setText(Untils.formatMoney(CalcAmount())); 
+    }//GEN-LAST:event_txtQuantityFocusLost
+
+    private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPriceKeyTyped
+
+    private void txtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusLost
+        String text = txtPrice.getText().trim();
+        if (!text.isEmpty()) {
+            int value = Untils.parseMoneyI(text);
+            txtPrice.setText(Untils.formatMoney(value));
+        }
+        lblAmount.setText(Untils.formatMoney(CalcAmount())); 
+    }//GEN-LAST:event_txtPriceFocusLost
+
+    private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
+        String text = txtPrice.getText().trim();
+        if (!text.isEmpty()) {
+            txtPrice.setText(String.valueOf(Untils.parseMoneyI(text)));
+        }
+    }//GEN-LAST:event_txtPriceFocusGained
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

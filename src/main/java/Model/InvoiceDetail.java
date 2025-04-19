@@ -11,21 +11,23 @@ package Model;
 public class InvoiceDetail extends BaseModel{
     private int id;
     private int invoiceId;
-    private int beveragesId; 
+    private int beveragesId;
     private int quantity;
     private int price;
     private int amount;
+    private String beveragesName;
     
     public InvoiceDetail() {
     }
 
-    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount) {
+    public InvoiceDetail(int id, int invoiceId, int beveragesId, int quantity, int price, int amount, String beveragesName) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.beveragesId = beveragesId;
         this.quantity = quantity;
         this.price = price;
         this.amount = amount;
+        this.beveragesName = beveragesName;
     }
 
     public int getId() {
@@ -75,7 +77,14 @@ public class InvoiceDetail extends BaseModel{
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public String getBeveragesName() {
+        return beveragesName;
+    }
     
-   
+    @Override
+    public String toString() {
+        return beveragesName;
+    }
 }
     

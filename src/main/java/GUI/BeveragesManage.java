@@ -27,12 +27,12 @@ public class BeveragesManage extends javax.swing.JPanel {
     
     private final BeveragesCategoryDAO beveragesCategoryDAO;
     private final BeveragesDAO beveragesDAO;
-    private ArrayList<Model.Beverages> beveragesList;
+    private final DefaultTreeModel modelTree;
+    private final DefaultMutableTreeNode root;
+    private final DefaultTableModel modelTable;
+    private ArrayList<Beverages> beveragesList;
     private ArrayList<BeveragesCategory> beveragesCategoryList;
-    private DefaultTreeModel modelTree;
-    private DefaultMutableTreeNode root = null;
-    private DefaultTableModel modelTable;
-    private Model.Beverages beveragesSelected;
+    private Beverages beveragesSelected;
     private BeveragesCategory beveragesCategorySelected;
 
     /**
@@ -166,7 +166,7 @@ public class BeveragesManage extends javax.swing.JPanel {
             ccbBeveragesCategory.requestFocus();
             return false;
         }
-        if (txtPrice.getText().trim().length() == 0 || Untils.parseMoney(txtPrice.getText().trim()) == 0) {
+        if (txtPrice.getText().trim().length() == 0 || Untils.parseMoneyI(txtPrice.getText().trim()) == 0) {
             JOptionPane.showMessageDialog(null, "Vui đặt giá tiền lớn hơn 0 !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
             txtPrice.requestFocus();
             return false;
@@ -546,7 +546,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         }
         beveragesSelected = new Beverages();
         beveragesSelected.setName(txtBeveragesName.getText().trim());
-        beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
+        beveragesSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
         beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
         if (beveragesDAO.addBeverages(beveragesSelected)) {
             getDataBeverages();
@@ -564,7 +564,7 @@ public class BeveragesManage extends javax.swing.JPanel {
             return;
         }
         beveragesSelected.setName(txtBeveragesName.getText().trim());
-        beveragesSelected.setPrice(Untils.parseMoney(txtPrice.getText().trim()));
+        beveragesSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
         beveragesSelected.setBaveragesCategoryId(((BeveragesCategory)ccbBeveragesCategory.getSelectedItem()).getId());
         if (beveragesDAO.updateBeverages(beveragesSelected)) {
             getDataBeverages();
@@ -648,14 +648,14 @@ public class BeveragesManage extends javax.swing.JPanel {
 
     private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
         String text = txtPrice.getText().trim();
-        txtPrice.setText(String.valueOf(Untils.parseMoney(text)));
+        txtPrice.setText(String.valueOf(Untils.parseMoneyI(text)));
     }//GEN-LAST:event_txtPriceFocusGained
 
     private void txtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusLost
         try {
             String text = txtPrice.getText().trim();
             if (!text.isEmpty()) {
-                int value = Untils.parseMoney(text);
+                int value = Untils.parseMoneyI(text);
                 txtPrice.setText(Untils.formatMoney(value));
             }
         } catch (NumberFormatException ex) {

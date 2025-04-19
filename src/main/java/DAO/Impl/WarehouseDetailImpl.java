@@ -57,6 +57,7 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
         }
         return resList;
     }
+    
     @Override
     public ArrayList<WarehouseDetail> getAllWarehouseDetailsByWarehouseId(int warehouseId) {
         ArrayList<WarehouseDetail> resList = new ArrayList<>();
@@ -81,7 +82,7 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
         if (warehouseDetail.getWarehouseId() != 0) {
             StringBuilder query = new StringBuilder();
             query.append("INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
-            query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+            query.append("(?, ?, ?, ?, ?, ?, ?)");
             try (Connection conn = DBConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
@@ -107,7 +108,7 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
             
             StringBuilder query = new StringBuilder();
             query.append("INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
-            query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+            query.append("(?, ?, ?, ?, ?, ?, ?)");
             
             try (Connection conn = DBConnection.getConnection()) {
                 conn.setAutoCommit(false);
@@ -125,8 +126,8 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                     ResultSet rs = insertStmt.executeQuery();
                     if (rs.next()) {
                         int id = rs.getInt(1);
-                        
-                        stmt.setInt(1, id);
+                        warehouseDetail.setWarehouseId(id);
+                        stmt.setInt(1, warehouseDetail.getWarehouseId());
                         stmt.setString(2, warehouseDetail.getProductName());
                         stmt.setInt(3, warehouseDetail.getQuantity());
                         stmt.setInt(4, warehouseDetail.getPrice());
@@ -144,8 +145,7 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                     }
                 } catch (SQLException e) {
                     conn.rollback();
-                    e.printStackTrace();
-                    return false;
+                    throw e;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

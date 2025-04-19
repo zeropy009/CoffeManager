@@ -9,6 +9,7 @@ package Config;
  * @author zero
  */
 public class DBConfig {
+    public final String driverClassName;
     public final String url;
     public final String port;
     public final String name;
@@ -17,7 +18,8 @@ public class DBConfig {
     public final String username;
     public final String password;
 
-    public DBConfig(String url, String port, String name, String encrypt, String trustServerCertificate, String username, String password) {
+    public DBConfig(String driverClassName, String url, String port, String name, String encrypt, String trustServerCertificate, String username, String password) {
+        this.driverClassName = driverClassName;
         this.url = url;
         this.port = port;
         this.name = name;

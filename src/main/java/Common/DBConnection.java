@@ -24,7 +24,7 @@ public class DBConnection {
             
             HikariConfig config = new HikariConfig();
 
-            config.setDriverClassName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            config.setDriverClassName(AppConfig.DB.driverClassName);
             config.setJdbcUrl(jdbcUrl);
             config.setUsername(AppConfig.DB.username);
             config.setPassword(AppConfig.DB.password);

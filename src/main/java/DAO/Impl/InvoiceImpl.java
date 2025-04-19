@@ -5,7 +5,6 @@
 package DAO.Impl;
 
 import Common.DBConnection;
-import Common.Untils;
 import Common.UserSession;
 import DAO.InvoiceDAO;
 import Model.Invoice;
@@ -13,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -23,9 +23,16 @@ public class InvoiceImpl implements InvoiceDAO {
 
     @Override
     public Invoice getInvoiceById(int id) {
-        String query = "SELECT * FROM INVOICE WHERE ID = ? AND DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
+        query.append(" LEFT JOIN [CUSTOMER] c");
+        query.append(" ON i.CUSTOMER_ID = c.ID");
+        query.append(" LEFT JOIN [TABLE] t");
+        query.append(" ON i.TABLE_ID = t.ID");
+        query.append(" WHERE i.ID = ? AND i.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -42,10 +49,64 @@ public class InvoiceImpl implements InvoiceDAO {
     @Override
     public ArrayList<Invoice> getAllInvoices() {
         ArrayList<Invoice> resList = new ArrayList<>();
-        String query = "SELECT * FROM INVOICE WHERE DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
+        query.append(" LEFT JOIN [CUSTOMER] c");
+        query.append(" ON i.CUSTOMER_ID = c.ID");
+        query.append(" LEFT JOIN [TABLE] t");
+        query.append(" ON i.TABLE_ID = t.ID");
+        query.append(" WHERE i.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                resList.add(getInvoiceInfor(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resList;
+    }
+    
+    @Override
+    public ArrayList<Invoice> getAllInvoices(int id, Timestamp fromDate, Timestamp toDate){
+        ArrayList<Invoice> resList = new ArrayList<>();
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
+        query.append(" LEFT JOIN [CUSTOMER] c");
+        query.append(" ON i.CUSTOMER_ID = c.ID");
+        query.append(" LEFT JOIN [TABLE] t");
+        query.append(" ON i.TABLE_ID = t.ID");
+        query.append(" WHERE i.DELETED = 0");
+        if (id != 0) {
+            query.append(" AND i.ID = ?");
+        }
+        if (fromDate != null) {
+            query.append(" AND i.[DATE] >= ?");
+        }
+        if (toDate != null) {
+            query.append(" AND i.[DATE] < ?");
+        }
+        
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+
+            int index = 1;
+            if (id != 0) {
+                stmt.setInt(index, id);
+                index++;
+            }
+            if (fromDate != null) {
+                stmt.setTimestamp(index, fromDate);
+                index++;
+            }
+            if (toDate != null) {
+                stmt.setTimestamp(index, toDate);
+            }
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
