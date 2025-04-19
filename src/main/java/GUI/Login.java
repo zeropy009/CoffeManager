@@ -68,7 +68,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setBackground(new java.awt.Color(51, 51, 255));
         btnLogin.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogin.setText("LOGIN");
+        btnLogin.setText("ĐĂNG NHẬP");
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,7 +79,7 @@ public class Login extends javax.swing.JFrame {
         lbPassWord.setBackground(new java.awt.Color(255, 255, 255));
         lbPassWord.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         lbPassWord.setForeground(new java.awt.Color(0, 255, 255));
-        lbPassWord.setText("Password:");
+        lbPassWord.setText("Mật khẩu:");
 
         txtUserName.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         txtUserName.setName("Tài khoản"); // NOI18N
@@ -92,7 +92,7 @@ public class Login extends javax.swing.JFrame {
         lbUserName.setBackground(new java.awt.Color(255, 255, 255));
         lbUserName.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         lbUserName.setForeground(new java.awt.Color(0, 255, 255));
-        lbUserName.setText("Account:");
+        lbUserName.setText("Tài khoản:");
 
         txtPassword.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(153, 153, 153));
@@ -105,7 +105,7 @@ public class Login extends javax.swing.JFrame {
 
         lbTitle.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(0, 255, 255));
-        lbTitle.setText("COFFEE SHOP MANAGEMENT");
+        lbTitle.setText("QUẢN LÝ QUÁN COFFEE");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
