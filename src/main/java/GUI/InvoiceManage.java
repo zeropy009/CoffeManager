@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Common.Constants;
 import Common.Untils;
 import DAO.BeveragesDAO;
 import DAO.Impl.BeveragesImpl;
@@ -43,29 +44,29 @@ public class InvoiceManage extends javax.swing.JPanel {
         beveragesDAO = new BeveragesImpl();
         invoiceDetailDAO = new InvoiceDetailImpl();
         initComponents();
-        modelTable = (DefaultTableModel) tblInvoice.getModel();
-        tblInvoice.getSelectionModel().addListSelectionListener(e -> {
+        modelTable = (DefaultTableModel) tblInvoiceDetail.getModel();
+        tblInvoiceDetail.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int selectedRow = tblInvoice.getSelectedRow();
+                int selectedRow = tblInvoiceDetail.getSelectedRow();
                 if (selectedRow == -1) {
                     clearDetail();
                 }
                 else {
-                    if (tblInvoice.getValueAt(selectedRow, 0) instanceof InvoiceDetail b) {
+                    if (tblInvoiceDetail.getValueAt(selectedRow, 0) instanceof InvoiceDetail b) {
                         invoiceDetailSelected = b;
-                        txtBeveragesName.setText(b.getName());
-                        int index = 0;
-                        for (int i = 0; i < ccbBeveragesCategory.getItemCount(); i++) {
-                            BeveragesCategory item = ccbBeveragesCategory.getItemAt(i);
-                            if (item.getId() == b.getBaveragesCategoryId()) {
-                                index = i;
+                        ccbBeverages.setSelectedIndex(0);
+                        for (int i = 0; i < ccbBeverages.getItemCount(); i++) {
+                            if (ccbBeverages.getItemAt(i).getId() == b.getBeveragesId()) {
+                                ccbBeverages.setSelectedIndex(i);
+                                break;
                             }
                         }
-                        ccbBeveragesCategory.setSelectedIndex(index);
                         txtPrice.setText(Untils.formatMoney(b.getPrice()));
-                        btnAddBeverages.setEnabled(false);
-                        btnUpdateBeverages.setEnabled(true);
-                        btnDeleteBeverages.setEnabled(true);
+                        txtQuantity.setText(String.valueOf(b.getQuantity()));
+                        lblAmount.setText(Untils.formatMoney(b.getAmount()));
+                        btnAddDetail.setEnabled(false);
+                        btnUpdateDetail.setEnabled(true);
+                        btnDeleteDetail.setEnabled(true);
                     }
                 }
             }
@@ -98,7 +99,14 @@ public class InvoiceManage extends javax.swing.JPanel {
     }
     
     private void clearDetail(){
-        
+        invoiceDetailSelected = null;
+        tblInvoiceDetail.clearSelection();
+        txtPrice.setText(Constants.STR_EMPTY);
+        txtQuantity.setText(Constants.STR_EMPTY);
+        lblAmount.setText(Constants.STR_EMPTY);
+        btnAddDetail.setEnabled(true);
+        btnUpdateDetail.setEnabled(false);
+        btnDeleteDetail.setEnabled(false);
     }
 
     /**
@@ -120,11 +128,11 @@ public class InvoiceManage extends javax.swing.JPanel {
         txtDate = new javax.swing.JTextField();
         txtId = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblInvoice = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        tblInvoiceDetail = new javax.swing.JTable();
+        btnDeleteDetail = new javax.swing.JButton();
+        btnRefreshDetail = new javax.swing.JButton();
+        btnAddDetail = new javax.swing.JButton();
+        btnUpdateDetail = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtDiscountPercentage = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -136,11 +144,11 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         ccbBeverages = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        txtPrice = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
+        txtQuantity = new javax.swing.JTextField();
+        lblAmount = new javax.swing.JLabel();
 
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
@@ -190,7 +198,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 255, 204));
         jLabel3.setText("Ngày tạo:");
 
-        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
+        tblInvoiceDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -216,41 +224,41 @@ public class InvoiceManage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblInvoice);
+        jScrollPane1.setViewportView(tblInvoiceDetail);
 
-        jButton6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
-        jButton6.setText("Delete");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnDeleteDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
+        btnDeleteDetail.setText("Delete");
+        btnDeleteDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnDeleteDetailActionPerformed(evt);
             }
         });
 
-        jButton7.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
-        jButton7.setText("Refresh");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btnRefreshDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnRefreshDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
+        btnRefreshDetail.setText("Refresh");
+        btnRefreshDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btnRefreshDetailActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
-        jButton2.setText("Add");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnAddDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnAddDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
+        btnAddDetail.setText("Add");
+        btnAddDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnAddDetailActionPerformed(evt);
             }
         });
 
-        jButton8.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
-        jButton8.setText("Update");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnUpdateDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
+        btnUpdateDetail.setText("Update");
+        btnUpdateDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnUpdateDetailActionPerformed(evt);
             }
         });
 
@@ -288,7 +296,7 @@ public class InvoiceManage extends javax.swing.JPanel {
 
         ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages() }));
 
-        jTextField1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtPrice.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 255, 204));
@@ -298,10 +306,10 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel12.setForeground(new java.awt.Color(0, 255, 204));
         jLabel12.setText("Thành tiền:");
 
-        jTextField2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
-        jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel13.setText(" ");
+        lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAmount.setText(" ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -361,9 +369,9 @@ public class InvoiceManage extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAddDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(147, 147, 147)
-                                .addComponent(jButton8))
+                                .addComponent(btnUpdateDetail))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -371,22 +379,22 @@ public class InvoiceManage extends javax.swing.JPanel {
                                 .addGap(28, 28, 28)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(ccbBeverages, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField1))))
+                                    .addComponent(txtPrice))))
                         .addGap(158, 158, 158)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDeleteDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                    .addComponent(lblAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton7)
+                                .addComponent(btnRefreshDetail)
                                 .addContainerGap())))))
         );
         layout.setVerticalGroup(
@@ -429,25 +437,26 @@ public class InvoiceManage extends javax.swing.JPanel {
                     .addComponent(jLabel9)
                     .addComponent(ccbBeverages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(lblAmount)
+                        .addComponent(jLabel10))
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton2))
+                    .addComponent(btnDeleteDetail)
+                    .addComponent(btnRefreshDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdateDetail)
+                    .addComponent(btnAddDetail))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        // TODO add your handling code here:
+        clearDetail();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -477,39 +486,38 @@ public class InvoiceManage extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnDeleteDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnDeleteDetailActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btnRefreshDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshDetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_btnRefreshDetailActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnAddDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnAddDetailActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btnUpdateDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDetailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btnUpdateDetailActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddDetail;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteDetail;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnRefreshDetail;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnUpdateDetail;
     private javax.swing.JComboBox<Beverages> ccbBeverages;
     private javax.swing.JComboBox<Table> ccbTable;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -518,13 +526,14 @@ public class InvoiceManage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblUserName;
-    private javax.swing.JTable tblInvoice;
+    private javax.swing.JTable tblInvoiceDetail;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtDiscountPercentage;
     private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }
