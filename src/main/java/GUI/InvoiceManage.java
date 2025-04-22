@@ -125,6 +125,12 @@ public class InvoiceManage extends javax.swing.JPanel {
         return true;
     }
     
+    private int CalcAmount(){
+        int quantity = Untils.parseToInt(txtQuantity.getText().trim());
+        int price = Untils.parseMoneyI(txtPrice.getText().trim());
+        return quantity * price;
+    }
+    
     private boolean checkInputDetail(){
         return true;
     }
@@ -240,6 +246,12 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 255, 204));
         jLabel3.setText("Ngày tạo:");
 
+        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIdKeyTyped(evt);
+            }
+        });
+
         tblInvoiceDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -339,6 +351,19 @@ public class InvoiceManage extends javax.swing.JPanel {
         ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages() }));
 
         txtPrice.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPriceFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPriceFocusLost(evt);
+            }
+        });
+        txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPriceKeyTyped(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 255, 204));
@@ -349,6 +374,16 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel12.setText("Thành tiền:");
 
         txtQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQuantityFocusLost(evt);
+            }
+        });
+        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtQuantityKeyTyped(evt);
+            }
+        });
 
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblAmount.setText(" ");
@@ -386,10 +421,9 @@ public class InvoiceManage extends javax.swing.JPanel {
                                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(lblUserName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                            .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(149, 149, 149)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -444,7 +478,7 @@ public class InvoiceManage extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -481,12 +515,11 @@ public class InvoiceManage extends javax.swing.JPanel {
                     .addComponent(jLabel11)
                     .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12)
-                        .addComponent(lblAmount)
-                        .addComponent(jLabel10))
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(lblAmount)
+                    .addComponent(jLabel10)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeleteDetail)
@@ -528,6 +561,13 @@ public class InvoiceManage extends javax.swing.JPanel {
                 lblUserName.setText(invoiceSelected.getUserName());
                 lblCustomerName.setText(invoiceSelected.getCustomerName());
                 txtDiscountPercentage.setText(String.valueOf(invoiceSelected.getDiscountPercentage()));
+                ccbTable.setSelectedIndex(0);
+                for (int i = 0; i < ccbTable.getItemCount(); i++) {
+                    if (ccbTable.getItemAt(i).getId() == invoiceSelected.getTableId()) {
+                        ccbTable.setSelectedIndex(i);
+                        break;
+                    }
+                }
                 getDetail();
                 loadDetail();
             }
@@ -570,11 +610,62 @@ public class InvoiceManage extends javax.swing.JPanel {
         invoiceDetailSelected.setInvoiceId(invoiceSelected.getId());
         invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
         invoiceDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
+        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(txtQuantity.getText().trim()));
+        invoiceDetailSelected.setAmount(CalcAmount());
+        if (invoiceDetailDAO.addInvoiceDetail(invoiceDetailSelected)) {
+            getDetail();
+            loadDetail();
+            JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnAddDetailActionPerformed
 
     private void btnUpdateDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDetailActionPerformed
-        // TODO add your handling code here:
+        if (invoiceSelected == null || invoiceDetailSelected == null) {
+            return;
+        }
+        invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
+        invoiceDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
+        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(txtQuantity.getText().trim()));
+        invoiceDetailSelected.setAmount(invoiceDetailSelected.getPrice() * invoiceDetailSelected.getQuantity());
+        if (invoiceDetailDAO.updateInvoiceDetail(invoiceDetailSelected)) {
+            getDetail();
+            loadDetail();
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateDetailActionPerformed
+
+    private void txtIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIdKeyTyped
+
+    private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPriceKeyTyped
+
+    private void txtQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyTyped
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtQuantityKeyTyped
+
+    private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
+        String text = txtPrice.getText().trim();
+        if (!text.isEmpty()) {
+            txtPrice.setText(String.valueOf(Untils.parseMoneyI(text)));
+        }
+    }//GEN-LAST:event_txtPriceFocusGained
+
+    private void txtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusLost
+        lblAmount.setText(Untils.formatMoney(CalcAmount()));
+    }//GEN-LAST:event_txtPriceFocusLost
+
+    private void txtQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusLost
+        lblAmount.setText(Untils.formatMoney(CalcAmount()));
+    }//GEN-LAST:event_txtQuantityFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

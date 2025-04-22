@@ -32,6 +32,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
         super(parent, "Tìm kiếm", true);
         invoiceDAO = new InvoiceImpl();
         initComponents();
+        setLocationRelativeTo(null);
         modelTable = (DefaultTableModel) tbInvoice.getModel();
         tbInvoice.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
