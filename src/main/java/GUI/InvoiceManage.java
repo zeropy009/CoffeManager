@@ -9,7 +9,9 @@ import Common.Untils;
 import DAO.BeveragesDAO;
 import DAO.Impl.BeveragesImpl;
 import DAO.Impl.InvoiceDetailImpl;
+import DAO.Impl.InvoiceImpl;
 import DAO.Impl.TableImpl;
+import DAO.InvoiceDAO;
 import DAO.InvoiceDetailDAO;
 import DAO.TableDAO;
 import Model.Beverages;
@@ -19,6 +21,7 @@ import Model.Table;
 import java.awt.Frame;
 import java.awt.Window;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,6 +33,7 @@ public class InvoiceManage extends javax.swing.JPanel {
 
     private final TableDAO tableDAO;
     private final BeveragesDAO beveragesDAO;
+    private final InvoiceDAO invoiceDAO;
     private final InvoiceDetailDAO invoiceDetailDAO;
     private final DefaultTableModel modelTable;
     private ArrayList<InvoiceDetail> invoiceDetailList;
@@ -42,6 +46,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     public InvoiceManage() {
         tableDAO = new TableImpl();
         beveragesDAO = new BeveragesImpl();
+        invoiceDAO = new InvoiceImpl();
         invoiceDetailDAO = new InvoiceDetailImpl();
         initComponents();
         modelTable = (DefaultTableModel) tblInvoiceDetail.getModel();
@@ -85,6 +90,10 @@ public class InvoiceManage extends javax.swing.JPanel {
         }
     }
     
+    private void getDetail(){
+        invoiceDetailList = invoiceDetailDAO.getAllInvoiceDetailsByInvoiceId(invoiceSelected.getId());
+    }
+    
     private void loadDetail(){
         clearDetail();
         modelTable.setRowCount(0);
@@ -98,6 +107,28 @@ public class InvoiceManage extends javax.swing.JPanel {
         }
     }
     
+    private boolean checkInputInvoice(){
+        if (!Untils.validateText(txtDate) || !Untils.validateDate(txtDate)) {
+            txtDate.requestFocus();
+            txtDate.selectAll();
+            return false;
+        }
+        if (txtDiscountPercentage.getText().trim().length() > 0) {
+            Double value = Untils.parseMoneyD(txtDiscountPercentage.getText().trim());
+            if (value < 0 || value > 100) {
+                JOptionPane.showMessageDialog(null, "Vui nhập giảm giá trong khoảng 0 - 100 !", "Giới hạn %", JOptionPane.WARNING_MESSAGE);
+            }
+            txtDiscountPercentage.requestFocus();
+            txtDiscountPercentage.selectAll();
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean checkInputDetail(){
+        return true;
+    }
+    
     private void clearDetail(){
         invoiceDetailSelected = null;
         tblInvoiceDetail.clearSelection();
@@ -107,6 +138,17 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnAddDetail.setEnabled(true);
         btnUpdateDetail.setEnabled(false);
         btnDeleteDetail.setEnabled(false);
+    }
+    
+    private void clearAll(){
+        invoiceSelected = null;
+        txtId.setText(Constants.STR_EMPTY);
+        txtDate.setText(Constants.STR_EMPTY);
+        lblUserName.setText(Constants.STR_EMPTY);
+        lblCustomerName.setText(Constants.STR_EMPTY);
+        txtDiscountPercentage.setText(Constants.STR_EMPTY);
+        ccbBeverages.setSelectedIndex(0);
+        clearDetail();
     }
 
     /**
@@ -460,7 +502,17 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+        if (!checkInputInvoice()) {
+            return;
+        }
+        invoiceSelected.setDate(Untils.parseStringToTimestamp(txtDate.getText().trim()));
+        invoiceSelected.setDiscountPercentage(Untils.parseMoneyD(txtDiscountPercentage.getText().trim()));
+        invoiceSelected.setTableId(((Table)ccbTable.getSelectedItem()).getId());
+        if (invoiceDAO.updateInvoice(invoiceSelected)) {
+            getDetail();
+            loadDetail();
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -476,26 +528,48 @@ public class InvoiceManage extends javax.swing.JPanel {
                 lblUserName.setText(invoiceSelected.getUserName());
                 lblCustomerName.setText(invoiceSelected.getCustomerName());
                 txtDiscountPercentage.setText(String.valueOf(invoiceSelected.getDiscountPercentage()));
-                invoiceDetailList = invoiceDetailDAO.getAllInvoiceDetailsByInvoiceId(invoiceSelected.getId());
+                getDetail();
+                loadDetail();
             }
         }
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (invoiceSelected == null) {
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (invoiceDAO.deleteInvoice(invoiceSelected.getId())) {
+                clearAll();
+                JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDeleteDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDetailActionPerformed
-        // TODO add your handling code here:
+        if (invoiceDetailSelected == null) {
+            return;
+        }
+        if (invoiceDetailDAO.deleteInvoiceDetail(invoiceDetailSelected.getId())) {
+            getDetail();
+            loadDetail();
+            JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteDetailActionPerformed
 
     private void btnRefreshDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshDetailActionPerformed
-        // TODO add your handling code here:
+        clearDetail();
     }//GEN-LAST:event_btnRefreshDetailActionPerformed
 
     private void btnAddDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDetailActionPerformed
-        // TODO add your handling code here:
+        if (invoiceSelected == null || invoiceDetailSelected != null) {
+            return;
+        }
+        invoiceDetailSelected = new InvoiceDetail();
+        invoiceDetailSelected.setInvoiceId(invoiceSelected.getId());
+        invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
+        invoiceDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
     }//GEN-LAST:event_btnAddDetailActionPerformed
 
     private void btnUpdateDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDetailActionPerformed
