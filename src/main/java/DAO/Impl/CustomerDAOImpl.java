@@ -21,9 +21,14 @@ public class CustomerDAOImpl implements CustomerDAO{
 
     @Override
     public Customer getCustomerByID(int id) {
-        String query = "SELECT * FROM CUSTOMER WHERE ID = ? AND DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT c.*, ct.[NAME] AS TIER_NAME, ct.[DISCOUNT_PERCENTAGE]");
+        query.append(" FROM CUSTOMER c");
+        query.append(" LEFT JOIN CUSTOMER_TIER ct");
+        query.append("   ON c.TIER_ID = ct.ID");
+        query.append(" WHERE c.ID = ? AND c.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
@@ -40,9 +45,14 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public ArrayList<Customer> getAllCustomers() {
         ArrayList<Customer> resList = new ArrayList<>();
-        String query = "SELECT * FROM CUSTOMER WHERE DELETED = 0";
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT c.*, ct.[NAME] AS TIER_NAME, ct.[DISCOUNT_PERCENTAGE]");
+        query.append(" FROM CUSTOMER c");
+        query.append(" LEFT JOIN CUSTOMER_TIER ct");
+        query.append("   ON c.TIER_ID = ct.ID");
+        query.append(" WHERE c.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(query)) {
+            PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             ResultSet rs = stmt.executeQuery();
 

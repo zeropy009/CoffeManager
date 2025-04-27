@@ -24,6 +24,8 @@ public interface CustomerDAO {
                         rs.getString("NAME"),
                         rs.getString("PHONE"),
                         rs.getString("EMAIL"),
-                        rs.getInt("TIER_ID"));
+                        rs.getInt("TIER_ID"),
+                        rs.getString("TIER_NAME"),
+                        rs.getDouble("DISCOUNT_PERCENTAGE"));
     }
 }

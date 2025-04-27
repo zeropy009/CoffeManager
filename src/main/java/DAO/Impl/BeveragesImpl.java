@@ -26,7 +26,7 @@ public class BeveragesImpl implements BeveragesDAO{
         query.append("SELECT b.*, bc.[NAME] AS BEVERAGES_CATEGORY_NAME");
         query.append(" FROM BEVERAGES b");
         query.append(" LEFT JOIN BEVERAGES_CATEGORY bc");
-        query.append(" ON b.BEVERAGES_CATEGORY_ID = bc.ID");
+        query.append("   ON b.BEVERAGES_CATEGORY_ID = bc.ID");
         query.append(" WHERE b.ID = ? AND b.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
@@ -50,7 +50,7 @@ public class BeveragesImpl implements BeveragesDAO{
         query.append("SELECT b.*, bc.[NAME] AS BEVERAGES_CATEGORY_NAME");
         query.append(" FROM BEVERAGES b");
         query.append(" LEFT JOIN BEVERAGES_CATEGORY bc");
-        query.append(" ON b.BEVERAGES_CATEGORY_ID = bc.ID");
+        query.append("   ON b.BEVERAGES_CATEGORY_ID = bc.ID");
         query.append(" WHERE b.DELETED = 0");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {

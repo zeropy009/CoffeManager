@@ -14,16 +14,20 @@ public class Customer extends BaseModel {
     private String phone;
     private String email;
     private int tier_id;
+    private int tierName;
+    private double discountPercentage;
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String phone, String email, int tier_id) {
+    public Customer(int id, String name, String phone, String email, int tier_id, String tierName, double discountPercentage) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.tier_id = tier_id;
+        this.tierName = this.tierName;
+        this.discountPercentage = discountPercentage;
     }
 
     public int getId() {
@@ -64,5 +68,21 @@ public class Customer extends BaseModel {
 
     public void setTier_id(int tier_id) {
         this.tier_id = tier_id;
+    }
+
+    public int getTierName() {
+        return tierName;
+    }
+
+    public void setTierName(int tierName) {
+        this.tierName = tierName;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 }

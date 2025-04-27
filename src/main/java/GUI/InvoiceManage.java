@@ -39,6 +39,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     private ArrayList<InvoiceDetail> invoiceDetailList;
     private Invoice invoiceSelected;
     private InvoiceDetail invoiceDetailSelected;
+    private boolean isFocusId = false;
     
     /**
      * Creates new form InvoiceManage
@@ -94,6 +95,26 @@ public class InvoiceManage extends javax.swing.JPanel {
         invoiceDetailList = invoiceDetailDAO.getAllInvoiceDetailsByInvoiceId(invoiceSelected.getId());
     }
     
+    private void loadAllData(){
+        if (invoiceSelected == null) {
+                return;
+        }
+        txtId.setText(String.valueOf(invoiceSelected.getId()));
+        txtDate.setText(invoiceSelected.toString());
+        lblUserName.setText(invoiceSelected.getUserName());
+        lblCustomerName.setText(invoiceSelected.getCustomerName());
+        txtDiscountPercentage.setText(String.valueOf(invoiceSelected.getDiscountPercentage()));
+        ccbTable.setSelectedIndex(0);
+        for (int i = 0; i < ccbTable.getItemCount(); i++) {
+            if (ccbTable.getItemAt(i).getId() == invoiceSelected.getTableId()) {
+                ccbTable.setSelectedIndex(i);
+                break;
+            }
+        }
+        getDetail();
+        loadDetail();
+    }
+    
     private void loadDetail(){
         clearDetail();
         modelTable.setRowCount(0);
@@ -116,7 +137,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         if (txtDiscountPercentage.getText().trim().length() > 0) {
             Double value = Untils.parseMoneyD(txtDiscountPercentage.getText().trim());
             if (value < 0 || value > 100) {
-                JOptionPane.showMessageDialog(null, "Vui nhập giảm giá trong khoảng 0 - 100 !", "Giới hạn %", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Vui lòng nhập giảm giá trong khoảng 0 - 100 !", "Giới hạn %", JOptionPane.WARNING_MESSAGE);
             }
             txtDiscountPercentage.requestFocus();
             txtDiscountPercentage.selectAll();
@@ -125,14 +146,30 @@ public class InvoiceManage extends javax.swing.JPanel {
         return true;
     }
     
+    private boolean checkInputDetail(){
+        Beverages beverages = (Beverages) ccbBeverages.getSelectedItem();
+        if (beverages.getId() == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 loại đồ uống !", "Giới hạn %", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        if (!Untils.validateText(txtPrice) || !Untils.validateText(txtQuantity)) {
+            return false;
+        }
+        int price = Untils.parseMoneyI(txtPrice.getText().trim());
+        int quantity = Untils.parseMoneyI(txtQuantity.getText().trim());
+        if (price <= 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng giá tiền đồ uống lớn hơn 0 !", "Cảnh báo giá trị", JOptionPane.WARNING_MESSAGE);
+        }
+        if (quantity <= 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng số lượng lớn hơn 0 !", "Cảnh báo giá trị", JOptionPane.WARNING_MESSAGE);
+        }
+        return true;
+    }
+    
     private int CalcAmount(){
         int quantity = Untils.parseToInt(txtQuantity.getText().trim());
         int price = Untils.parseMoneyI(txtPrice.getText().trim());
         return quantity * price;
-    }
-    
-    private boolean checkInputDetail(){
-        return true;
     }
     
     private void clearDetail(){
@@ -153,8 +190,28 @@ public class InvoiceManage extends javax.swing.JPanel {
         lblUserName.setText(Constants.STR_EMPTY);
         lblCustomerName.setText(Constants.STR_EMPTY);
         txtDiscountPercentage.setText(Constants.STR_EMPTY);
-        ccbBeverages.setSelectedIndex(0);
+        ccbTable.setSelectedIndex(0);
+        modelTable.setRowCount(0);
         clearDetail();
+    }
+    
+    private void actionId() {
+        if (txtId.getText().trim().length() > 0) {
+            int id = Untils.parseMoneyI(txtId.getText().trim());
+            Invoice invoice = invoiceDAO.getInvoiceById(id);
+            if (invoice == null) {
+                clearAll();
+                txtId.setText(String.valueOf(id));
+                JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin hóa đơn !", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
+                txtId.requestFocus();
+                txtId.selectAll();
+            } else {
+                invoiceSelected = invoice;
+                loadAllData();
+                isFocusId = false;
+            }
+        }
+        
     }
 
     /**
@@ -246,6 +303,20 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 255, 204));
         jLabel3.setText("Ngày tạo:");
 
+        txtId.setMinimumSize(new java.awt.Dimension(80, 22));
+        txtId.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtIdFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIdFocusLost(evt);
+            }
+        });
+        txtId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdActionPerformed(evt);
+            }
+        });
         txtId.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtIdKeyTyped(evt);
@@ -348,7 +419,12 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel10.setForeground(new java.awt.Color(0, 255, 204));
         jLabel10.setText("Đơn giá:");
 
-        ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages() }));
+        ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages("") }));
+        ccbBeverages.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ccbBeveragesItemStateChanged(evt);
+            }
+        });
 
         txtPrice.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         txtPrice.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -423,7 +499,7 @@ public class InvoiceManage extends javax.swing.JPanel {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGap(149, 149, 149)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -535,6 +611,9 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        if (isFocusId) {
+            return;
+        }
         if (!checkInputInvoice()) {
             return;
         }
@@ -549,33 +628,26 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        if (isFocusId) {
+            return;
+        }
         Window window = SwingUtilities.getWindowAncestor(this);
         if (window instanceof Frame parent) {
             InvoiceSearch dialog = new InvoiceSearch(parent);
             dialog.setVisible(true);
             dialog.setLocationRelativeTo(window);
-            invoiceSelected = dialog.getSelected();
-            if (invoiceSelected != null) {
-                txtId.setText(String.valueOf(invoiceSelected.getId()));
-                txtDate.setText(invoiceSelected.toString());
-                lblUserName.setText(invoiceSelected.getUserName());
-                lblCustomerName.setText(invoiceSelected.getCustomerName());
-                txtDiscountPercentage.setText(String.valueOf(invoiceSelected.getDiscountPercentage()));
-                ccbTable.setSelectedIndex(0);
-                for (int i = 0; i < ccbTable.getItemCount(); i++) {
-                    if (ccbTable.getItemAt(i).getId() == invoiceSelected.getTableId()) {
-                        ccbTable.setSelectedIndex(i);
-                        break;
-                    }
-                }
-                getDetail();
-                loadDetail();
+            if (dialog.getSelected() != null) {
+                invoiceSelected = dialog.getSelected();
+                loadAllData();
             }
         }
         
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (isFocusId) {
+            return;
+        }
         if (invoiceSelected == null) {
             return;
         }
@@ -588,6 +660,9 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDeleteDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDetailActionPerformed
+        if (isFocusId) {
+            return;
+        }
         if (invoiceDetailSelected == null) {
             return;
         }
@@ -603,7 +678,13 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshDetailActionPerformed
 
     private void btnAddDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDetailActionPerformed
+        if (isFocusId) {
+            return;
+        }
         if (invoiceSelected == null || invoiceDetailSelected != null) {
+            return;
+        }
+        if (!checkInputDetail()) {
             return;
         }
         invoiceDetailSelected = new InvoiceDetail();
@@ -620,7 +701,13 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddDetailActionPerformed
 
     private void btnUpdateDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDetailActionPerformed
+        if (isFocusId) {
+            return;
+        }
         if (invoiceSelected == null || invoiceDetailSelected == null) {
+            return;
+        }
+        if (!checkInputDetail()) {
             return;
         }
         invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
@@ -666,6 +753,31 @@ public class InvoiceManage extends javax.swing.JPanel {
     private void txtQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusLost
         lblAmount.setText(Untils.formatMoney(CalcAmount()));
     }//GEN-LAST:event_txtQuantityFocusLost
+
+    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+        actionId();
+    }//GEN-LAST:event_txtIdActionPerformed
+
+    private void txtIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusLost
+        actionId();
+    }//GEN-LAST:event_txtIdFocusLost
+
+    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
+        isFocusId = true;
+    }//GEN-LAST:event_txtIdFocusGained
+
+    private void ccbBeveragesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ccbBeveragesItemStateChanged
+        Beverages beverages = (Beverages) ccbBeverages.getSelectedItem();
+        if (beverages.getId() == 0) {
+            txtPrice.setText(Constants.STR_EMPTY);
+            txtQuantity.setText(Constants.STR_EMPTY);
+            lblAmount.setText(Constants.STR_EMPTY);
+        } else {
+            txtPrice.setText(Untils.formatMoney(beverages.getPrice()));
+            txtQuantity.setText("1");
+            lblAmount.setText(Untils.formatMoney(beverages.getPrice()));
+        }
+    }//GEN-LAST:event_ccbBeveragesItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -18,7 +18,11 @@ public class Beverages extends BaseModel{
 
     public Beverages() {
     }
-
+    
+    public Beverages(String name) {
+        this.name = name;
+    }
+    
     public Beverages(int id, String name, int price, int baveragesCategoryId, String baveragesCategoryName) {
         this.id = id;
         this.name = name;
