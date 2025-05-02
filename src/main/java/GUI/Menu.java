@@ -35,7 +35,7 @@ public class Menu extends javax.swing.JPanel {
                 Untils.setImageButton(btnInvoiceManagement, "quanlyhoadon.png");
                 Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
             }
-            Untils.setImageButton(btnPayment, "thanhToan.jpg");
+            Untils.setImageButton(btnBilling, "thanhToan.jpg");
             Untils.setImageButton(btnWarehouse, "nhapKho.jpeg");
         });
         if (UserSession.getInstance().getRole() == Roles.STAFF) {
@@ -60,7 +60,7 @@ public class Menu extends javax.swing.JPanel {
 
         btnStaffManagement = new javax.swing.JButton();
         btnCustomerManagement = new javax.swing.JButton();
-        btnPayment = new javax.swing.JButton();
+        btnBilling = new javax.swing.JButton();
         btnRevenue = new javax.swing.JButton();
         btnBeveragesManage = new javax.swing.JButton();
         btnInvoiceManagement = new javax.swing.JButton();
@@ -100,19 +100,19 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnCustomerManagement, gridBagConstraints);
 
-        btnPayment.setToolTipText("Thanh toán");
-        btnPayment.setMinimumSize(new java.awt.Dimension(200, 200));
-        btnPayment.setPreferredSize(new java.awt.Dimension(200, 200));
-        btnPayment.addActionListener(new java.awt.event.ActionListener() {
+        btnBilling.setToolTipText("Thanh toán");
+        btnBilling.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnBilling.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnBilling.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPaymentActionPerformed(evt);
+                btnBillingActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnPayment, gridBagConstraints);
+        add(btnBilling, gridBagConstraints);
 
         btnRevenue.setToolTipText("Quản lý doanh thu");
         btnRevenue.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -197,9 +197,9 @@ public class Menu extends javax.swing.JPanel {
         MainFrame.showScreen(cardPanel, Constants.CUSTOMER_MANAGE);
     }//GEN-LAST:event_btnCustomerManagementActionPerformed
 
-    private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnPaymentActionPerformed
+    private void btnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillingActionPerformed
+        MainFrame.showScreen(cardPanel, Constants.BILLING);
+    }//GEN-LAST:event_btnBillingActionPerformed
 
     private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
         // TODO add your handling code here:
@@ -220,9 +220,9 @@ public class Menu extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBeveragesManage;
+    private javax.swing.JButton btnBilling;
     private javax.swing.JButton btnCustomerManagement;
     private javax.swing.JButton btnInvoiceManagement;
-    private javax.swing.JButton btnPayment;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnStaffManagement;
     private javax.swing.JButton btnWarehouse;

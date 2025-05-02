@@ -13,20 +13,20 @@ public class Customer extends BaseModel {
     private String name;
     private String phone;
     private String email;
-    private int tier_id;
-    private int tierName;
+    private int tierId;
+    private String tierName;
     private double discountPercentage;
 
     public Customer() {
     }
 
-    public Customer(int id, String name, String phone, String email, int tier_id, String tierName, double discountPercentage) {
+    public Customer(int id, String name, String phone, String email, int tierId, String tierName, double discountPercentage) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.email = email;
-        this.tier_id = tier_id;
-        this.tierName = this.tierName;
+        this.tierId = tierId;
+        this.tierName = tierName;
         this.discountPercentage = discountPercentage;
     }
 
@@ -62,19 +62,19 @@ public class Customer extends BaseModel {
         this.email = email;
     }
 
-    public int getTier_id() {
-        return tier_id;
+    public int getTierId() {
+        return tierId;
     }
 
-    public void setTier_id(int tier_id) {
-        this.tier_id = tier_id;
+    public void setTierId(int tierId) {
+        this.tierId = tierId;
     }
 
-    public int getTierName() {
+    public String getTierName() {
         return tierName;
     }
 
-    public void setTierName(int tierName) {
+    public void setTierName(String tierName) {
         this.tierName = tierName;
     }
 
@@ -84,5 +84,10 @@ public class Customer extends BaseModel {
 
     public void setDiscountPercentage(double discountPercentage) {
         this.discountPercentage = discountPercentage;
+    }
+    
+    @Override
+    public String toString() {
+        return name;
     }
 }

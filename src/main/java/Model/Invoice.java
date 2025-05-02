@@ -19,13 +19,14 @@ public class Invoice extends BaseModel {
     private int customerId;
     private double discountPercentage;
     private int tableId;
+    private boolean paymentStatus;
     private String customerName;
     private String tableName;
     
     public Invoice() {
     }
     
-    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId, String customerName, String tableName) {
+    public Invoice(int id, Timestamp date, int totalAmount, String userName, int customerId, double discountPercentage, int tableId, boolean paymentStatus, String customerName, String tableName) {
         this.id = id;
         this.date = date;
         this.totalAmount = totalAmount;
@@ -33,6 +34,7 @@ public class Invoice extends BaseModel {
         this.customerId = customerId;
         this.discountPercentage = discountPercentage;
         this.tableId = tableId;
+        this.paymentStatus = paymentStatus;
         this.customerName = customerName;
         this.tableName = tableName;
     }
@@ -91,6 +93,14 @@ public class Invoice extends BaseModel {
 
     public void setTableId(int tableId) {
         this.tableId = tableId;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     public String getCustomerName() {

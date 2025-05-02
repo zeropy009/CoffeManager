@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author DZUNG
+ * @author zero
  */
 public class WarehouseManage extends javax.swing.JPanel {
     
@@ -41,20 +41,20 @@ public class WarehouseManage extends javax.swing.JPanel {
         warehouseDAO = new WarehouseImpl();
         warehouseDetailDAO = new WarehouseDetailImpl();
         initComponents();
-        modelTableWarehouse = (DefaultTableModel) tbWarehouse.getModel();
-        modelTableDetail = (DefaultTableModel) tbWarehouseDetail.getModel();
+        modelTableWarehouse = (DefaultTableModel) tblWarehouse.getModel();
+        modelTableDetail = (DefaultTableModel) tblWarehouseDetail.getModel();
         // Renderer để hiển thị JButton
-        tbWarehouse.getColumnModel().getColumn(3).setCellRenderer((JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> (Component) value);
+        tblWarehouse.getColumnModel().getColumn(3).setCellRenderer((JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> (Component) value);
         // Tạo sự kiện khi SelectedRow của JTable thay đổi giá trị.
-        tbWarehouse.getSelectionModel().addListSelectionListener(e -> {
+        tblWarehouse.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int selectedRow = tbWarehouse.getSelectedRow();
+                int selectedRow = tblWarehouse.getSelectedRow();
                 if (selectedRow == -1) {
                     clear();
                     modelTableDetail.setRowCount(0);
                 }
                 else {
-                    if (tbWarehouse.getValueAt(selectedRow, 0) instanceof Warehouse warehouse) {
+                    if (tblWarehouse.getValueAt(selectedRow, 0) instanceof Warehouse warehouse) {
                         warehouseSelected = warehouse;
                         getDataWarehouseDetail();
                         loadWarehouseDetail();
@@ -62,17 +62,17 @@ public class WarehouseManage extends javax.swing.JPanel {
                 }
             }
         });
-        tbWarehouseDetail.getSelectionModel().addListSelectionListener(e -> {
+        tblWarehouseDetail.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int selectedRow = tbWarehouseDetail.getSelectedRow();
+                int selectedRow = tblWarehouseDetail.getSelectedRow();
                 if (selectedRow == -1) {
                     clear();
                 }
                 else {
-                    if (tbWarehouseDetail.getValueAt(selectedRow, 0) instanceof WarehouseDetail detail) {
+                    if (tblWarehouseDetail.getValueAt(selectedRow, 0) instanceof WarehouseDetail detail) {
                         warehouseDetailSelected = detail;
                         txtProductName.setText(detail.getProductName());
-                        txtQuantity.setText(String.valueOf(detail.getQuantity()));
+                        spnQuantity.setValue(detail.getQuantity());
                         txtPrice.setText(Untils.formatMoney(detail.getPrice()));
                         lblAmount.setText(Untils.formatMoney(detail.getAmount()));
                         btnAdd.setEnabled(false);
@@ -147,9 +147,9 @@ public class WarehouseManage extends javax.swing.JPanel {
         if (!Untils.validateText(txtProductName)) {
             return false;
         }
-        if (Untils.parseToInt(txtQuantity.getText().trim()) <= 0) {
+        if (Untils.parseToInt(spnQuantity.getValue().toString()) <= 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng nhập số lượng lớn hơn 0 !", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            txtQuantity.requestFocus();
+            spnQuantity.requestFocus();
             return false;
         }
         if (Untils.parseMoneyI(txtPrice.getText().trim()) <= 0) {
@@ -161,7 +161,7 @@ public class WarehouseManage extends javax.swing.JPanel {
     }
     
     private int CalcAmount(){
-        int quantity = Untils.parseToInt(txtQuantity.getText().trim());
+        int quantity = Untils.parseToInt(spnQuantity.getValue().toString());
         int price = Untils.parseMoneyI(txtPrice.getText().trim());
         return quantity * price;
     }
@@ -172,9 +172,9 @@ public class WarehouseManage extends javax.swing.JPanel {
     */
     private void clear(){
         warehouseDetailSelected = null;
-        tbWarehouseDetail.clearSelection();
+        tblWarehouseDetail.clearSelection();
         txtProductName.setText(Constants.STR_EMPTY);
-        txtQuantity.setText(Constants.STR_EMPTY);
+        spnQuantity.setValue(0);
         txtPrice.setText(Constants.STR_EMPTY);
         lblAmount.setText("0");
         btnAdd.setEnabled(true);
@@ -197,19 +197,19 @@ public class WarehouseManage extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         txtProductName = new javax.swing.JTextField();
         txtPrice = new javax.swing.JTextField();
-        txtQuantity = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbWarehouseDetail = new javax.swing.JTable();
+        tblWarehouseDetail = new javax.swing.JTable();
         btnRefresh = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbWarehouse = new javax.swing.JTable();
+        tblWarehouse = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblAmount = new javax.swing.JLabel();
+        spnQuantity = new javax.swing.JSpinner();
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 255, 204));
@@ -229,7 +229,7 @@ public class WarehouseManage extends javax.swing.JPanel {
 
         txtProductName.setActionCommand("<Not Set>");
         txtProductName.setName("Tên Sản Phẩm"); // NOI18N
-        txtProductName.setNextFocusableComponent(txtQuantity);
+        txtProductName.setNextFocusableComponent(spnQuantity);
 
         txtPrice.setName("Đơn Giá"); // NOI18N
         txtPrice.setNextFocusableComponent(btnAdd);
@@ -244,20 +244,6 @@ public class WarehouseManage extends javax.swing.JPanel {
         txtPrice.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtPriceKeyTyped(evt);
-            }
-        });
-
-        txtQuantity.setActionCommand("<Not Set>");
-        txtQuantity.setName("Số Lượng"); // NOI18N
-        txtQuantity.setNextFocusableComponent(txtPrice);
-        txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtQuantityFocusLost(evt);
-            }
-        });
-        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtQuantityKeyTyped(evt);
             }
         });
 
@@ -292,7 +278,7 @@ public class WarehouseManage extends javax.swing.JPanel {
             }
         });
 
-        tbWarehouseDetail.setModel(new javax.swing.table.DefaultTableModel(
+        tblWarehouseDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -311,8 +297,8 @@ public class WarehouseManage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbWarehouseDetail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(tbWarehouseDetail);
+        tblWarehouseDetail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(tblWarehouseDetail);
 
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
@@ -328,7 +314,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(0, 255, 102));
         jLabel2.setText("QUẢN LÝ NHẬP KHO");
 
-        tbWarehouse.setModel(new javax.swing.table.DefaultTableModel(
+        tblWarehouse.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -347,13 +333,13 @@ public class WarehouseManage extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tbWarehouse.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tbWarehouse.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblWarehouse.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tblWarehouse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbWarehouseMouseClicked(evt);
+                tblWarehouseMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tbWarehouse);
+        jScrollPane2.setViewportView(tblWarehouse);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 255, 204));
@@ -365,6 +351,13 @@ public class WarehouseManage extends javax.swing.JPanel {
 
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblAmount.setText("0");
+
+        spnQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        spnQuantity.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnQuantityStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -387,10 +380,10 @@ public class WarehouseManage extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
-                        .addComponent(btnUpdate)))
+                        .addComponent(btnUpdate))
+                    .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -432,14 +425,15 @@ public class WarehouseManage extends javax.swing.JPanel {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel5)
-                        .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel6))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -448,7 +442,7 @@ public class WarehouseManage extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(lblAmount))))
-                .addGap(40, 40, 40)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRefresh)
                     .addComponent(btnDelete)
@@ -465,7 +459,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         warehouseDetailSelected = new WarehouseDetail();
         warehouseDetailSelected.setWarehouseId((warehouseSelected != null ? warehouseSelected.getId() : 0));
         warehouseDetailSelected.setProductName(txtProductName.getText().trim());
-        warehouseDetailSelected.setQuantity(Untils.parseToInt(txtQuantity.getText().trim()));
+        warehouseDetailSelected.setQuantity(Untils.parseToInt(spnQuantity.getValue().toString()));
         warehouseDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
         warehouseDetailSelected.setAmount(CalcAmount());
         if (warehouseDetailDAO.addWarehouseDetail(warehouseDetailSelected)) {
@@ -481,8 +475,8 @@ public class WarehouseManage extends javax.swing.JPanel {
             }
             loadWarehouse();
             // Chọn lại data của Warehouse.
-            tbWarehouse.setRowSelectionInterval(index, index);
-            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            tblWarehouse.setRowSelectionInterval(index, index);
+            tblWarehouse.scrollRectToVisible(tblWarehouse.getCellRect(index, 0, true));
             JOptionPane.showMessageDialog(null, "Thêm thành công !", "Add", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -492,7 +486,7 @@ public class WarehouseManage extends javax.swing.JPanel {
             return;
         }
         warehouseDetailSelected.setProductName(txtProductName.getText().trim());
-        warehouseDetailSelected.setQuantity(Untils.parseToInt(txtQuantity.getText().trim()));
+        warehouseDetailSelected.setQuantity(Untils.parseToInt(spnQuantity.getValue().toString()));
         warehouseDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
         warehouseDetailSelected.setAmount(CalcAmount());
         if (warehouseDetailDAO.updateWarehouseDetail(warehouseDetailSelected)) {
@@ -502,8 +496,8 @@ public class WarehouseManage extends javax.swing.JPanel {
             warehouseList.set(index, newWarehouse);
             loadWarehouse();
             // Cọn lại data của Warehouse.
-            tbWarehouse.setRowSelectionInterval(index, index);
-            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            tblWarehouse.setRowSelectionInterval(index, index);
+            tblWarehouse.scrollRectToVisible(tblWarehouse.getCellRect(index, 0, true));
             JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -519,8 +513,8 @@ public class WarehouseManage extends javax.swing.JPanel {
             warehouseList.set(index, newWarehouse);
             loadWarehouse();
             // Cọn lại data của Warehouse.
-            tbWarehouse.setRowSelectionInterval(index, index);
-            tbWarehouse.scrollRectToVisible(tbWarehouse.getCellRect(index, 0, true));
+            tblWarehouse.setRowSelectionInterval(index, index);
+            tblWarehouse.scrollRectToVisible(tblWarehouse.getCellRect(index, 0, true));
             JOptionPane.showMessageDialog(null, "Xóa thành công !", "Delete", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -531,29 +525,17 @@ public class WarehouseManage extends javax.swing.JPanel {
         modelTableDetail.setRowCount(0);
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void tbWarehouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbWarehouseMouseClicked
-        int selectedCol = tbWarehouse.getSelectedColumn();
-        int selectedRow = tbWarehouse.getSelectedRow();
+    private void tblWarehouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblWarehouseMouseClicked
+        int selectedCol = tblWarehouse.getSelectedColumn();
         if (selectedCol == 3 && warehouseSelected != null) {
             if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (warehouseDAO.deleteWarehouse(warehouseSelected.getId())) {
                     warehouseList.remove(warehouseSelected);
-                    modelTableWarehouse.removeRow(selectedRow);
-                    warehouseSelected = null;
+                    loadWarehouse();
                 }
             }
         }
-    }//GEN-LAST:event_tbWarehouseMouseClicked
-
-    private void txtQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyTyped
-        if (!Character.isDigit(evt.getKeyChar())) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtQuantityKeyTyped
-
-    private void txtQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusLost
-        lblAmount.setText(Untils.formatMoney(CalcAmount())); 
-    }//GEN-LAST:event_txtQuantityFocusLost
+    }//GEN-LAST:event_tblWarehouseMouseClicked
 
     private void txtPriceKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPriceKeyTyped
         if (!Character.isDigit(evt.getKeyChar())) {
@@ -567,7 +549,7 @@ public class WarehouseManage extends javax.swing.JPanel {
             int value = Untils.parseMoneyI(text);
             txtPrice.setText(Untils.formatMoney(value));
         }
-        lblAmount.setText(Untils.formatMoney(CalcAmount())); 
+        lblAmount.setText(Untils.formatMoney(CalcAmount()));
     }//GEN-LAST:event_txtPriceFocusLost
 
     private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
@@ -576,6 +558,10 @@ public class WarehouseManage extends javax.swing.JPanel {
             txtPrice.setText(String.valueOf(Untils.parseMoneyI(text)));
         }
     }//GEN-LAST:event_txtPriceFocusGained
+
+    private void spnQuantityStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnQuantityStateChanged
+        lblAmount.setText(Untils.formatMoney(CalcAmount()));
+    }//GEN-LAST:event_spnQuantityStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -593,10 +579,10 @@ public class WarehouseManage extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAmount;
-    private javax.swing.JTable tbWarehouse;
-    private javax.swing.JTable tbWarehouseDetail;
+    private javax.swing.JSpinner spnQuantity;
+    private javax.swing.JTable tblWarehouse;
+    private javax.swing.JTable tblWarehouseDetail;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtProductName;
-    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

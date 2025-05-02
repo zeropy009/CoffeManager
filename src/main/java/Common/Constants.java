@@ -26,4 +26,5 @@ public class Constants {
     public static final String CUSTOMER_MANAGE = "CustomerManage";
     public static final String INVOICE_MANAGE = "InvoiceManage";
     public static final String WAREHOUSE_MANAGE = "WarehouseManage";
+    public static final String BILLING = "Billing";
 }

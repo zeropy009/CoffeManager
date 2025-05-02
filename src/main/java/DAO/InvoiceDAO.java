@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 public interface InvoiceDAO {
     Invoice getInvoiceById(int id);
+    Invoice getInvoiceByTableId(int tableId);
     ArrayList<Invoice> getAllInvoices();
     ArrayList<Invoice> getAllInvoices(int id, Timestamp fromDate, Timestamp toDate);
     boolean addInvoice(Invoice invoice);
@@ -29,6 +30,7 @@ public interface InvoiceDAO {
                         rs.getInt("CUSTOMER_ID"),
                         rs.getDouble("DISCOUNT_PERCENTAGE"),
                         rs.getInt("TABLE_ID"),
+                        rs.getBoolean("PAYMENT_STATUS"),
                         rs.getString("CUSTOMER_NAME"),
                         rs.getString("TABLE_NAME"));
     }

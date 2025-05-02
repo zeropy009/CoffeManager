@@ -32,6 +32,8 @@ public class InvoiceSearch extends javax.swing.JDialog {
         super(parent, "Tìm kiếm", true);
         invoiceDAO = new InvoiceImpl();
         initComponents();
+        Untils.setMaxLength(txtFromDate, 10);
+        Untils.setMaxLength(txtToDate, 10);
         setLocationRelativeTo(null);
         modelTable = (DefaultTableModel) tbInvoice.getModel();
         tbInvoice.getSelectionModel().addListSelectionListener(e -> {
@@ -115,9 +117,9 @@ public class InvoiceSearch extends javax.swing.JDialog {
         jLabel2.setText("Ngày:");
 
         txtFromDate.setName("Ngày bắt đầu"); // NOI18N
-        txtFromDate.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtFromDateFocusLost(evt);
+        txtFromDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFromDateKeyTyped(evt);
             }
         });
 
@@ -125,9 +127,9 @@ public class InvoiceSearch extends javax.swing.JDialog {
         jLabel3.setText("~");
 
         txtToDate.setName("Ngày kết thúc"); // NOI18N
-        txtToDate.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtToDateFocusLost(evt);
+        txtToDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtToDateKeyTyped(evt);
             }
         });
 
@@ -211,10 +213,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        if (!checkInputDate(txtFromDate)) {
-            return;
-        }
-        if (!checkInputDate(txtToDate)) {
+        if (!checkInputDate(txtFromDate) || !checkInputDate(txtToDate)) {
             return;
         }
         int id = 0;
@@ -242,14 +241,6 @@ public class InvoiceSearch extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtIdKeyTyped
 
-    private void txtFromDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtFromDateFocusLost
-        checkInputDate(txtFromDate);
-    }//GEN-LAST:event_txtFromDateFocusLost
-
-    private void txtToDateFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtToDateFocusLost
-        checkInputDate(txtToDate);
-    }//GEN-LAST:event_txtToDateFocusLost
-
     private void tbInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInvoiceMouseClicked
         if (evt.getClickCount() == 2 && tbInvoice.getSelectedRow() != -1) {
             int row = tbInvoice.getSelectedRow();
@@ -259,6 +250,20 @@ public class InvoiceSearch extends javax.swing.JDialog {
              }
         }
     }//GEN-LAST:event_tbInvoiceMouseClicked
+
+    private void txtFromDateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFromDateKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '/') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtFromDateKeyTyped
+
+    private void txtToDateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtToDateKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '/') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtToDateKeyTyped
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch;

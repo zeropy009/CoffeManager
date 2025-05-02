@@ -76,7 +76,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             stmt.setString(1, customer.getName());
             stmt.setString(2, customer.getPhone());
             stmt.setString(3, customer.getEmail());
-            stmt.setInt(4, customer.getTier_id());
+            stmt.setInt(4, customer.getTierId());
             stmt.setString(5, UserSession.getInstance().getUsername());
             stmt.setString(6, UserSession.getInstance().getUsername());
             
@@ -98,7 +98,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             stmt.setString(1, customer.getName());
             stmt.setString(2, customer.getPhone());
             stmt.setString(3, customer.getEmail());
-            stmt.setInt(4, customer.getTier_id());
+            stmt.setInt(4, customer.getTierId());
             stmt.setString(5, UserSession.getInstance().getUsername());
             stmt.setInt(6, customer.getId());
 

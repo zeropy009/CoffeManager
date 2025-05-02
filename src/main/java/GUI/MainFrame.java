@@ -101,28 +101,33 @@ public class MainFrame extends JFrame {
             switch (screenName) {
                 case Constants.BEVERAGES_MANAGE -> {
                     BeveragesManage beverages = new BeveragesManage();
-                    beverages.setName(Constants.BEVERAGES_MANAGE);
+                    beverages.setName(screenName);
                     cardPanel.add(beverages, screenName);
                 }
                 case Constants.STAFF_MANAGE -> {
                     StaffManage staffManage = new StaffManage();
-                    staffManage.setName(Constants.STAFF_MANAGE);
+                    staffManage.setName(screenName);
                     cardPanel.add(staffManage, screenName);
                 }
                 case Constants.CUSTOMER_MANAGE -> {
                     CustomerManage customerManage = new CustomerManage();
-                    customerManage.setName(Constants.CUSTOMER_MANAGE);
+                    customerManage.setName(screenName);
                     cardPanel.add(customerManage, screenName);
                 }
                 case Constants.INVOICE_MANAGE -> {
                     InvoiceManage invoiceManage = new InvoiceManage();
-                    invoiceManage.setName(Constants.INVOICE_MANAGE);
+                    invoiceManage.setName(screenName);
                     cardPanel.add(invoiceManage, screenName);
                 }
                 case Constants.WAREHOUSE_MANAGE -> {
                     WarehouseManage warehouseManage = new WarehouseManage();
-                    warehouseManage.setName(Constants.WAREHOUSE_MANAGE);
+                    warehouseManage.setName(screenName);
                     cardPanel.add(warehouseManage, screenName);
+                }
+                case Constants.BILLING -> {
+                    Billing billing = new Billing();
+                    billing.setName(screenName);
+                    cardPanel.add(billing, screenName);
                 }
                 default -> {
                 }

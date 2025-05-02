@@ -74,7 +74,7 @@ public class InvoiceDetailImpl implements InvoiceDetailDAO {
         query.append(" FROM INVOICE_DETAIL d");
         query.append(" LEFT JOIN BEVERAGES b");
         query.append(" ON d.BEVERAGES_ID = b.ID");
-        query.append(" WHERE d.DELETED = 0  AND d.INVOICE_ID = ?");
+        query.append(" WHERE d.DELETED = 0 AND d.INVOICE_ID = ?");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 

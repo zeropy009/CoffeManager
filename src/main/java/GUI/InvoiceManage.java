@@ -27,7 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author DZUNG
+ * @author zero
  */
 public class InvoiceManage extends javax.swing.JPanel {
 
@@ -39,7 +39,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     private ArrayList<InvoiceDetail> invoiceDetailList;
     private Invoice invoiceSelected;
     private InvoiceDetail invoiceDetailSelected;
-    private boolean isFocusId = false;
+    private boolean isInvalid = false;
     
     /**
      * Creates new form InvoiceManage
@@ -50,6 +50,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         invoiceDAO = new InvoiceImpl();
         invoiceDetailDAO = new InvoiceDetailImpl();
         initComponents();
+        Untils.setMaxLength(txtDate, 10);
         modelTable = (DefaultTableModel) tblInvoiceDetail.getModel();
         tblInvoiceDetail.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -68,7 +69,7 @@ public class InvoiceManage extends javax.swing.JPanel {
                             }
                         }
                         txtPrice.setText(Untils.formatMoney(b.getPrice()));
-                        txtQuantity.setText(String.valueOf(b.getQuantity()));
+                        spnQuantity.setValue(b.getQuantity());
                         lblAmount.setText(Untils.formatMoney(b.getAmount()));
                         btnAddDetail.setEnabled(false);
                         btnUpdateDetail.setEnabled(true);
@@ -152,22 +153,24 @@ public class InvoiceManage extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn 1 loại đồ uống !", "Giới hạn %", JOptionPane.WARNING_MESSAGE);
             return false;
         }
-        if (!Untils.validateText(txtPrice) || !Untils.validateText(txtQuantity)) {
+        if (!Untils.validateText(txtPrice)) {
             return false;
         }
         int price = Untils.parseMoneyI(txtPrice.getText().trim());
-        int quantity = Untils.parseMoneyI(txtQuantity.getText().trim());
+        int quantity = Untils.parseMoneyI(spnQuantity.getValue().toString());
         if (price <= 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng giá tiền đồ uống lớn hơn 0 !", "Cảnh báo giá trị", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
         if (quantity <= 0) {
             JOptionPane.showMessageDialog(null, "Vui lòng số lượng lớn hơn 0 !", "Cảnh báo giá trị", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
         return true;
     }
     
     private int CalcAmount(){
-        int quantity = Untils.parseToInt(txtQuantity.getText().trim());
+        int quantity = Untils.parseToInt(spnQuantity.getValue().toString());
         int price = Untils.parseMoneyI(txtPrice.getText().trim());
         return quantity * price;
     }
@@ -176,7 +179,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         invoiceDetailSelected = null;
         tblInvoiceDetail.clearSelection();
         txtPrice.setText(Constants.STR_EMPTY);
-        txtQuantity.setText(Constants.STR_EMPTY);
+        spnQuantity.setValue(0);
         lblAmount.setText(Constants.STR_EMPTY);
         btnAddDetail.setEnabled(true);
         btnUpdateDetail.setEnabled(false);
@@ -196,10 +199,12 @@ public class InvoiceManage extends javax.swing.JPanel {
     }
     
     private void actionId() {
+        isInvalid = false;
         if (txtId.getText().trim().length() > 0) {
             int id = Untils.parseMoneyI(txtId.getText().trim());
             Invoice invoice = invoiceDAO.getInvoiceById(id);
             if (invoice == null) {
+                isInvalid = true;
                 clearAll();
                 txtId.setText(String.valueOf(id));
                 JOptionPane.showMessageDialog(null, "Không tìm thấy thông tin hóa đơn !", "Thông tin", JOptionPane.INFORMATION_MESSAGE);
@@ -208,7 +213,6 @@ public class InvoiceManage extends javax.swing.JPanel {
             } else {
                 invoiceSelected = invoice;
                 loadAllData();
-                isFocusId = false;
             }
         }
         
@@ -252,8 +256,8 @@ public class InvoiceManage extends javax.swing.JPanel {
         txtPrice = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtQuantity = new javax.swing.JTextField();
         lblAmount = new javax.swing.JLabel();
+        spnQuantity = new javax.swing.JSpinner();
 
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
@@ -303,11 +307,14 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(0, 255, 204));
         jLabel3.setText("Ngày tạo:");
 
+        txtDate.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDateKeyTyped(evt);
+            }
+        });
+
         txtId.setMinimumSize(new java.awt.Dimension(80, 22));
         txtId.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtIdFocusGained(evt);
-            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtIdFocusLost(evt);
             }
@@ -449,20 +456,15 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel12.setForeground(new java.awt.Color(0, 255, 204));
         jLabel12.setText("Thành tiền:");
 
-        txtQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        txtQuantity.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtQuantityFocusLost(evt);
-            }
-        });
-        txtQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtQuantityKeyTyped(evt);
-            }
-        });
-
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblAmount.setText(" ");
+        lblAmount.setText("0");
+
+        spnQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        spnQuantity.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spnQuantityStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -475,37 +477,32 @@ public class InvoiceManage extends javax.swing.JPanel {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(301, 301, 301)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtDiscountPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(7, 7, 7)
-                                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                    .addGap(2, 2, 2)
-                                                    .addComponent(jLabel4))
-                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(149, 149, 149)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtDiscountPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel5)
-                                    .addComponent(btnDelete))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                            .addGap(2, 2, 2)
+                                            .addComponent(jLabel4))
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(149, 149, 149)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel5)
+                            .addComponent(btnDelete))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -538,23 +535,27 @@ public class InvoiceManage extends javax.swing.JPanel {
                             .addComponent(btnDeleteDetail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(lblAmount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnRefreshDetail)
-                                .addContainerGap())))))
+                                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(317, 317, 317))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -589,7 +590,7 @@ public class InvoiceManage extends javax.swing.JPanel {
                     .addComponent(jLabel9)
                     .addComponent(ccbBeverages, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -607,11 +608,11 @@ public class InvoiceManage extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        clearDetail();
+        clearAll();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         if (!checkInputInvoice()) {
@@ -628,7 +629,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         Window window = SwingUtilities.getWindowAncestor(this);
@@ -645,7 +646,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         if (invoiceSelected == null) {
@@ -660,7 +661,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDeleteDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDetailActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         if (invoiceDetailSelected == null) {
@@ -678,7 +679,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshDetailActionPerformed
 
     private void btnAddDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDetailActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         if (invoiceSelected == null || invoiceDetailSelected != null) {
@@ -691,7 +692,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         invoiceDetailSelected.setInvoiceId(invoiceSelected.getId());
         invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
         invoiceDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
-        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(txtQuantity.getText().trim()));
+        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(spnQuantity.getValue().toString()));
         invoiceDetailSelected.setAmount(CalcAmount());
         if (invoiceDetailDAO.addInvoiceDetail(invoiceDetailSelected)) {
             getDetail();
@@ -701,7 +702,7 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddDetailActionPerformed
 
     private void btnUpdateDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateDetailActionPerformed
-        if (isFocusId) {
+        if (isInvalid) {
             return;
         }
         if (invoiceSelected == null || invoiceDetailSelected == null) {
@@ -712,7 +713,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         }
         invoiceDetailSelected.setBeveragesId(((Beverages)ccbBeverages.getSelectedItem()).getId());
         invoiceDetailSelected.setPrice(Untils.parseMoneyI(txtPrice.getText().trim()));
-        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(txtQuantity.getText().trim()));
+        invoiceDetailSelected.setQuantity(Untils.parseMoneyI(spnQuantity.getValue().toString()));
         invoiceDetailSelected.setAmount(invoiceDetailSelected.getPrice() * invoiceDetailSelected.getQuantity());
         if (invoiceDetailDAO.updateInvoiceDetail(invoiceDetailSelected)) {
             getDetail();
@@ -733,12 +734,6 @@ public class InvoiceManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtPriceKeyTyped
 
-    private void txtQuantityKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQuantityKeyTyped
-        if (!Character.isDigit(evt.getKeyChar())) {
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtQuantityKeyTyped
-
     private void txtPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusGained
         String text = txtPrice.getText().trim();
         if (!text.isEmpty()) {
@@ -747,12 +742,13 @@ public class InvoiceManage extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPriceFocusGained
 
     private void txtPriceFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPriceFocusLost
+        String text = txtPrice.getText().trim();
+        if (!text.isEmpty()) {
+            int value = Untils.parseMoneyI(text);
+            txtPrice.setText(Untils.formatMoney(value));
+        }
         lblAmount.setText(Untils.formatMoney(CalcAmount()));
     }//GEN-LAST:event_txtPriceFocusLost
-
-    private void txtQuantityFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantityFocusLost
-        lblAmount.setText(Untils.formatMoney(CalcAmount()));
-    }//GEN-LAST:event_txtQuantityFocusLost
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
         actionId();
@@ -762,22 +758,29 @@ public class InvoiceManage extends javax.swing.JPanel {
         actionId();
     }//GEN-LAST:event_txtIdFocusLost
 
-    private void txtIdFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIdFocusGained
-        isFocusId = true;
-    }//GEN-LAST:event_txtIdFocusGained
-
     private void ccbBeveragesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ccbBeveragesItemStateChanged
         Beverages beverages = (Beverages) ccbBeverages.getSelectedItem();
         if (beverages.getId() == 0) {
             txtPrice.setText(Constants.STR_EMPTY);
-            txtQuantity.setText(Constants.STR_EMPTY);
+            spnQuantity.setValue(0);
             lblAmount.setText(Constants.STR_EMPTY);
         } else {
             txtPrice.setText(Untils.formatMoney(beverages.getPrice()));
-            txtQuantity.setText("1");
+            spnQuantity.setValue(1);
             lblAmount.setText(Untils.formatMoney(beverages.getPrice()));
         }
     }//GEN-LAST:event_ccbBeveragesItemStateChanged
+
+    private void txtDateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDateKeyTyped
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != '/') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtDateKeyTyped
+
+    private void spnQuantityStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnQuantityStateChanged
+        lblAmount.setText(Untils.formatMoney(CalcAmount()));
+    }//GEN-LAST:event_spnQuantityStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -806,11 +809,11 @@ public class InvoiceManage extends javax.swing.JPanel {
     private javax.swing.JLabel lblAmount;
     private javax.swing.JLabel lblCustomerName;
     private javax.swing.JLabel lblUserName;
+    private javax.swing.JSpinner spnQuantity;
     private javax.swing.JTable tblInvoiceDetail;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtDiscountPercentage;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

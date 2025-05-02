@@ -21,7 +21,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
- * @author DZUNG
+ * @author zero
  */
 public class BeveragesManage extends javax.swing.JPanel {
     
@@ -212,15 +212,6 @@ public class BeveragesManage extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menuBar1 = new java.awt.MenuBar();
-        menu1 = new java.awt.Menu();
-        menu2 = new java.awt.Menu();
-        menuBar2 = new java.awt.MenuBar();
-        menu3 = new java.awt.Menu();
-        menu4 = new java.awt.Menu();
-        menuBar3 = new java.awt.MenuBar();
-        menu5 = new java.awt.Menu();
-        menu6 = new java.awt.Menu();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBeverages = new javax.swing.JTable();
@@ -241,24 +232,6 @@ public class BeveragesManage extends javax.swing.JPanel {
         ccbBeveragesCategory = new javax.swing.JComboBox<>();
         jScrollPane3 = new javax.swing.JScrollPane();
         categoryTree = new javax.swing.JTree();
-
-        menu1.setLabel("File");
-        menuBar1.add(menu1);
-
-        menu2.setLabel("Edit");
-        menuBar1.add(menu2);
-
-        menu3.setLabel("File");
-        menuBar2.add(menu3);
-
-        menu4.setLabel("Edit");
-        menuBar2.add(menu4);
-
-        menu5.setLabel("File");
-        menuBar3.add(menu5);
-
-        menu6.setLabel("Edit");
-        menuBar3.add(menu6);
 
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -702,15 +675,6 @@ public class BeveragesManage extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private java.awt.Menu menu1;
-    private java.awt.Menu menu2;
-    private java.awt.Menu menu3;
-    private java.awt.Menu menu4;
-    private java.awt.Menu menu5;
-    private java.awt.Menu menu6;
-    private java.awt.MenuBar menuBar1;
-    private java.awt.MenuBar menuBar2;
-    private java.awt.MenuBar menuBar3;
     private javax.swing.JTable tblBeverages;
     private javax.swing.JTextField txtBeveragesName;
     private javax.swing.JTextField txtCategoryName;

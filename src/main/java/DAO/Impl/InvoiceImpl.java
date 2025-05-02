@@ -45,6 +45,31 @@ public class InvoiceImpl implements InvoiceDAO {
         }
         return null;
     }
+    
+    @Override
+    public Invoice getInvoiceByTableId(int tableId) {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT TOP 1 i.*, c.[NAME] CUSTOMER_NAME, t.[TABLE_NAME]");
+        query.append(" FROM INVOICE i");
+        query.append(" LEFT JOIN [CUSTOMER] c");
+        query.append(" ON i.CUSTOMER_ID = c.ID");
+        query.append(" LEFT JOIN [TABLE] t");
+        query.append(" ON i.TABLE_ID = t.ID");
+        query.append(" WHERE i.TABLE_ID = ? AND i.PAYMENT_STATUS = 0 AND i.DELETED = 0");
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+
+            stmt.setInt(1, tableId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return getInvoiceInfor(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public ArrayList<Invoice> getAllInvoices() {
@@ -121,7 +146,7 @@ public class InvoiceImpl implements InvoiceDAO {
     @Override
     public boolean addInvoice(Invoice invoice) {
         StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO INVOICE (DATE, TOTAL_AMOUNT, USER_NAME, CUSTOMER_ID, DISCOUNT_PERCENTAGE, TABLE_ID, CREATED_BY, LAST_UPDATE_BY) VALUES");
+        query.append("INSERT INTO INVOICE (DATE, TOTAL_AMOUNT, USER_NAME, CUSTOMER_ID, DISCOUNT_PERCENTAGE, TABLE_ID, PAYMENT_STATUS, CREATED_BY, LAST_UPDATE_BY) VALUES");
         query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
@@ -132,8 +157,9 @@ public class InvoiceImpl implements InvoiceDAO {
             stmt.setInt(4, invoice.getCustomerId());
             stmt.setDouble(5, invoice.getDiscountPercentage());
             stmt.setInt(6, invoice.getTableId());
-            stmt.setString(7, UserSession.getInstance().getUsername());
+            stmt.setBoolean(7, invoice.isPaymentStatus());
             stmt.setString(8, UserSession.getInstance().getUsername());
+            stmt.setString(9, UserSession.getInstance().getUsername());
             
             int rowsInserted = stmt.executeUpdate();
             return rowsInserted > 0;
@@ -145,7 +171,7 @@ public class InvoiceImpl implements InvoiceDAO {
 
     @Override
     public boolean updateInvoice(Invoice invoice) {
-        String query = "UPDATE INVOICE SET DATE = ?, TOTAL_AMOUNT = ?, USER_NAME = ?, CUSTOMER_ID = ?, DISCOUNT_PERCENTAGE = ?, TABLE_ID = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
+        String query = "UPDATE INVOICE SET DATE = ?, TOTAL_AMOUNT = ?, USER_NAME = ?, CUSTOMER_ID = ?, DISCOUNT_PERCENTAGE = ?, TABLE_ID = ?, PAYMENT_STATUS = ? LAST_UPDATE_BY = ? WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -156,8 +182,9 @@ public class InvoiceImpl implements InvoiceDAO {
             stmt.setInt(4, invoice.getCustomerId());
             stmt.setDouble(5, invoice.getDiscountPercentage());
             stmt.setInt(6, invoice.getTableId());
-            stmt.setString(7, UserSession.getInstance().getUsername());
-            stmt.setInt(8, invoice.getId());
+            stmt.setBoolean(7, invoice.isPaymentStatus());
+            stmt.setString(8, UserSession.getInstance().getUsername());
+            stmt.setInt(9, invoice.getId());
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
