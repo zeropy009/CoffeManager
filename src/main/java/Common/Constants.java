@@ -15,7 +15,7 @@ public class Constants {
     public static final String REGEX_PHONE = "0\\d{9,10}";
     public static final String REGEX_EMAIL = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     public static final String REGEX_DATE = "^([0-2][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}$";
-    public static final String PATH_FILES = "/Files/";
+    public static final String PATH_FILES = "Files/";
     public static final String PATH_IMAGES = "/Images/";
     public static final String EXTENSION_TXT = ".txt";
     

@@ -57,8 +57,8 @@ public class Billing extends javax.swing.JPanel {
         invoiceDAO = new InvoiceImpl();
         invoiceDetailDAO = new InvoiceDetailImpl();
         initComponents();
-        modelInvoiceDetail = (DefaultTableModel) tblInvoiceDetail.getModel();
         modelTable = (DefaultTableModel) tblTable.getModel();
+        modelInvoiceDetail = (DefaultTableModel) tblInvoiceDetail.getModel();
         // Tạo sự kiện khi SelectedRow của JTable thay đổi giá trị.
         tblTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -72,6 +72,25 @@ public class Billing extends javax.swing.JPanel {
                         tableSelected = table;
                         getInvoice();
                         loadInvoiceDetail();
+                    }
+                }
+            }
+        });
+        tblInvoiceDetail.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = tblInvoiceDetail.getSelectedRow();
+                if (selectedRow != -1) {
+                    if (tblInvoiceDetail.getValueAt(selectedRow, 0) instanceof InvoiceDetail invoiceDetail) {
+                        invoiceDetailSelected = invoiceDetail;
+                        int index = 0;
+                        for (int i = 0; i < ccbBeverages.getItemCount(); i++) {
+                            if (ccbBeverages.getItemAt(i).getId() == invoiceDetail.getBeveragesId()) {
+                                index = i;
+                                break;
+                            }
+                        }
+                        ccbBeverages.setSelectedIndex(index);
+                        spnQuantity.setValue((index == 0 ? 1 : invoiceDetail.getQuantity()));
                     }
                 }
             }
@@ -141,7 +160,7 @@ public class Billing extends javax.swing.JPanel {
     private void calcChange() {
         int cashReceived = Untils.parseMoneyI(txtCashReceived.getText().trim());
         int amountDue = Untils.parseMoneyI(lblAmountDue.getText().trim());
-        lblChange.setText(String.valueOf(cashReceived - amountDue));
+        lblChange.setText(Untils.formatMoney(cashReceived - amountDue));
     }
 
     /**
@@ -303,13 +322,6 @@ public class Billing extends javax.swing.JPanel {
                 txtCashReceivedFocusLost(evt);
             }
         });
-        txtCashReceived.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtCashReceivedInputMethodTextChanged(evt);
-            }
-        });
         txtCashReceived.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtCashReceivedKeyTyped(evt);
@@ -319,8 +331,13 @@ public class Billing extends javax.swing.JPanel {
         lblUserFullName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblUserFullName.setText("0");
 
-        ccbBeverages.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        ccbBeverages.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages("") }));
+        ccbBeverages.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ccbBeveragesItemStateChanged(evt);
+            }
+        });
 
         spnQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
@@ -455,7 +472,7 @@ public class Billing extends javax.swing.JPanel {
                             .addComponent(btnDelete)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -465,7 +482,54 @@ public class Billing extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Không có gì để thanh toán.", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+        int cashReceived = Untils.parseMoneyI(txtCashReceived.getText().trim());
+        if (cashReceived < invoice.getTotalAmount()) {
+            JOptionPane.showMessageDialog(null, "Khách hàng chưa trả đủ tiền.", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(null, String.format("Bạn muốn thanh toán hoá đơn %d", invoice.getId()), "Thông báo", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+            invoice.setPaymentStatus(true);
+            if (invoiceDAO.updateInvoice(invoice)) {
+                int index = tableList.indexOf(tableSelected);
+                tableSelected.setStatus(false);
+                tableDAO.updateTable(tableSelected);
+                tableList.set(index, tableSelected);
+                
+                StringBuilder fileContent = new StringBuilder();
+
+                fileContent.append(String.format("Mã hoá đơn: %-5d\tNgày lập: %s\n",
+                        invoice.getId(),
+                        invoice.getDate().toLocalDateTime().format(Untils.ft)));
+                fileContent.append("Tên nhân viên: ").append(UserSession.getInstance().getFullName()).append("\n");
+                fileContent.append(tableSelected.getTableName()).append("\n");
+                fileContent.append("=".repeat(100)).append("\n");
+                // Header bảng chi tiết hoá đơn
+                fileContent.append(String.format("%-30s %10s %15s %15s\n",
+                        "Tên nước", "Số lượng", "Đơn giá", "Thành tiền"));
+                // Nội dung từng dòng hoá đơn
+                for (InvoiceDetail invoiceDetail : invoiceDetailList) {
+                    fileContent.append(String.format("%-30s %10d %15s %15s\n",
+                            invoiceDetail.getBeveragesName(),
+                            invoiceDetail.getQuantity(),
+                            Untils.formatMoney(invoiceDetail.getPrice()),
+                            Untils.formatMoney(invoiceDetail.getAmount())));
+                }
+                fileContent.append("=".repeat(100)).append("\n");
+                fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", Untils.formatMoney(invoice.getTotalAmount())));
+                fileContent.append(String.format("%57s %14.1f%%\n", "Giảm giá:", invoice.getDiscountPercentage()));
+                fileContent.append(String.format("%57s %15s\n", "Thành tiền:", lblAmountDue.getText().trim()));
+                fileContent.append(String.format("%57s %15s\n", "Tiền khách đưa:", txtCashReceived.getText().trim()));
+                fileContent.append(String.format("%57s %15s\n", "Tiền thừa:", lblChange.getText().trim()));
+                
+                String fileName = String.format("HD%03d", invoice.getId());
+                getInvoice();
+                loadInvoiceDetail();
+                if (Untils.writeFile(fileName, fileContent.toString())) {
+                    JOptionPane.showMessageDialog(null, "Thanh toán thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    Untils.openFile(fileName);
+                }
+            }
+        }
     }//GEN-LAST:event_btnPaymentActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -503,6 +567,7 @@ public class Billing extends javax.swing.JPanel {
                     invoiceDetailSelected = new InvoiceDetail(0, invoice.getId(), beverages.getId(), quantity, beverages.getPrice()
                                                                 , beverages.getPrice() * quantity, beverages.getName());
                     if (invoiceDetailDAO.addInvoiceDetail(invoiceDetailSelected)) {
+                        getInvoice();
                         loadInvoiceDetail();
                         tblInvoiceDetail.setRowSelectionInterval(invoiceDetailList.size() - 1, invoiceDetailList.size() - 1);
                         tblInvoiceDetail.scrollRectToVisible(tblInvoiceDetail.getCellRect(invoiceDetailList.size() - 1, 0, true));
@@ -513,6 +578,7 @@ public class Billing extends javax.swing.JPanel {
                 invoiceDetailSelected.setQuantity(quantity);
                 invoiceDetailSelected.setAmount(invoiceDetailSelected.getPrice() * quantity);
                 if (invoiceDetailDAO.updateInvoiceDetail(invoiceDetailSelected)) {
+                    getInvoice();
                     loadInvoiceDetail();
                     tblInvoiceDetail.setRowSelectionInterval(indexInvoiceDetail, indexInvoiceDetail);
                     tblInvoiceDetail.scrollRectToVisible(tblInvoiceDetail.getCellRect(indexInvoiceDetail, 0, true));
@@ -525,7 +591,17 @@ public class Billing extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (invoiceDetailSelected == null) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn nước bạn muốn hủy.", "Cảnh báo !", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (invoiceDetailDAO.deleteInvoiceDetail(invoiceDetailSelected.getId())) {
+            int selectedRow = tblInvoiceDetail.getSelectedRow();
+            invoiceDetailList.remove(selectedRow);
+            modelInvoiceDetail.removeRow(selectedRow);
+            ccbBeverages.setSelectedIndex(0);
+            spnQuantity.setValue(1);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void txtCashReceivedKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCashReceivedKeyTyped
@@ -533,10 +609,6 @@ public class Billing extends javax.swing.JPanel {
             evt.consume();
         }
     }//GEN-LAST:event_txtCashReceivedKeyTyped
-
-    private void txtCashReceivedInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCashReceivedInputMethodTextChanged
-        calcChange();
-    }//GEN-LAST:event_txtCashReceivedInputMethodTextChanged
 
     private void txtCashReceivedFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCashReceivedFocusGained
         String text = txtCashReceived.getText().trim();
@@ -553,7 +625,33 @@ public class Billing extends javax.swing.JPanel {
         } catch (NumberFormatException ex) {
             txtCashReceived.setText("0");
         }
+        calcChange();
     }//GEN-LAST:event_txtCashReceivedFocusLost
+
+    private void ccbBeveragesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ccbBeveragesItemStateChanged
+        if (invoice == null || invoiceDetailList == null || invoiceDetailList.isEmpty()) {
+            return;
+        }
+        Beverages beverages = (Beverages) ccbBeverages.getSelectedItem();
+        if (beverages.getId() != 0) {
+            int index = IntStream.range(0, invoiceDetailList.size())
+                                .filter(i -> invoiceDetailList.get(i).getBeveragesId()== beverages.getId())
+                                .findFirst()
+                                .orElse(-1);
+            if (index >= 0) {
+                tblInvoiceDetail.setRowSelectionInterval(index, index);
+                tblInvoiceDetail.scrollRectToVisible(tblInvoiceDetail.getCellRect(index, 0, true));
+            } else {
+                spnQuantity.setValue(1);
+                invoiceDetailSelected = null;
+                tblInvoiceDetail.clearSelection();
+            }
+        } else {
+            spnQuantity.setValue(1);
+            invoiceDetailSelected = null;
+            tblInvoiceDetail.clearSelection();
+        }
+    }//GEN-LAST:event_ccbBeveragesItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

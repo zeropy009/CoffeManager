@@ -147,7 +147,7 @@ public class InvoiceImpl implements InvoiceDAO {
     public boolean addInvoice(Invoice invoice) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO INVOICE (DATE, TOTAL_AMOUNT, USER_NAME, CUSTOMER_ID, DISCOUNT_PERCENTAGE, TABLE_ID, PAYMENT_STATUS, CREATED_BY, LAST_UPDATE_BY) VALUES");
-        query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+        query.append("(?, ?, ?, ?, ?, ?, ?, ?, ?)");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             
@@ -171,7 +171,7 @@ public class InvoiceImpl implements InvoiceDAO {
 
     @Override
     public boolean updateInvoice(Invoice invoice) {
-        String query = "UPDATE INVOICE SET DATE = ?, TOTAL_AMOUNT = ?, USER_NAME = ?, CUSTOMER_ID = ?, DISCOUNT_PERCENTAGE = ?, TABLE_ID = ?, PAYMENT_STATUS = ? LAST_UPDATE_BY = ? WHERE ID = ?";
+        String query = "UPDATE INVOICE SET DATE = ?, TOTAL_AMOUNT = ?, USER_NAME = ?, CUSTOMER_ID = ?, DISCOUNT_PERCENTAGE = ?, TABLE_ID = ?, PAYMENT_STATUS = ?, LAST_UPDATE_BY = ? WHERE ID = ?";
     
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {

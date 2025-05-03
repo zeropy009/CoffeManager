@@ -94,7 +94,7 @@ public class InvoiceDetailImpl implements InvoiceDetailDAO {
     public boolean addInvoiceDetail(InvoiceDetail invoiceDetail) {
         StringBuilder query = new StringBuilder();
         query.append("INSERT INTO INVOICE_DETAIL (INVOICE_ID, BEVERAGES_ID, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES");
-        query.append("(?, ?, ?, ?, ?, ?, ?, ?)");
+        query.append("(?, ?, ?, ?, ?, ?, ?)");
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
             

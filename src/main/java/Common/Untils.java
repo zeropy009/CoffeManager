@@ -8,12 +8,13 @@ import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -98,33 +99,26 @@ public class Untils {
         return true;
     }
     
-    public static int writeFile(String fileName, String data) {
+    public static boolean writeFile(String fileName, String data) {
         try {
-            File file = new File(Constants.PATH_FILES + fileName + Constants.EXTENSION_TXT);
-            if (!file.exists()) {
-                file.createNewFile();
+            Path folderPath = Paths.get(Constants.PATH_FILES);
+
+            if (!Files.exists(folderPath)) {
+                Files.createDirectories(folderPath);
             }
-            FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(data);
-            bw.close();
-            fw.close();
-        } catch (Exception e) {
-            return -1;
+            
+            Path filePath = folderPath.resolve(fileName + Constants.EXTENSION_TXT);
+            Files.write(filePath, data.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            return false;
         }
-        return 1;
+        return true;
     }
     
     public static void openFile(String fileName) {
         try {
-            String path = Constants.PATH_FILES + fileName + Constants.EXTENSION_TXT;
-            URL resource = Untils.class.getResource(path);
-
-            if (resource == null) {
-                throw new IOException("Không tìm thấy tệp: " + path);
-            }
-
-            File file = new File(resource.toURI());
+            Path path = Paths.get(Constants.PATH_FILES, fileName + Constants.EXTENSION_TXT);
+            File file = path.toFile();
 
             if (!file.exists()) {
                 throw new IOException("Tệp không tồn tại: " + file.getAbsolutePath());
