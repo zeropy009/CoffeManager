@@ -21,10 +21,13 @@ import Model.Customer;
 import Model.Invoice;
 import Model.InvoiceDetail;
 import Model.Table;
+import java.awt.Frame;
+import java.awt.Window;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -136,20 +139,15 @@ public class Billing extends javax.swing.JPanel {
                 for (InvoiceDetail invoiceDetail : invoiceDetailList) {
                     Object[] row = new Object[4];
                     row[0] = invoiceDetail;
-                    row[1] = Untils.formatMoney(invoiceDetail.getPrice());
-                    row[2] = invoiceDetail.getQuantity();
+                    row[1] = invoiceDetail.getQuantity();
+                    row[2] = Untils.formatMoney(invoiceDetail.getPrice());
                     row[3] = Untils.formatMoney(invoiceDetail.getAmount());
                     modelInvoiceDetail.addRow(row);
                 }
             }
-            lblTotalAmount.setText(Untils.formatMoney(invoice.getTotalAmount()));
+            lblTotalAmount.setText(Untils.formatMoney(invoiceDetailList.stream().mapToInt(InvoiceDetail::getAmount).sum()));
             lblDiscountPercentage.setText(String.format("%.0f%%", invoice.getDiscountPercentage()));
-            if (invoice.getTotalAmount() == 0 || invoice.getDiscountPercentage() == 0) {
-                lblAmountDue.setText(Untils.formatMoney(invoice.getTotalAmount()));
-            } else {
-                int cash = (int) (invoice.getTotalAmount() * (invoice.getDiscountPercentage() / 100));
-                lblAmountDue.setText(Untils.formatMoney(cash));
-            }
+            lblAmountDue.setText(Untils.formatMoney(invoice.getTotalAmount()));
         } else {
             lblTotalAmount.setText("0");
             lblDiscountPercentage.setText("0");
@@ -159,8 +157,7 @@ public class Billing extends javax.swing.JPanel {
     
     private void calcChange() {
         int cashReceived = Untils.parseMoneyI(txtCashReceived.getText().trim());
-        int amountDue = Untils.parseMoneyI(lblAmountDue.getText().trim());
-        lblChange.setText(Untils.formatMoney(cashReceived - amountDue));
+        lblChange.setText(Untils.formatMoney(cashReceived - invoice.getTotalAmount()));
     }
 
     /**
@@ -494,6 +491,7 @@ public class Billing extends javax.swing.JPanel {
                 tableSelected.setStatus(false);
                 tableDAO.updateTable(tableSelected);
                 tableList.set(index, tableSelected);
+                modelTable.setValueAt(tableSelected.getStatus() ? "Có người" : "Trống", index, 1);
                 
                 StringBuilder fileContent = new StringBuilder();
 
@@ -515,9 +513,9 @@ public class Billing extends javax.swing.JPanel {
                             Untils.formatMoney(invoiceDetail.getAmount())));
                 }
                 fileContent.append("=".repeat(100)).append("\n");
-                fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", Untils.formatMoney(invoice.getTotalAmount())));
+                fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", lblTotalAmount.getText().trim()));
                 fileContent.append(String.format("%57s %14.1f%%\n", "Giảm giá:", invoice.getDiscountPercentage()));
-                fileContent.append(String.format("%57s %15s\n", "Thành tiền:", lblAmountDue.getText().trim()));
+                fileContent.append(String.format("%57s %15s\n", "Thành tiền:", Untils.formatMoney(invoice.getTotalAmount())));
                 fileContent.append(String.format("%57s %15s\n", "Tiền khách đưa:", txtCashReceived.getText().trim()));
                 fileContent.append(String.format("%57s %15s\n", "Tiền thừa:", lblChange.getText().trim()));
                 
@@ -533,7 +531,26 @@ public class Billing extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPaymentActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window instanceof Frame parent) {
+            CustomerSearch dialog = new CustomerSearch(parent);
+            dialog.setVisible(true);
+            dialog.setLocationRelativeTo(parent);
+            if (dialog.getSelected() != null) {
+                customerSelected = dialog.getSelected();
+                lblCustomerName.setText(customerSelected.getName());
+                lblPhone.setText(customerSelected.getPhone());
+                lblDiscountPercentage.setText(String.format("%.0f%%", customerSelected.getDiscountPercentage()));
+                int total = (int) (invoiceDetailList.stream().mapToInt(InvoiceDetail::getAmount).sum() * (1 - (customerSelected.getDiscountPercentage() / 100)));
+                invoice.setCustomerId(customerSelected.getId());
+                invoice.setTotalAmount(total);
+                if (invoiceDAO.updateInvoice(invoice)) {
+                    getInvoice();
+                    lblAmountDue.setText(Untils.formatMoney(total));
+                    calcChange();
+                }
+            }
+        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -559,6 +576,7 @@ public class Billing extends javax.swing.JPanel {
                         invoiceDetailSelected = new InvoiceDetail(0, invoice.getId(), beverages.getId(), quantity, beverages.getPrice()
                                                                     , beverages.getPrice() * quantity, beverages.getName());
                         if (invoiceDetailDAO.addInvoiceDetail(invoiceDetailSelected)) {
+                            getInvoice();
                             loadInvoiceDetail();
                             tblInvoiceDetail.setRowSelectionInterval(0, 0);
                         }
@@ -588,6 +606,7 @@ public class Billing extends javax.swing.JPanel {
             spnQuantity.setValue(1);
             tblInvoiceDetail.clearSelection();
         }
+        calcChange();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

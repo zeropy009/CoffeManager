@@ -636,7 +636,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         if (window instanceof Frame parent) {
             InvoiceSearch dialog = new InvoiceSearch(parent);
             dialog.setVisible(true);
-            dialog.setLocationRelativeTo(window);
+            dialog.setLocationRelativeTo(parent);
             if (dialog.getSelected() != null) {
                 invoiceSelected = dialog.getSelected();
                 loadAllData();

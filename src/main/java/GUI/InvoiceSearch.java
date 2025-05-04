@@ -35,15 +35,15 @@ public class InvoiceSearch extends javax.swing.JDialog {
         Untils.setMaxLength(txtFromDate, 10);
         Untils.setMaxLength(txtToDate, 10);
         setLocationRelativeTo(null);
-        modelTable = (DefaultTableModel) tbInvoice.getModel();
-        tbInvoice.getSelectionModel().addListSelectionListener(e -> {
+        modelTable = (DefaultTableModel) tblInvoice.getModel();
+        tblInvoice.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                int selectedRow = tbInvoice.getSelectedRow();
+                int selectedRow = tblInvoice.getSelectedRow();
                 if (selectedRow == -1) {
                     invoiceSelected = null;
                 }
                 else {
-                    if (tbInvoice.getValueAt(selectedRow, 0) instanceof Invoice i) {
+                    if (tblInvoice.getValueAt(selectedRow, 0) instanceof Invoice i) {
                         invoiceSelected = i;
                     }
                 }
@@ -67,7 +67,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
             row[0] = invoice;
             row[1] = invoice.getUserName();
             row[2] = invoice.getTableName();
-            row[3] = String.valueOf(invoice.getDiscountPercentage());
+            row[3] = invoice.getDiscountPercentage();
             row[4] = Untils.formatMoney(invoice.getTotalAmount());
             modelTable.addRow(row);
         }
@@ -99,7 +99,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
         txtToDate = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbInvoice = new javax.swing.JTable();
+        tblInvoice = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -142,7 +142,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
             }
         });
 
-        tbInvoice.setModel(new javax.swing.table.DefaultTableModel(
+        tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -161,12 +161,12 @@ public class InvoiceSearch extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tbInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblInvoice.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbInvoiceMouseClicked(evt);
+                tblInvoiceMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbInvoice);
+        jScrollPane1.setViewportView(tblInvoice);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,15 +241,15 @@ public class InvoiceSearch extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_txtIdKeyTyped
 
-    private void tbInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInvoiceMouseClicked
-        if (evt.getClickCount() == 2 && tbInvoice.getSelectedRow() != -1) {
-            int row = tbInvoice.getSelectedRow();
-             if (tbInvoice.getValueAt(row, 0) instanceof Invoice i){
+    private void tblInvoiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblInvoiceMouseClicked
+        if (evt.getClickCount() == 2 && tblInvoice.getSelectedRow() != -1) {
+            int row = tblInvoice.getSelectedRow();
+             if (tblInvoice.getValueAt(row, 0) instanceof Invoice i){
                  invoiceSelected = i;
                  dispose();
              }
         }
-    }//GEN-LAST:event_tbInvoiceMouseClicked
+    }//GEN-LAST:event_tblInvoiceMouseClicked
 
     private void txtFromDateKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFromDateKeyTyped
         char c = evt.getKeyChar();
@@ -271,7 +271,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbInvoice;
+    private javax.swing.JTable tblInvoice;
     private javax.swing.JTextField txtFromDate;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtToDate;
