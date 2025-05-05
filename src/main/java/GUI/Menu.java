@@ -36,7 +36,7 @@ public class Menu extends javax.swing.JPanel {
                 Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
             }
             Untils.setImageButton(btnBilling, "thanhToan.jpg");
-            Untils.setImageButton(btnWarehouse, "nhapKho.jpeg");
+            Untils.setImageButton(btnInputWarehouse, "nhapKho.jpeg");
         });
         if (UserSession.getInstance().getRole() == Roles.STAFF) {
             btnBeveragesManage.setVisible(false);
@@ -65,7 +65,7 @@ public class Menu extends javax.swing.JPanel {
         btnBeveragesManage = new javax.swing.JButton();
         btnInvoiceManagement = new javax.swing.JButton();
         btnWarehouseManagement = new javax.swing.JButton();
-        btnWarehouse = new javax.swing.JButton();
+        btnInputWarehouse = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(500, 400));
@@ -170,19 +170,19 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnWarehouseManagement, gridBagConstraints);
 
-        btnWarehouse.setToolTipText("Nhập kho");
-        btnWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
-        btnWarehouse.setPreferredSize(new java.awt.Dimension(200, 200));
-        btnWarehouse.addActionListener(new java.awt.event.ActionListener() {
+        btnInputWarehouse.setToolTipText("Nhập kho");
+        btnInputWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnInputWarehouse.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnInputWarehouse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnWarehouseActionPerformed(evt);
+                btnInputWarehouseActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnWarehouse, gridBagConstraints);
+        add(btnInputWarehouse, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBeveragesManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBeveragesManageActionPerformed
@@ -213,19 +213,19 @@ public class Menu extends javax.swing.JPanel {
         MainFrame.showScreen(cardPanel, Constants.WAREHOUSE_MANAGE);
     }//GEN-LAST:event_btnWarehouseManagementActionPerformed
 
-    private void btnWarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWarehouseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnWarehouseActionPerformed
+    private void btnInputWarehouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInputWarehouseActionPerformed
+         MainFrame.showScreen(cardPanel, Constants.INPUT_WAREHOUSE);
+    }//GEN-LAST:event_btnInputWarehouseActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBeveragesManage;
     private javax.swing.JButton btnBilling;
     private javax.swing.JButton btnCustomerManagement;
+    private javax.swing.JButton btnInputWarehouse;
     private javax.swing.JButton btnInvoiceManagement;
     private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnStaffManagement;
-    private javax.swing.JButton btnWarehouse;
     private javax.swing.JButton btnWarehouseManagement;
     // End of variables declaration//GEN-END:variables
 }

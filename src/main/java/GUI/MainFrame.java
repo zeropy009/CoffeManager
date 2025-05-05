@@ -129,6 +129,11 @@ public class MainFrame extends JFrame {
                     billing.setName(screenName);
                     cardPanel.add(billing, screenName);
                 }
+                case Constants.INPUT_WAREHOUSE -> {
+                    InputWarehouse inputWarehouse = new InputWarehouse();
+                    inputWarehouse.setName(screenName);
+                    cardPanel.add(inputWarehouse, screenName);
+                }
                 default -> {
                 }
             }
