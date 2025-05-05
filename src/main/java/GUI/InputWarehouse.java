@@ -26,7 +26,6 @@ public class InputWarehouse extends javax.swing.JPanel {
     private final WarehouseDetailDAO warehouseDetailDAO;
     private final DefaultTableModel modelTable;
     private ArrayList<WarehouseDetail> warehouseDetailList;
-    private WarehouseDetail warehouseDetailSelected;
     
     /**
      * Creates new form InputWarehouse
@@ -43,7 +42,6 @@ public class InputWarehouse extends javax.swing.JPanel {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = tblWarehouseDetail.getSelectedRow();
                 if (selectedRow == -1) {
-                    warehouseDetailSelected = null;
                     txtProductName.setText(Constants.STR_EMPTY);
                     spnQuantity.setValue(1);
                     txtPrice.setText(Constants.STR_EMPTY);
@@ -51,7 +49,6 @@ public class InputWarehouse extends javax.swing.JPanel {
                 }
                 else {
                     if (tblWarehouseDetail.getValueAt(selectedRow, 0) instanceof WarehouseDetail warehouseDetail) {
-                        warehouseDetailSelected = warehouseDetail;
                         txtProductName.setText(warehouseDetail.getProductName());
                         spnQuantity.setValue(warehouseDetail.getQuantity());
                         txtPrice.setText(Untils.formatMoney(warehouseDetail.getPrice()));
@@ -354,13 +351,13 @@ public class InputWarehouse extends javax.swing.JPanel {
     private void tblWarehouseDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblWarehouseDetailMouseClicked
         int selectedCol = tblWarehouseDetail.getSelectedColumn();
         int selectedRow = tblWarehouseDetail.getSelectedRow();
-        if (selectedCol == 4 && warehouseDetailSelected != null) {
+        if (selectedCol == 4 && selectedRow != -1) {
             if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Xóa", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 modelTable.removeRow(selectedRow);
-                warehouseDetailList.remove(warehouseDetailSelected);
-                warehouseDetailSelected = null;
+                warehouseDetailList.remove(selectedRow);
                 txtProductName.setText(Constants.STR_EMPTY);
                 spnQuantity.setValue(1);
+                lblTotalAmount.setText(Untils.formatMoney(warehouseDetailList.stream().mapToInt(WarehouseDetail::getAmount).sum()));
             }
         }
     }//GEN-LAST:event_tblWarehouseDetailMouseClicked
@@ -369,7 +366,6 @@ public class InputWarehouse extends javax.swing.JPanel {
         if (warehouseDetailDAO.addWarehouseDetails(warehouseDetailList)) {
             warehouseDetailList.clear();
             modelTable.setRowCount(0);
-            warehouseDetailSelected = null;
             txtProductName.setText(Constants.STR_EMPTY);
             spnQuantity.setValue(1);
             txtPrice.setText(Constants.STR_EMPTY);
