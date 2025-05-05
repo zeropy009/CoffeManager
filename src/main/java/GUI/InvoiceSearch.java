@@ -144,10 +144,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
 
         tblInvoice.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Ngày", "Nhân viên", "Bàn", "Giảm giá (%)", "Tổng tiền"

@@ -280,10 +280,7 @@ public class WarehouseManage extends javax.swing.JPanel {
 
         tblWarehouseDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"
@@ -310,16 +307,13 @@ public class WarehouseManage extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 102));
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 51));
         jLabel2.setText("QUẢN LÝ NHẬP KHO");
 
         tblWarehouse.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Ngày nhập", "Người nhập", "Tổng tiền", "Xóa"
@@ -528,7 +522,7 @@ public class WarehouseManage extends javax.swing.JPanel {
     private void tblWarehouseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblWarehouseMouseClicked
         int selectedCol = tblWarehouse.getSelectedColumn();
         if (selectedCol == 3 && warehouseSelected != null) {
-            if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa dữ liệu này không ?", "Xóa", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 if (warehouseDAO.deleteWarehouse(warehouseSelected.getId())) {
                     warehouseList.remove(warehouseSelected);
                     loadWarehouse();

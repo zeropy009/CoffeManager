@@ -57,6 +57,7 @@ public class CustomerManage extends javax.swing.JPanel {
                             CustomerTier item = ccbTier.getItemAt(i);
                             if (item.getId() == customer.getTierId()) {
                                 index = i;
+                                break;
                             }
                         }
                         ccbTier.setSelectedIndex(index);
@@ -275,8 +276,8 @@ public class CustomerManage extends javax.swing.JPanel {
         lblDiscountPercentage.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblDiscountPercentage.setText("0");
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 102));
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 0, 51));
         jLabel7.setText("QUẢN LÝ KHÁCH HÀNG");
 
         txtSearchName.setName("Tìm kiếm tên"); // NOI18N

@@ -8,6 +8,7 @@ import Model.WarehouseDetail;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +19,7 @@ public interface WarehouseDetailDAO {
     ArrayList<WarehouseDetail> getAllWarehouseDetails();
     ArrayList<WarehouseDetail> getAllWarehouseDetailsByWarehouseId(int warehouseId);
     boolean addWarehouseDetail(WarehouseDetail warehouseDetail);
+    boolean addWarehouseDetails(List<WarehouseDetail> warehouseDetailList);
     boolean updateWarehouseDetail(WarehouseDetail warehouseDetail);
     boolean deleteWarehouseDetail(int id);
     default WarehouseDetail getWarehouseDetailInfor(ResultSet rs) throws SQLException {
