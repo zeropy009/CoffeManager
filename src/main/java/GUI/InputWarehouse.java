@@ -11,6 +11,7 @@ import DAO.Impl.WarehouseDetailImpl;
 import DAO.WarehouseDetailDAO;
 import Model.WarehouseDetail;
 import java.awt.Component;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -311,7 +312,7 @@ public class InputWarehouse extends javax.swing.JPanel {
         } else {
             WarehouseDetail newWarehouseDetail = new WarehouseDetail(0, 0, productName, quantity, price, quantity * price);
             warehouseDetailList.add(newWarehouseDetail);
-            Object[] row = new Object[4];
+            Object[] row = new Object[5];
             row[0] = newWarehouseDetail;
             row[1] = quantity;
             row[2] = Untils.formatMoney(price);
@@ -363,7 +364,29 @@ public class InputWarehouse extends javax.swing.JPanel {
     }//GEN-LAST:event_tblWarehouseDetailMouseClicked
 
     private void btnSaveAndPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAndPrintActionPerformed
-        if (warehouseDetailDAO.addWarehouseDetails(warehouseDetailList)) {
+        int warehouseId = warehouseDetailDAO.addWarehouseDetails(warehouseDetailList);
+        if (warehouseId > 0) {
+            StringBuilder fileContent = new StringBuilder();
+            fileContent.append(String.format("Mã nhập: %-5d\tNgày lập: %s\n",
+                        warehouseId,
+                        LocalDateTime.now().format(Untils.ft)));
+            fileContent.append("Tên nhân viên: ").append(UserSession.getInstance().getFullName()).append("\n");
+            fileContent.append("=".repeat(100)).append("\n");
+            // Header bảng chi tiết nhập kho.
+            fileContent.append(String.format("%-30s %10s %15s %15s\n",
+                    "Tên sản phẩm", "Số lượng", "Đơn giá", "Thành tiền"));
+            // Nội dung từng dòng.
+            for (WarehouseDetail warehouseDetail : warehouseDetailList) {
+                fileContent.append(String.format("%-30s %10d %15s %15s\n",
+                        warehouseDetail.getProductName(),
+                        warehouseDetail.getQuantity(),
+                        Untils.formatMoney(warehouseDetail.getPrice()),
+                        Untils.formatMoney(warehouseDetail.getAmount())));
+            }
+            fileContent.append("=".repeat(100)).append("\n");
+            fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", lblTotalAmount.getText().trim()));
+            String fileName = String.format("NK%03d", warehouseId);
+            
             warehouseDetailList.clear();
             modelTable.setRowCount(0);
             txtProductName.setText(Constants.STR_EMPTY);
@@ -371,6 +394,10 @@ public class InputWarehouse extends javax.swing.JPanel {
             txtPrice.setText(Constants.STR_EMPTY);
             lblAmount.setText("0");
             lblTotalAmount.setText("0");
+            if (Untils.writeFile(fileName, fileContent.toString())) {
+                JOptionPane.showMessageDialog(null, "Nhập kho thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                Untils.openFile(fileName);
+            }
         }
     }//GEN-LAST:event_btnSaveAndPrintActionPerformed
 
