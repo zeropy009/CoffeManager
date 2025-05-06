@@ -6,6 +6,7 @@ package GUI;
 
 import Common.Constants;
 import Common.Untils;
+import Config.AppConfig;
 import DAO.Impl.UserDaoImpl;
 import DAO.UserDAO;
 import Enums.Roles;
@@ -62,6 +63,7 @@ public class StaffManage extends javax.swing.JPanel {
                         txtSalary.setText(Untils.formatMoney(u.getSalary()));
                         btnAdd.setEnabled(false);
                         txtUserName.setEditable(false);
+                         btnResetPassword.setEnabled(true);
                         btnUpdate.setEnabled(true);
                         btnDelete.setEnabled(true);
                     }
@@ -149,6 +151,7 @@ public class StaffManage extends javax.swing.JPanel {
         txtSalary.setText(Constants.STR_EMPTY);
         btnAdd.setEnabled(true);
         txtUserName.setEditable(true);
+        btnResetPassword.setEnabled(false);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
     }
@@ -189,6 +192,7 @@ public class StaffManage extends javax.swing.JPanel {
         ccbRole = new javax.swing.JComboBox<Roles>();
         rdFemale = new javax.swing.JRadioButton();
         rdMale = new javax.swing.JRadioButton();
+        btnResetPassword = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(967, 640));
 
@@ -340,6 +344,15 @@ public class StaffManage extends javax.swing.JPanel {
         rdMale.setForeground(new java.awt.Color(0, 255, 204));
         rdMale.setText("Nam");
 
+        btnResetPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnResetPassword.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lock.png"))); // NOI18N
+        btnResetPassword.setText("Đặt lại mật khẩu");
+        btnResetPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetPasswordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -352,39 +365,31 @@ public class StaffManage extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(126, 126, 126)
-                                .addComponent(jLabel12)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(rdMale)
-                                                .addGap(270, 270, 270)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtSalary)))))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(360, 360, 360)
                                 .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(btnAdd)
-                                .addGap(122, 122, 122)
-                                .addComponent(btnUpdate)
-                                .addGap(130, 130, 130)
-                                .addComponent(btnDelete)
-                                .addGap(116, 116, 116)
-                                .addComponent(btnRefresh))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(25, 25, 25)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel12)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(119, 119, 119)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addComponent(rdMale)
+                                                        .addGap(270, 270, 270)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE))))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtSalary)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -408,8 +413,19 @@ public class StaffManage extends javax.swing.JPanel {
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                                            .addComponent(txtYearOfBirth))))))
-                        .addGap(0, 103, Short.MAX_VALUE)))
+                                            .addComponent(txtYearOfBirth)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(65, 65, 65)
+                                .addComponent(btnAdd)
+                                .addGap(122, 122, 122)
+                                .addComponent(btnUpdate)
+                                .addGap(130, 130, 130)
+                                .addComponent(btnDelete)
+                                .addGap(116, 116, 116)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnResetPassword)
+                                    .addComponent(btnRefresh))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -453,7 +469,8 @@ public class StaffManage extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12))
+                    .addComponent(jLabel12)
+                    .addComponent(btnResetPassword))
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
@@ -558,10 +575,22 @@ public class StaffManage extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtPhoneKeyTyped
 
+    private void btnResetPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetPasswordActionPerformed
+        if (userSelected == null) {
+            return;
+        }
+        if (JOptionPane.showConfirmDialog(null, String.format("Bạn có chắc muốn đặt lại mật khẩu của %s thành mật khẩu mặc định là %s không ?", userSelected.getUserName(), AppConfig.DEFAULT_PASSWORD) , "Update", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (userDAO.resetPassword(userSelected.getUserName())) {
+                JOptionPane.showMessageDialog(null, "Đặt lại mật khẩu mặc định thành công !", "Đặt lại mật khẩu", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnResetPasswordActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton btnResetPassword;
     private javax.swing.JButton btnUpdate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<Roles> ccbRole;
