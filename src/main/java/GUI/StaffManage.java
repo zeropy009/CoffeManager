@@ -61,6 +61,7 @@ public class StaffManage extends javax.swing.JPanel {
                         txtEmail.setText(u.getEmail());
                         txtSalary.setText(Untils.formatMoney(u.getSalary()));
                         btnAdd.setEnabled(false);
+                        txtUserName.setEditable(false);
                         btnUpdate.setEnabled(true);
                         btnDelete.setEnabled(true);
                     }
@@ -147,6 +148,7 @@ public class StaffManage extends javax.swing.JPanel {
         txtEmail.setText(Constants.STR_EMPTY);
         txtSalary.setText(Constants.STR_EMPTY);
         btnAdd.setEnabled(true);
+        txtUserName.setEditable(true);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
     }

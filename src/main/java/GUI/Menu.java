@@ -33,7 +33,7 @@ public class Menu extends javax.swing.JPanel {
                 Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
                 Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
                 Untils.setImageButton(btnInvoiceManagement, "quanlyhoadon.png");
-                Untils.setImageButton(btnWarehouseManagement, "nhapKho.jpeg");
+                Untils.setImageButton(btnWarehouseManagement, "warehouse.jpg");
             }
             Untils.setImageButton(btnBilling, "thanhToan.jpg");
             Untils.setImageButton(btnInputWarehouse, "nhapKho.jpeg");

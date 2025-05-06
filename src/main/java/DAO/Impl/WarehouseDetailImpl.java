@@ -152,7 +152,11 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
     }
     
     @Override
-    public boolean addWarehouseDetails(List<WarehouseDetail> warehouseDetailList) {
+    public int addWarehouseDetails(List<WarehouseDetail> warehouseDetailList) {
+        int result = -1;
+        if (warehouseDetailList == null || warehouseDetailList.isEmpty()) {
+            return result;
+        }
         if (warehouseDetailList.get(0).getWarehouseId() != 0) {
             String query = "INSERT INTO WAREHOUSE_DETAIL (WAREHOUSE_ID, PRODUCT_NAME, QUANTITY, PRICE, AMOUNT, CREATED_BY, LAST_UPDATE_BY) VALUES (?, ?, ?, ?, ?, ?, ?)";
             String username = UserSession.getInstance().getUsername();
@@ -176,10 +180,9 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                     
                     if (Arrays.stream(batchResults).sum() > 0) {
                         conn.commit();
-                        return true;
+                        result = warehouseDetailList.get(0).getWarehouseId();
                     } else {
                         conn.rollback();
-                        return false;
                     }
                 } catch (SQLException e) {
                     conn.rollback();
@@ -187,7 +190,6 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
         } else {
             String insertSql = "INSERT INTO WAREHOUSE (INPUT_DATE, USER_NAME, TOTAL_AMOUNT, CREATED_BY, LAST_UPDATE_BY) OUTPUT INSERTED.ID VALUES (?, ?, ?, ?, ?)";
@@ -233,14 +235,12 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                         int insertedCount = Arrays.stream(batchResults).sum();
                         if (insertedCount == warehouseDetailList.size()) {
                             conn.commit();
-                            return true;
+                            result = warehouseId;
                         } else {
                             conn.rollback();
-                            return false;
                         }
                     } else {
                         conn.rollback();
-                        return false;
                     }
                 } catch (SQLException e) {
                     conn.rollback();
@@ -249,9 +249,9 @@ public class WarehouseDetailImpl implements WarehouseDetailDAO {
                 
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
         }
+        return result;
     }
 
     @Override
