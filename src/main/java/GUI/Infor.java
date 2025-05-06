@@ -4,17 +4,14 @@
  */
 package GUI;
 
-import Common.Constants;
 import Common.Untils;
+import Common.UserSession;
 import DAO.Impl.UserDaoImpl;
 import DAO.UserDAO;
-import Enums.Roles;
 import Enums.Sex;
 import Model.User;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -23,10 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class Infor extends javax.swing.JPanel {
     
     private final UserDAO userDAO;
-    private final DefaultTableModel modelTable;
     private final int currentYear = LocalDate.now().getYear();
-    private ArrayList<User> userList; 
-    private User userSelected;
+    private User user;
 
     /**
      * Creates new form StaffManage
@@ -36,37 +31,6 @@ public class Infor extends javax.swing.JPanel {
         initComponents();
         Untils.setMaxLength(txtYearOfBirth, 4);
         Untils.setMaxLength(txtPhone, 12);
-        modelTable = (DefaultTableModel) tblUser.getModel();
-        tblUser.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                int selectedRow = tblUser.getSelectedRow();
-                if (selectedRow == -1) {
-                    clear();
-                }
-                else {
-                    if (tblUser.getValueAt(selectedRow, 0) instanceof User u) {
-                        userSelected = u;
-                        txtUserName.setText(u.getUserName());
-                        txtFullName.setText(u.getFullName());
-                        ccbRole.setSelectedItem(u.getRole());
-                        if (u.getSex() == Sex.MALE){
-                            rdMale.setSelected(true);
-                        }
-                        else {
-                            rdFemale.setSelected(true);
-                        }
-                        txtAddress.setText(u.getAddress());
-                        txtYearOfBirth.setText(String.valueOf(u.getYearOfBirth()));
-                        txtPhone.setText(u.getPhone());
-                        txtEmail.setText(u.getEmail());
-                        txtSalary.setText(Untils.formatMoney(u.getSalary()));
-                        btnAdd.setEnabled(false);
-                        btnUpdate.setEnabled(true);
-                        btnDelete.setEnabled(true);
-                    }
-                }
-            }
-        });
         loadUsers();
     }
     
@@ -75,22 +39,21 @@ public class Infor extends javax.swing.JPanel {
     * 
     */
     private void loadUsers(){
-        modelTable.setRowCount(0);
-        userList = userDAO.getAllUsers();
-        for (User u : userList) {
-            Object[] row = new Object[9];
-            row[0] = u;
-            row[1] = u.getFullName();
-            row[2] = u.getRole();
-            row[3] = u.getSex();
-            row[4] = u.getAddress();
-            row[5] = u.getYearOfBirth();
-            row[6] = u.getPhone();
-            row[7] = u.getEmail();
-            row[8] = Untils.formatMoney(u.getSalary());
-            modelTable.addRow(row);
+        user = userDAO.getUserByUserName(UserSession.getInstance().getUsername());
+        if (user != null) {
+            lblUserName.setText(user.getUserName());
+            txtFullName.setText(user.getFullName());
+            if (user.getSex() == Sex.MALE){
+                rdMale.setSelected(true);
+            }
+            else {
+                rdFemale.setSelected(true);
+            }
+            txtAddress.setText(user.getAddress());
+            txtYearOfBirth.setText(String.valueOf(user.getYearOfBirth()));
+            txtPhone.setText(user.getPhone());
+            txtEmail.setText(user.getEmail());
         }
-        clear();
     }
     
     /**
@@ -99,18 +62,6 @@ public class Infor extends javax.swing.JPanel {
     * @return Trạng thái nhập đã hơp lệ True hoặc chưa hợp lệ False.
     */
     private boolean checkInputUser(){
-        if (!Untils.validateText(txtUserName)) {
-            return false;
-        }
-        // Kiểm tra userName đã dùng chưa với trường hợp add mới và trường hợp thay đổi userName khi update
-        else if (userSelected == null || !userSelected.getUserName().equals(txtUserName.getText().trim())) {
-            if (userDAO.getUserByUserName(txtUserName.getText().trim()) != null) {
-                JOptionPane.showMessageDialog(null, "Vui lòng chọn tên tài khoản khác !", "Trùng tên tài khoản", JOptionPane.WARNING_MESSAGE);
-                txtUserName.requestFocus();
-                txtUserName.selectAll();
-                return false;
-            }
-        }
         if (!rdFemale.isSelected() && !rdMale.isSelected()) {
             JOptionPane.showMessageDialog(null, "Vui lòng chọn giới tính !", "Bắt buộc nhập", JOptionPane.WARNING_MESSAGE);
             rdFemale.requestFocus();
@@ -128,27 +79,6 @@ public class Infor extends javax.swing.JPanel {
             return false;
         }
         return !(txtEmail.getText().trim().length() > 0 && !Untils.validateEmail(txtEmail));
-    }
-    
-    /**
-    * Trả các thông tin trên màn hình về mặc định và bỏ chọn ở JTable.
-    * 
-    */
-    private void clear(){
-        userSelected = null;
-        tblUser.clearSelection();
-        txtUserName.setText(Constants.STR_EMPTY);
-        txtFullName.setText(Constants.STR_EMPTY);
-        ccbRole.setSelectedItem(Roles.STAFF);
-        buttonGroup1.clearSelection();
-        txtAddress.setText(Constants.STR_EMPTY);
-        txtYearOfBirth.setText(Constants.STR_EMPTY);
-        txtPhone.setText(Constants.STR_EMPTY);
-        txtEmail.setText(Constants.STR_EMPTY);
-        txtSalary.setText(Constants.STR_EMPTY);
-        btnAdd.setEnabled(true);
-        btnUpdate.setEnabled(false);
-        btnDelete.setEnabled(false);
     }
 
     /**
@@ -229,8 +159,8 @@ public class Infor extends javax.swing.JPanel {
         jLabel11.setText("Email:");
 
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
-        btnRefresh.setText("Refresh");
+        btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/reset-password.png"))); // NOI18N
+        btnRefresh.setText("Đổi mật khẩu");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRefreshActionPerformed(evt);
@@ -311,7 +241,7 @@ public class Infor extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnRefresh))
                             .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,28 +275,25 @@ public class Infor extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate)
                     .addComponent(btnRefresh))
-                .addGap(186, 186, 186))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        if (userSelected == null || !checkInputUser()) {
+        if (user == null || !checkInputUser()) {
             return;
         }
-        userSelected.setUserName(txtUserName.getText().trim());
-        userSelected.setFullName(txtFullName.getText().trim());
-        userSelected.setRole((Roles) ccbRole.getSelectedItem());
+        user.setFullName(txtFullName.getText().trim());
         if (rdMale.isSelected()) {
-            userSelected.setSex(Sex.MALE);
+            user.setSex(Sex.MALE);
         } else {
-            userSelected.setSex(Sex.FEMALE);
+            user.setSex(Sex.FEMALE);
         }
-        userSelected.setAddress(txtAddress.getText().trim());
-        userSelected.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
-        userSelected.setPhone(txtPhone.getText().trim());
-        userSelected.setEmail(txtEmail.getText().trim());
-        userSelected.setSalary(Untils.parseMoneyI(txtSalary.getText().trim()));
-        if (userDAO.updateUser(userSelected)) {
+        user.setAddress(txtAddress.getText().trim());
+        user.setYearOfBirth(Untils.parseToInt(txtYearOfBirth.getText().trim()));
+        user.setPhone(txtPhone.getText().trim());
+        user.setEmail(txtEmail.getText().trim());
+        if (userDAO.updateUser(user)) {
             loadUsers();
             JOptionPane.showMessageDialog(null, "Cập nhật thành công !", "Update", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -385,7 +312,7 @@ public class Infor extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPhoneKeyTyped
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        clear();
+        
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
