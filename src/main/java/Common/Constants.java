@@ -21,6 +21,7 @@ public class Constants {
     
     // Tên các màn hình
     public static final String MENU = "Menu";
+    public static final String USER_INFO = "UserInfo";
     public static final String BEVERAGES_MANAGE = "BeveragesManage";
     public static final String STAFF_MANAGE = "StaffManage";
     public static final String CUSTOMER_MANAGE = "CustomerManage";

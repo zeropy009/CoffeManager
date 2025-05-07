@@ -10,6 +10,8 @@ import Common.UserSession;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.Optional;
 import javax.swing.*;
@@ -21,6 +23,7 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     private CardLayout cardLayout;
     private JPanel cardPanel;
+    private boolean isHovered = false;
 
     public MainFrame() {
         setTitle("QUẢN LÝ QUÁN COFFEE");
@@ -37,8 +40,8 @@ public class MainFrame extends JFrame {
         JButton btnBack = new JButton();
         btnBack.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "back.png")));
         btnBack.addActionListener( e -> {
-                cardLayout.show(cardPanel, "Menu");
-            });
+            cardLayout.show(cardPanel, Constants.MENU);
+        });
         // Gán phím ESC cho 1 hành động
         btnBack.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "escPressed");
 
@@ -50,21 +53,85 @@ public class MainFrame extends JFrame {
             }
         });
         
-        JLabel titleLabel = new JLabel("Xin chào, " + (UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : ""), JLabel.CENTER);
+        JLabel titleLabel = new JLabel(UserSession.getInstance() != null ? UserSession.getInstance().getFullName() : "", JLabel.CENTER) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                if (isHovered) {
+                    setFont(getFont().deriveFont(Font.BOLD | Font.ITALIC, 28f));
+                    setForeground(Color.RED);
+                } else {
+                    setFont(getFont().deriveFont(Font.BOLD, 24f));
+                    setForeground(Color.BLACK);
+                }
+
+                super.paintComponent(g); // Vẽ chữ mặc định
+
+                // Vẽ gạch chân nếu đang hover
+                if (isHovered) {
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    FontMetrics fm = g2.getFontMetrics(getFont());
+                    int textWidth = fm.stringWidth(getText());
+                    int textX = (getWidth() - textWidth) / 2;
+                    int textY = (getHeight() + fm.getAscent()) / 2;
+
+                    int underlineY = textY + 2;
+                    g2.setColor(getForeground());
+                    g2.drawLine(textX, underlineY, textX + textWidth, underlineY);
+                    g2.dispose();
+                }
+            }
+
+            @Override
+            public boolean isOpaque() {
+                return false;
+            }
+        };
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem screenUserInfo = new JMenuItem("Thông tin cá nhân");
+        JMenuItem screenChangePassword = new JMenuItem("Đổi mật khẩu");
+
+        screenUserInfo.addActionListener(e -> {
+            cardLayout.show(cardPanel, Constants.USER_INFO);
+        });
+        screenChangePassword.addActionListener(e -> {
+            System.out.println("Chuyển sang màn hình 2");
+        });
+
+        popupMenu.add(screenUserInfo);
+        popupMenu.add(screenChangePassword);
         titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
+        titleLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        titleLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                popupMenu.show(titleLabel, e.getX(), e.getY());
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                isHovered = true;
+                titleLabel.repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                isHovered = false;
+                titleLabel.repaint();
+            }
+        });
+        
         JButton btnLogout = new JButton("ĐĂNG XUẤT");
         btnLogout.setFont(new Font("Times New Roman", Font.BOLD, 24));
         btnLogout.setForeground(new Color(255, 51, 51));
         btnLogout.setIcon(new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "logout.png")));
         btnLogout.addActionListener(e -> {
-                UserSession.clearSession();
-                new Login().setVisible(true);
-                dispose();
-            });
+            UserSession.clearSession();
+            new Login().setVisible(true);
+            dispose();
+        });
         
-        headerPanel.add(btnLogout, BorderLayout.EAST);
         headerPanel.add(btnBack, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
+        headerPanel.add(btnLogout, BorderLayout.EAST);
         
         // Card Layout Panel
         cardLayout = new CardLayout();
@@ -72,7 +139,9 @@ public class MainFrame extends JFrame {
         
         // Screens
         Menu menu = new Menu(cardPanel);
+        UserInfor userInfor = new UserInfor();
         cardPanel.add(menu, Constants.MENU);
+        cardPanel.add(userInfor, Constants.USER_INFO);
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
