@@ -408,3 +408,98 @@ VALUES
     (2, 1, 1, 20000, 20000), 
     (2, 2, 2, 30000, 60000), 
     (3, 1, 3, 15000, 45000);
+
+
+-- STORED PROCEDURE
+-- Nhân viên bán được nhiều doanh thu nhất theo tháng và năm
+CREATE PROCEDURE SP_BEST_EMPLOYEE_BY_REVENUE
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SELECT TOP 1
+        u.FULL_NAME,
+        i.USER_NAME,
+        SUM(i.TOTAL_AMOUNT) AS TOTAL_REVENUE
+    FROM INVOICE i
+    JOIN [USER] u ON i.USER_NAME = u.USER_NAME
+    WHERE i.DELETED = 0 
+      AND i.PAYMENT_STATUS = 1
+      AND MONTH(i.DATE) = @Month
+      AND YEAR(i.DATE) = @Year
+    GROUP BY i.USER_NAME, u.FULL_NAME
+    ORDER BY TOTAL_REVENUE DESC;
+END;
+-- Loại nước được mua nhiều nhất theo tháng và năm
+CREATE PROCEDURE SP_TOP_SELLING_BEVERAGE
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SELECT TOP 1 
+        b.NAME AS BEVERAGE_NAME,
+        SUM(id.QUANTITY) AS TOTAL_QUANTITY
+    FROM INVOICE_DETAIL id
+    JOIN BEVERAGES b ON id.BEVERAGES_ID = b.ID
+    JOIN INVOICE i ON id.INVOICE_ID = i.ID
+    WHERE id.DELETED = 0 
+      AND i.DELETED = 0 
+      AND i.PAYMENT_STATUS = 1
+      AND MONTH(i.DATE) = @Month
+      AND YEAR(i.DATE) = @Year
+    GROUP BY b.NAME
+    ORDER BY TOTAL_QUANTITY DESC;
+END;
+-- Khách hàng chi nhiều tiền nhất theo tháng và năm
+CREATE PROCEDURE SP_TOP_SPENDING_CUSTOMER
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    SELECT TOP 1 
+        c.NAME AS CUSTOMER_NAME,
+        SUM(i.TOTAL_AMOUNT) AS TOTAL_SPENT
+    FROM INVOICE i
+    JOIN CUSTOMER c ON i.CUSTOMER_ID = c.ID
+    WHERE i.DELETED = 0 
+      AND i.PAYMENT_STATUS = 1
+      AND MONTH(i.DATE) = @Month
+      AND YEAR(i.DATE) = @Year
+    GROUP BY c.NAME
+    ORDER BY TOTAL_SPENT DESC;
+END;
+-- Tính lợi nhuận theo tháng và năm
+CREATE PROCEDURE SP_PROFIT_BY_MONTH
+    @Month INT,
+    @Year INT
+AS
+BEGIN
+    DECLARE @Revenue INT = (
+        SELECT COALESCE(SUM(TOTAL_AMOUNT), 0)
+        FROM INVOICE
+        WHERE DELETED = 0 
+          AND PAYMENT_STATUS = 1 
+          AND MONTH(DATE) = @Month
+          AND YEAR(DATE) = @Year
+    );
+
+    DECLARE @WarehouseCost INT = (
+        SELECT COALESCE(SUM(TOTAL_AMOUNT), 0)
+        FROM WAREHOUSE
+        WHERE DELETED = 0 
+          AND MONTH(INPUT_DATE) = @Month
+          AND YEAR(INPUT_DATE) = @Year
+    );
+
+    DECLARE @SalaryCost INT = (
+        SELECT COALESCE(SUM(SALARY), 0)
+        FROM [USER]
+        WHERE DELETED = 0
+    );
+
+    SELECT 
+        @Revenue AS TOTAL_REVENUE,
+        @WarehouseCost AS WAREHOUSE_COST,
+        @SalaryCost AS SALARY_COST,
+        (@Revenue - @WarehouseCost - @SalaryCost) AS PROFIT;
+END;

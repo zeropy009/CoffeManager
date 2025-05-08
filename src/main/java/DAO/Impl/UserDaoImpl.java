@@ -195,7 +195,7 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public boolean changePassword(String userName, String oldPassword, String newPassword) {
-        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ?, DELETED = 1 WHERE [USER_NAME] = ? AND [PASSWORD] = ?";
+        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ? WHERE [USER_NAME] = ? AND [PASSWORD] = ?";
     
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -205,8 +205,8 @@ public class UserDaoImpl implements UserDAO {
             stmt.setString(3, userName);
             stmt.setString(4, Untils.hashMD5(oldPassword));
 
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;

@@ -94,7 +94,12 @@ public class MainFrame extends JFrame {
             cardLayout.show(cardPanel, Constants.USER_INFO);
         });
         screenChangePassword.addActionListener(e -> {
-            System.out.println("Chuyển sang màn hình 2");
+            Window window = SwingUtilities.getWindowAncestor(this);
+            if (window instanceof Frame parent) {
+                ChangePassword dialog = new ChangePassword(parent);
+                dialog.setVisible(true);
+                dialog.setLocationRelativeTo(parent);
+            }
         });
 
         popupMenu.add(screenUserInfo);
