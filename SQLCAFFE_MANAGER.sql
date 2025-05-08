@@ -408,7 +408,7 @@ VALUES
     (2, 1, 1, 20000, 20000), 
     (2, 2, 2, 30000, 60000), 
     (3, 1, 3, 15000, 45000);
-
+GO
 
 -- STORED PROCEDURE
 -- Nhân viên bán được nhiều doanh thu nhất theo tháng và năm
@@ -430,6 +430,7 @@ BEGIN
     GROUP BY i.USER_NAME, u.FULL_NAME
     ORDER BY TOTAL_REVENUE DESC;
 END;
+GO
 -- Loại nước được mua nhiều nhất theo tháng và năm
 CREATE PROCEDURE SP_TOP_SELLING_BEVERAGE
     @Month INT,
@@ -450,6 +451,7 @@ BEGIN
     GROUP BY b.NAME
     ORDER BY TOTAL_QUANTITY DESC;
 END;
+GO
 -- Khách hàng chi nhiều tiền nhất theo tháng và năm
 CREATE PROCEDURE SP_TOP_SPENDING_CUSTOMER
     @Month INT,
@@ -468,6 +470,7 @@ BEGIN
     GROUP BY c.NAME
     ORDER BY TOTAL_SPENT DESC;
 END;
+GO
 -- Tính lợi nhuận theo tháng và năm
 CREATE PROCEDURE SP_PROFIT_BY_MONTH
     @Month INT,
@@ -503,3 +506,9 @@ BEGIN
         @SalaryCost AS SALARY_COST,
         (@Revenue - @WarehouseCost - @SalaryCost) AS PROFIT;
 END;
+GO
+
+EXEC SP_BEST_EMPLOYEE_BY_REVENUE @Month = 5, @Year = 2024;
+EXEC SP_TOP_SELLING_BEVERAGE @Month = 5, @Year = 2024;
+EXEC SP_TOP_SPENDING_CUSTOMER @Month = 5, @Year = 2024;
+EXEC SP_PROFIT_BY_MONTH @Month = 5, @Year = 2024;
