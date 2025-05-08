@@ -44,12 +44,12 @@ public class ChangePassword extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtOldPassword = new javax.swing.JTextField();
-        txtNewPassword = new javax.swing.JTextField();
         lblUserName = new javax.swing.JLabel();
-        txtPasswordConfirm = new javax.swing.JTextField();
         btnChangPassword = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
+        txtOldPassword = new javax.swing.JPasswordField();
+        txtNewPassword = new javax.swing.JPasswordField();
+        txtPasswordConfirm = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -77,15 +77,9 @@ public class ChangePassword extends javax.swing.JDialog {
         jLabel5.setLabelFor(txtPasswordConfirm);
         jLabel5.setText("Xác nhận Password:");
 
-        txtOldPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
-        txtNewPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-
         lblUserName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblUserName.setForeground(new java.awt.Color(51, 51, 255));
         lblUserName.setText("lblUserName");
-
-        txtPasswordConfirm.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
 
         btnChangPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnChangPassword.setForeground(new java.awt.Color(255, 0, 51));
@@ -106,6 +100,15 @@ public class ChangePassword extends javax.swing.JDialog {
             }
         });
 
+        txtOldPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtOldPassword.setEchoChar('\u25cf');
+
+        txtNewPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtNewPassword.setEchoChar('\u25cf');
+
+        txtPasswordConfirm.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        txtPasswordConfirm.setEchoChar('\u25cf');
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -124,13 +127,12 @@ public class ChangePassword extends javax.swing.JDialog {
                         .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblUserName)
-                        .addComponent(txtOldPassword)
-                        .addComponent(txtPasswordConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                        .addComponent(txtNewPassword))
-                    .addComponent(btnRefresh))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblUserName)
+                    .addComponent(btnRefresh)
+                    .addComponent(txtOldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addComponent(txtNewPassword)
+                    .addComponent(txtPasswordConfirm))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -143,7 +145,7 @@ public class ChangePassword extends javax.swing.JDialog {
                     .addComponent(jLabel2)
                     .addComponent(lblUserName))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(txtOldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -165,15 +167,9 @@ public class ChangePassword extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChangPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangPasswordActionPerformed
-        txtOldPassword.setText(Constants.STR_EMPTY);
-        txtNewPassword.setText(Constants.STR_EMPTY);
-        txtPasswordConfirm.setText(Constants.STR_EMPTY);
-    }//GEN-LAST:event_btnChangPasswordActionPerformed
-
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        String oldPassword = txtOldPassword.getText().trim();
-        String newPassword = txtNewPassword.getText().trim();
-        String passwordConfirm = txtPasswordConfirm.getText().trim();
+        String oldPassword = new String(txtOldPassword.getPassword());
+        String newPassword = new String(txtNewPassword.getPassword());
+        String passwordConfirm = new String(txtPasswordConfirm.getPassword());
         if (newPassword.length() == 0) {
             JOptionPane.showMessageDialog(null, "Không được để trống Password !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
@@ -188,6 +184,12 @@ public class ChangePassword extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(null, "Password cũ không chính xác !", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+    }//GEN-LAST:event_btnChangPasswordActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        txtOldPassword.setText(Constants.STR_EMPTY);
+        txtNewPassword.setText(Constants.STR_EMPTY);
+        txtPasswordConfirm.setText(Constants.STR_EMPTY);
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -199,8 +201,8 @@ public class ChangePassword extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblUserName;
-    private javax.swing.JTextField txtNewPassword;
-    private javax.swing.JTextField txtOldPassword;
-    private javax.swing.JTextField txtPasswordConfirm;
+    private javax.swing.JPasswordField txtNewPassword;
+    private javax.swing.JPasswordField txtOldPassword;
+    private javax.swing.JPasswordField txtPasswordConfirm;
     // End of variables declaration//GEN-END:variables
 }
