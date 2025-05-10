@@ -121,7 +121,7 @@ public class Statistics extends javax.swing.JPanel {
 
     private void btnStaffStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffStatisticsActionPerformed
         List<Object> params = new ArrayList<>();
-        storedProcedureCaller.callStoredProcedure("", null);
+        storedProcedureCaller.callStoredProcedure("", params);
     }//GEN-LAST:event_btnStaffStatisticsActionPerformed
 
 

@@ -4,7 +4,6 @@
  */
 package DAO;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -13,5 +12,5 @@ import java.util.Map;
  * @author zero
  */
 public interface StoredProcedureCaller {
-    List<Map<String, Object>> callStoredProcedure(String procedureName, List<Object> params) throws SQLException;
+    List<Map<String, Object>> callStoredProcedure(String procedureName, List<Object> params);
 }
