@@ -507,8 +507,3 @@ BEGIN
         (@Revenue - @WarehouseCost - @SalaryCost) AS PROFIT;
 END;
 GO
-
-EXEC SP_BEST_EMPLOYEE_BY_REVENUE @Month = 5, @Year = 2024;
-EXEC SP_TOP_SELLING_BEVERAGE @Month = 5, @Year = 2024;
-EXEC SP_TOP_SPENDING_CUSTOMER @Month = 5, @Year = 2024;
-EXEC SP_PROFIT_BY_MONTH @Month = 5, @Year = 2024;
