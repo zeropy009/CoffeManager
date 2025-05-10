@@ -6,6 +6,8 @@ package GUI;
 
 import DAO.Impl.DefaultStoredProcedureCaller;
 import DAO.StoredProcedureCaller;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -118,7 +120,8 @@ public class Statistics extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnStaffStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStaffStatisticsActionPerformed
-        // TODO add your handling code here:
+        List<Object> params = new ArrayList<>();
+        storedProcedureCaller.callStoredProcedure("", null);
     }//GEN-LAST:event_btnStaffStatisticsActionPerformed
 
 
