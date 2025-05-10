@@ -176,7 +176,7 @@ public class UserDaoImpl implements UserDAO {
 
     @Override
     public boolean resetPassword(String userName) {
-        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ?, DELETED = 1 WHERE [USER_NAME] = ?";
+        String query = "UPDATE [USER] SET [PASSWORD] = ?, LAST_UPDATE_BY = ? WHERE [USER_NAME] = ?";
     
         try (Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(query)) {
