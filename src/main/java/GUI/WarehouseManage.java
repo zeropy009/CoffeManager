@@ -212,19 +212,19 @@ public class WarehouseManage extends javax.swing.JPanel {
         spnQuantity = new javax.swing.JSpinner();
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Tên Sản Phẩm:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Số Lượng:");
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel8.setForeground(new java.awt.Color(51, 0, 255));
         jLabel8.setText("Đơn Giá:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("Thành Tiền:");
 
         txtProductName.setActionCommand("<Not Set>");
@@ -336,11 +336,11 @@ public class WarehouseManage extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tblWarehouse);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("Phiếu nhập kho:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Chi tiết:");
 
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

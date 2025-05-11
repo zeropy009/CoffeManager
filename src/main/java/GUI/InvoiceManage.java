@@ -300,11 +300,11 @@ public class InvoiceManage extends javax.swing.JPanel {
         jLabel1.setText("DANH SÁCH HÓA ĐƠN");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Mã hóa đơn:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Ngày tạo:");
 
         txtDate.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -395,19 +395,19 @@ public class InvoiceManage extends javax.swing.JPanel {
         });
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Nhân viên tạo:");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Tên khách hàng:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Giảm giá (%):");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel7.setForeground(new java.awt.Color(51, 0, 255));
         jLabel7.setText("Tên bàn:");
 
         lblUserName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -419,11 +419,11 @@ public class InvoiceManage extends javax.swing.JPanel {
         lblCustomerName.setText(" ");
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("Tên sản phẩm:");
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel10.setForeground(new java.awt.Color(51, 0, 255));
         jLabel10.setText("Đơn giá:");
 
         ccbBeverages.setModel(new javax.swing.DefaultComboBoxModel<>(new Beverages[] { new Beverages("") }));
@@ -449,11 +449,11 @@ public class InvoiceManage extends javax.swing.JPanel {
         });
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel11.setForeground(new java.awt.Color(51, 0, 255));
         jLabel11.setText("Số lượng:");
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel12.setForeground(new java.awt.Color(51, 0, 255));
         jLabel12.setText("Thành tiền:");
 
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

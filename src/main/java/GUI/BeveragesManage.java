@@ -238,7 +238,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Loại nước");
 
         tblBeverages.setModel(new javax.swing.table.DefaultTableModel(
@@ -269,11 +269,11 @@ public class BeveragesManage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblBeverages);
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Tên nước");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 204, 255));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Giá");
 
         txtPrice.setName("Giá"); // NOI18N

@@ -116,17 +116,17 @@ public class UserInfor extends javax.swing.JPanel {
         jLabel1.setText("THÔNG TIN CÁ NHÂN");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tên TK:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Tên:");
 
         txtFullName.setName("Tên"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel7.setForeground(new java.awt.Color(51, 0, 255));
         jLabel7.setText("Giới Tính:");
 
         txtYearOfBirth.setName("Năm Sinh"); // NOI18N
@@ -144,17 +144,17 @@ public class UserInfor extends javax.swing.JPanel {
         });
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("Năm Sinh:");
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel10.setForeground(new java.awt.Color(51, 0, 255));
         jLabel10.setText("SĐT:");
 
         txtEmail.setName("Email"); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel11.setForeground(new java.awt.Color(51, 0, 255));
         jLabel11.setText("Email:");
 
         btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -167,19 +167,19 @@ public class UserInfor extends javax.swing.JPanel {
         });
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel12.setForeground(new java.awt.Color(51, 0, 255));
         jLabel12.setText("Địa Chỉ:");
 
         txtAddress.setName("Địa chỉ"); // NOI18N
 
         buttonGroup1.add(rdFemale);
         rdFemale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        rdFemale.setForeground(new java.awt.Color(0, 255, 204));
+        rdFemale.setForeground(new java.awt.Color(51, 0, 255));
         rdFemale.setText("Nữ");
 
         buttonGroup1.add(rdMale);
         rdMale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        rdMale.setForeground(new java.awt.Color(0, 255, 204));
+        rdMale.setForeground(new java.awt.Color(51, 0, 255));
         rdMale.setText("Nam");
 
         lblUserName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -192,16 +192,6 @@ public class UserInfor extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel12)
-                        .addGap(53, 53, 53)
-                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(193, 193, 193))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(330, 330, 330)
-                        .addComponent(btnUpdate)
-                        .addGap(445, 445, 445))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,7 +217,18 @@ public class UserInfor extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtPhone)
                                 .addComponent(txtYearOfBirth, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(125, 125, 125))))
+                        .addGap(125, 125, 125))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel12)
+                                .addGap(53, 53, 53)
+                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(330, 330, 330)
+                                .addComponent(btnUpdate)))
+                        .addGap(197, 197, 197))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(329, 329, 329)
                 .addComponent(jLabel1)

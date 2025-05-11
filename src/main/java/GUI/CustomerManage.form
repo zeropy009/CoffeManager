@@ -146,7 +146,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Email:"/>
       </Properties>
@@ -157,7 +157,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Gi&#x1ea3;m Gi&#xe1; (%)"/>
       </Properties>
@@ -168,7 +168,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xea;n:"/>
       </Properties>
@@ -179,7 +179,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i KH:"/>
       </Properties>
@@ -190,7 +190,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="S&#x110;T:"/>
       </Properties>
@@ -374,7 +374,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xea;n:"/>
       </Properties>
@@ -385,7 +385,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="S&#x110;T:"/>
       </Properties>
@@ -404,7 +404,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i KH:"/>
       </Properties>

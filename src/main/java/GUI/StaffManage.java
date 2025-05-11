@@ -223,19 +223,19 @@ public class StaffManage extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblUser);
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tên TK:");
 
         txtUserName.setName("Tên TK"); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Tên:");
 
         txtFullName.setName("Tên"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel7.setForeground(new java.awt.Color(51, 0, 255));
         jLabel7.setText("Giới Tính:");
 
         txtYearOfBirth.setName("Năm Sinh"); // NOI18N
@@ -253,11 +253,11 @@ public class StaffManage extends javax.swing.JPanel {
         });
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("Năm Sinh:");
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel10.setForeground(new java.awt.Color(51, 0, 255));
         jLabel10.setText("SĐT:");
 
         txtEmail.setName("Email"); // NOI18N
@@ -278,7 +278,7 @@ public class StaffManage extends javax.swing.JPanel {
         });
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel11.setForeground(new java.awt.Color(51, 0, 255));
         jLabel11.setText("Email:");
 
         btnAdd.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -319,29 +319,29 @@ public class StaffManage extends javax.swing.JPanel {
         });
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel12.setForeground(new java.awt.Color(51, 0, 255));
         jLabel12.setText("Địa Chỉ:");
 
         txtAddress.setName("Địa chỉ"); // NOI18N
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel14.setForeground(new java.awt.Color(51, 0, 255));
         jLabel14.setText("Lương:");
 
         jLabel15.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel15.setForeground(new java.awt.Color(51, 0, 255));
         jLabel15.setText("Chức Vụ:");
 
         ccbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new Roles[] { Roles.MANAGER, Roles.STAFF }));
 
         buttonGroup1.add(rdFemale);
         rdFemale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        rdFemale.setForeground(new java.awt.Color(0, 255, 204));
+        rdFemale.setForeground(new java.awt.Color(51, 0, 255));
         rdFemale.setText("Nữ");
 
         buttonGroup1.add(rdMale);
         rdMale.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        rdMale.setForeground(new java.awt.Color(0, 255, 204));
+        rdMale.setForeground(new java.awt.Color(51, 0, 255));
         rdMale.setText("Nam");
 
         btnResetPassword.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

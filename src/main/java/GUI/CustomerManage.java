@@ -176,23 +176,23 @@ public class CustomerManage extends javax.swing.JPanel {
         btnSearch = new javax.swing.JButton();
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Email:");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Giảm Giá (%)");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tên:");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Loại KH:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("SĐT:");
 
         btnAdd.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -283,11 +283,11 @@ public class CustomerManage extends javax.swing.JPanel {
         txtSearchName.setName("Tìm kiếm tên"); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel8.setForeground(new java.awt.Color(51, 0, 255));
         jLabel8.setText("Tên:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("SĐT:");
 
         txtSearchPhone.setName("SĐT tìm kiếm"); // NOI18N
@@ -298,7 +298,7 @@ public class CustomerManage extends javax.swing.JPanel {
         });
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel10.setForeground(new java.awt.Color(51, 0, 255));
         jLabel10.setText("Loại KH:");
 
         ccbSearchTier.setModel(new javax.swing.DefaultComboBoxModel<>(new CustomerTier[] { new CustomerTier(0, "", 0, 0) }));

@@ -124,7 +124,7 @@ public class InputWarehouse extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblWarehouseDetail);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Tên nhân viên:");
 
         txtProductName.setName("Tên sản phẩm"); // NOI18N
@@ -134,19 +134,19 @@ public class InputWarehouse extends javax.swing.JPanel {
         jLabel1.setText("NHẬP KHO");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Tổng cộng:");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tên sản phẩm:");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Đơn giá:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Số lượng:");
 
         spnQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -159,7 +159,7 @@ public class InputWarehouse extends javax.swing.JPanel {
         });
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel7.setForeground(new java.awt.Color(51, 0, 255));
         jLabel7.setText("Thành tiền:");
 
         lblAmount.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
