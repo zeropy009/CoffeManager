@@ -107,6 +107,7 @@ public class CustomerSearch extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("SĐT:");
 
         txtPhone.setName("Mã hóa đơn"); // NOI18N

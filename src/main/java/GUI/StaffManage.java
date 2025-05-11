@@ -197,7 +197,7 @@ public class StaffManage extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(967, 640));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 51, 102));
         jLabel1.setText("QUẢN LÝ NHÂN VIÊN");
 
         tblUser.setModel(new javax.swing.table.DefaultTableModel(

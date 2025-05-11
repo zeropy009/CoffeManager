@@ -296,7 +296,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 51, 102));
         jLabel1.setText("DANH SÁCH HÓA ĐƠN");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N

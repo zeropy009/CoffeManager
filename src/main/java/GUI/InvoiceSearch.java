@@ -104,6 +104,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("Mã hóa đơn:");
 
         txtId.setName("Mã hóa đơn"); // NOI18N
@@ -114,6 +115,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Ngày:");
 
         txtFromDate.setName("Ngày bắt đầu"); // NOI18N
@@ -124,6 +126,7 @@ public class InvoiceSearch extends javax.swing.JDialog {
         });
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("~");
 
         txtToDate.setName("Ngày kết thúc"); // NOI18N

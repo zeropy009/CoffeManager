@@ -277,7 +277,7 @@ public class CustomerManage extends javax.swing.JPanel {
         lblDiscountPercentage.setText("0");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel7.setForeground(new java.awt.Color(255, 51, 102));
         jLabel7.setText("QUẢN LÝ KHÁCH HÀNG");
 
         txtSearchName.setName("Tìm kiếm tên"); // NOI18N

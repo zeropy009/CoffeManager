@@ -198,35 +198,35 @@ public class Billing extends javax.swing.JPanel {
         lblChange = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("Tổng cộng:");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Giảm giá");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Thành tiền:");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tiền khách đưa:");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Tiền thừa:");
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel6.setForeground(new java.awt.Color(51, 0, 255));
         jLabel6.setText("Tên nhân viên:");
 
         jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel7.setForeground(new java.awt.Color(51, 0, 255));
         jLabel7.setText("Tên nước:");
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 255, 204));
+        jLabel8.setForeground(new java.awt.Color(51, 0, 255));
         jLabel8.setText("Số lượng:");
 
         tblTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -274,7 +274,7 @@ public class Billing extends javax.swing.JPanel {
         jScrollPane2.setViewportView(tblInvoiceDetail);
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 102));
+        jLabel9.setForeground(new java.awt.Color(255, 51, 102));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("ĐẶT NƯỚC VÀ THANH TOÁN");
         jLabel9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -348,7 +348,7 @@ public class Billing extends javax.swing.JPanel {
         });
 
         lblCustomerName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblCustomerName.setText("Khách vãn lai");
+        lblCustomerName.setText("Khách vãng lai");
 
         btnDelete.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N

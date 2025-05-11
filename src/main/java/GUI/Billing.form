@@ -162,7 +162,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#x1ed5;ng c&#x1ed9;ng:"/>
       </Properties>
@@ -173,7 +173,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Gi&#x1ea3;m gi&#xe1;"/>
       </Properties>
@@ -184,7 +184,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Th&#xe0;nh ti&#x1ec1;n:"/>
       </Properties>
@@ -195,7 +195,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Ti&#x1ec1;n kh&#xe1;ch &#x111;&#x1b0;a:"/>
       </Properties>
@@ -206,7 +206,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Ti&#x1ec1;n th&#x1eeb;a:"/>
       </Properties>
@@ -217,7 +217,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xea;n nh&#xe2;n vi&#xea;n:"/>
       </Properties>
@@ -228,7 +228,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xea;n n&#x1b0;&#x1edb;c:"/>
       </Properties>
@@ -239,7 +239,7 @@
           <Font name="Arial" size="18" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="0" type="rgb"/>
+          <Color blue="ff" green="0" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng:"/>
       </Properties>
@@ -292,7 +292,7 @@
           <Font name="Arial" size="24" style="1"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="66" green="ff" red="0" type="rgb"/>
+          <Color blue="66" green="33" red="ff" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="&#x110;&#x1eb6;T N&#x1af;&#x1eda;C V&#xc0; THANH TO&#xc1;N"/>
@@ -422,7 +422,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Kh&#xe1;ch v&#xe3;n lai"/>
+        <Property name="text" type="java.lang.String" value="Kh&#xe1;ch v&#xe3;ng lai"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnDelete">

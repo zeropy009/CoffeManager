@@ -416,7 +416,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         jScrollPane3.setViewportView(categoryTree);
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(255, 51, 102));
         jLabel1.setText("QUẢN LÝ NƯỚC");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
