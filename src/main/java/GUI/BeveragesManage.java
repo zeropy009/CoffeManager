@@ -619,6 +619,10 @@ public class BeveragesManage extends javax.swing.JPanel {
         if (beveragesCategorySelected == null) {
             return;
         }
+        if (modelTable.getRowCount() > 0) {
+            JOptionPane.showMessageDialog(null, "Không thể xóa vì tồn tại nước của loại này trong menu.", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         if (beveragesCategoryDAO.deleteBeveragesCategory(beveragesCategorySelected.getId())) {
             getDataBeveragesCategory();
             getDataBeverages();

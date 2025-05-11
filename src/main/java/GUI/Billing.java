@@ -513,11 +513,11 @@ public class Billing extends javax.swing.JPanel {
                             Untils.formatMoney(invoiceDetail.getAmount())));
                 }
                 fileContent.append("=".repeat(100)).append("\n");
-                fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", lblTotalAmount.getText().trim()));
-                fileContent.append(String.format("%57s %14.1f%%\n", "Giảm giá:", invoice.getDiscountPercentage()));
-                fileContent.append(String.format("%57s %15s\n", "Thành tiền:", Untils.formatMoney(invoice.getTotalAmount())));
+                fileContent.append(String.format("%57s %15s\n", "Tổng cộng:", lblTotalAmount.getText()));
+                fileContent.append(String.format("%57s %15s\n", "Giảm giá:", lblDiscountPercentage.getText()));
+                fileContent.append(String.format("%57s %15s\n", "Thành tiền:", lblAmountDue.getText()));
                 fileContent.append(String.format("%57s %15s\n", "Tiền khách đưa:", txtCashReceived.getText().trim()));
-                fileContent.append(String.format("%57s %15s\n", "Tiền thừa:", lblChange.getText().trim()));
+                fileContent.append(String.format("%57s %15s\n", "Tiền thừa:", lblChange.getText()));
                 
                 String fileName = String.format("HD%03d", invoice.getId());
                 getInvoice();

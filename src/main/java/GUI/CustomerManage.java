@@ -106,8 +106,8 @@ public class CustomerManage extends javax.swing.JPanel {
     
     private List<Customer> search(String name, String phone, CustomerTier customerTier) {
         List<Customer> cusList = customerList.stream()
-                                            .filter(cus -> name.length() == 0 || cus.getName().toLowerCase().contains(name.toLowerCase()))
-                                            .filter(cus -> phone.length() == 0 || cus.getPhone().contains(phone))
+                                            .filter(cus -> name.length() == 0 || (cus.getName() != null ? cus.getName().toLowerCase().contains(name.toLowerCase()) : false))
+                                            .filter(cus -> phone.length() == 0 || (cus.getPhone() != null ? cus.getPhone().contains(phone) : false))
                                             .filter(cus -> customerTier.getId() == 0 || cus.getTierId() == customerTier.getId())
                                             .toList();
         return cusList;
