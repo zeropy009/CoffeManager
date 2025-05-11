@@ -197,6 +197,8 @@ public class Billing extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         lblChange = new javax.swing.JLabel();
 
+        setOpaque(false);
+
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("Tổng cộng:");

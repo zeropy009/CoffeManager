@@ -175,6 +175,8 @@ public class CustomerManage extends javax.swing.JPanel {
         ccbSearchTier = new javax.swing.JComboBox<>();
         btnSearch = new javax.swing.JButton();
 
+        setOpaque(false);
+
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Email:");

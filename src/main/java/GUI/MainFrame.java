@@ -136,7 +136,15 @@ public class MainFrame extends JFrame {
         
         // Card Layout Panel
         cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
+        cardPanel = new JPanel(cardLayout) {
+            Image img = new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "nenmk.jpg")).getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
         
         // Screens
         Menu menu = new Menu(cardPanel);
@@ -154,7 +162,7 @@ public class MainFrame extends JFrame {
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.add(footerPanel, BorderLayout.CENTER);
         
-        // Main Layout
+        // Main Layout 
         setLayout(new BorderLayout());
         add(headerPanel, BorderLayout.NORTH);
         add(cardPanel, BorderLayout.CENTER);
@@ -203,6 +211,11 @@ public class MainFrame extends JFrame {
                     InputWarehouse inputWarehouse = new InputWarehouse();
                     inputWarehouse.setName(screenName);
                     cardPanel.add(inputWarehouse, screenName);
+                }
+                case Constants.STATISTICS -> {
+                    Statistics statistics = new Statistics();
+                    statistics.setName(screenName);
+                    cardPanel.add(statistics, screenName);
                 }
                 default -> {
                 }

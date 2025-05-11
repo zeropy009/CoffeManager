@@ -109,6 +109,7 @@ public class UserInfor extends javax.swing.JPanel {
         rdMale = new javax.swing.JRadioButton();
         lblUserName = new javax.swing.JLabel();
 
+        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(967, 640));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N

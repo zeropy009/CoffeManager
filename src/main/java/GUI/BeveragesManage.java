@@ -236,6 +236,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 0, 255));
@@ -266,6 +267,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         });
         tblBeverages.setToolTipText("");
         tblBeverages.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblBeverages.setOpaque(false);
         jScrollPane1.setViewportView(tblBeverages);
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -408,6 +410,7 @@ public class BeveragesManage extends javax.swing.JPanel {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         categoryTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        categoryTree.setOpaque(false);
         categoryTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 categoryTreeValueChanged(evt);

@@ -93,6 +93,8 @@ public class InputWarehouse extends javax.swing.JPanel {
         btnSaveAndPrint = new javax.swing.JButton();
         lblTotalAmount = new javax.swing.JLabel();
 
+        setOpaque(false);
+
         tblWarehouseDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

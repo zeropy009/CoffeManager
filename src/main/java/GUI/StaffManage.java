@@ -194,6 +194,7 @@ public class StaffManage extends javax.swing.JPanel {
         rdMale = new javax.swing.JRadioButton();
         btnResetPassword = new javax.swing.JButton();
 
+        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(967, 640));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N

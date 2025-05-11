@@ -211,6 +211,8 @@ public class WarehouseManage extends javax.swing.JPanel {
         lblAmount = new javax.swing.JLabel();
         spnQuantity = new javax.swing.JSpinner();
 
+        setOpaque(false);
+
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Tên Sản Phẩm:");

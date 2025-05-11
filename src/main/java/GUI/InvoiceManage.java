@@ -259,6 +259,8 @@ public class InvoiceManage extends javax.swing.JPanel {
         lblAmount = new javax.swing.JLabel();
         spnQuantity = new javax.swing.JSpinner();
 
+        setOpaque(false);
+
         btnRefresh.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/refresh.png"))); // NOI18N
         btnRefresh.setText("Refresh");

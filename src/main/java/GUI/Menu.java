@@ -29,7 +29,7 @@ public class Menu extends javax.swing.JPanel {
         SwingUtilities.invokeLater(() -> {
             if (UserSession.getInstance().getRole() == Roles.MANAGER) {
                 Untils.setImageButton(btnBeveragesManage, "themmon.jpg");
-                Untils.setImageButton(btnRevenue, "quanlydoanhthu.jpg");
+                Untils.setImageButton(btnStatistics, "quanlydoanhthu.jpg");
                 Untils.setImageButton(btnStaffManagement, "quanlynhanvien.jpg");
                 Untils.setImageButton(btnCustomerManagement, "quanlyloaikhachhang.png");
                 Untils.setImageButton(btnInvoiceManagement, "quanlyhoadon.png");
@@ -41,8 +41,8 @@ public class Menu extends javax.swing.JPanel {
         if (UserSession.getInstance().getRole() == Roles.STAFF) {
             btnBeveragesManage.setVisible(false);
             lblBeveragesManage.setVisible(false);
-            btnRevenue.setVisible(false);
-            lblRevenue.setVisible(false);
+            btnStatistics.setVisible(false);
+            lblStatistics.setVisible(false);
             btnStaffManagement.setVisible(false);
             lblStaffManagement.setVisible(false);
             btnCustomerManagement.setVisible(false);
@@ -67,7 +67,7 @@ public class Menu extends javax.swing.JPanel {
         btnStaffManagement = new javax.swing.JButton();
         btnCustomerManagement = new javax.swing.JButton();
         btnBilling = new javax.swing.JButton();
-        btnRevenue = new javax.swing.JButton();
+        btnStatistics = new javax.swing.JButton();
         btnBeveragesManage = new javax.swing.JButton();
         btnInvoiceManagement = new javax.swing.JButton();
         btnWarehouseManagement = new javax.swing.JButton();
@@ -76,12 +76,13 @@ public class Menu extends javax.swing.JPanel {
         lblStaffManagement = new javax.swing.JLabel();
         lblCustomerManagement = new javax.swing.JLabel();
         lblBilling = new javax.swing.JLabel();
-        lblRevenue = new javax.swing.JLabel();
+        lblStatistics = new javax.swing.JLabel();
         lblInvoiceManagement = new javax.swing.JLabel();
         lblWarehouseManagement = new javax.swing.JLabel();
         lblInputWarehouse = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(500, 400));
+        setOpaque(false);
         setPreferredSize(new java.awt.Dimension(500, 400));
         setLayout(new java.awt.GridBagLayout());
 
@@ -131,20 +132,20 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnBilling, gridBagConstraints);
 
-        btnRevenue.setToolTipText("Quản lý doanh thu");
-        btnRevenue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRevenue.setMinimumSize(new java.awt.Dimension(200, 200));
-        btnRevenue.setPreferredSize(new java.awt.Dimension(200, 200));
-        btnRevenue.addActionListener(new java.awt.event.ActionListener() {
+        btnStatistics.setToolTipText("Thống kê");
+        btnStatistics.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnStatistics.setMinimumSize(new java.awt.Dimension(200, 200));
+        btnStatistics.setPreferredSize(new java.awt.Dimension(200, 200));
+        btnStatistics.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRevenueActionPerformed(evt);
+                btnStatisticsActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        add(btnRevenue, gridBagConstraints);
+        add(btnStatistics, gridBagConstraints);
 
         btnBeveragesManage.setToolTipText("Thêm món");
         btnBeveragesManage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -221,7 +222,6 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         add(lblBeveragesManage, gridBagConstraints);
-        lblBeveragesManage.getAccessibleContext().setAccessibleDescription("Thêm món");
 
         lblStaffManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStaffManagement.setForeground(java.awt.Color.red);
@@ -271,21 +271,21 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         add(lblBilling, gridBagConstraints);
 
-        lblRevenue.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblRevenue.setForeground(java.awt.Color.red);
-        lblRevenue.setLabelFor(btnRevenue);
-        lblRevenue.setText("Quản lý doanh thu");
-        lblRevenue.setToolTipText("Quản lý doanh thu");
-        lblRevenue.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblRevenue.addMouseListener(new java.awt.event.MouseAdapter() {
+        lblStatistics.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblStatistics.setForeground(java.awt.Color.red);
+        lblStatistics.setLabelFor(btnStatistics);
+        lblStatistics.setText("Thống kê");
+        lblStatistics.setToolTipText("Thống kê");
+        lblStatistics.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblRevenueMouseClicked(evt);
+                lblStatisticsMouseClicked(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        add(lblRevenue, gridBagConstraints);
+        add(lblStatistics, gridBagConstraints);
 
         lblInvoiceManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblInvoiceManagement.setForeground(java.awt.Color.red);
@@ -353,9 +353,9 @@ public class Menu extends javax.swing.JPanel {
         MainFrame.showScreen(cardPanel, Constants.BILLING);
     }//GEN-LAST:event_btnBillingActionPerformed
 
-    private void btnRevenueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevenueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRevenueActionPerformed
+    private void btnStatisticsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStatisticsActionPerformed
+        MainFrame.showScreen(cardPanel, Constants.STATISTICS);
+    }//GEN-LAST:event_btnStatisticsActionPerformed
 
     private void btnInvoiceManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvoiceManagementActionPerformed
         MainFrame.showScreen(cardPanel, Constants.INVOICE_MANAGE);
@@ -385,9 +385,9 @@ public class Menu extends javax.swing.JPanel {
        MainFrame.showScreen(cardPanel, Constants.BILLING);
     }//GEN-LAST:event_lblBillingMouseClicked
 
-    private void lblRevenueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRevenueMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblRevenueMouseClicked
+    private void lblStatisticsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblStatisticsMouseClicked
+        MainFrame.showScreen(cardPanel, Constants.STATISTICS);
+    }//GEN-LAST:event_lblStatisticsMouseClicked
 
     private void lblInvoiceManagementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblInvoiceManagementMouseClicked
          MainFrame.showScreen(cardPanel, Constants.INVOICE_MANAGE);
@@ -408,16 +408,16 @@ public class Menu extends javax.swing.JPanel {
     private javax.swing.JButton btnCustomerManagement;
     private javax.swing.JButton btnInputWarehouse;
     private javax.swing.JButton btnInvoiceManagement;
-    private javax.swing.JButton btnRevenue;
     private javax.swing.JButton btnStaffManagement;
+    private javax.swing.JButton btnStatistics;
     private javax.swing.JButton btnWarehouseManagement;
     private javax.swing.JLabel lblBeveragesManage;
     private javax.swing.JLabel lblBilling;
     private javax.swing.JLabel lblCustomerManagement;
     private javax.swing.JLabel lblInputWarehouse;
     private javax.swing.JLabel lblInvoiceManagement;
-    private javax.swing.JLabel lblRevenue;
     private javax.swing.JLabel lblStaffManagement;
+    private javax.swing.JLabel lblStatistics;
     private javax.swing.JLabel lblWarehouseManagement;
     // End of variables declaration//GEN-END:variables
 }
