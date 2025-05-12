@@ -31,6 +31,10 @@ public class Statistics extends javax.swing.JPanel {
         storedProcedureCaller = new DefaultStoredProcedureCaller();
         initComponents();
     }
+    
+    private void callMessageDialogNothingHasBeenSold(int month, int year) {
+        JOptionPane.showMessageDialog(null, String.format("Chia buồn tháng %s/%s bạn không bán được gì cả !!!", month, year), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,18 +61,27 @@ public class Statistics extends javax.swing.JPanel {
         btnBestSell = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        lblBeveragesName = new javax.swing.JLabel();
+        lblQuantity = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         btnBestCustomer = new javax.swing.JButton();
         spnBestCustomer = new javax.swing.JSpinner();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        lblCustomerName = new javax.swing.JLabel();
+        lblAmountSpent = new javax.swing.JLabel();
+        lblAmountSpent1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        spnBestCustomer1 = new javax.swing.JSpinner();
-        btnBestCustomer1 = new javax.swing.JButton();
+        spnProfit = new javax.swing.JSpinner();
+        btnProfit = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        lblTotalRevenue = new javax.swing.JLabel();
+        lblImportCost = new javax.swing.JLabel();
+        lblEmployeeSalary = new javax.swing.JLabel();
+        lblProfit = new javax.swing.JLabel();
 
         setOpaque(false);
 
@@ -175,6 +188,12 @@ public class Statistics extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel9.setText("Số lượng bán ra trong tháng:");
 
+        lblBeveragesName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblBeveragesName.setText(" ");
+
+        lblQuantity.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblQuantity.setText(" ");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -189,9 +208,13 @@ public class Statistics extends javax.swing.JPanel {
                         .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblBeveragesName, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(84, 84, 84)
                         .addComponent(jLabel9)
-                        .addGap(215, 215, 215))))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,7 +226,9 @@ public class Statistics extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(lblBeveragesName)
+                    .addComponent(lblQuantity))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
@@ -229,6 +254,15 @@ public class Statistics extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel4.setText("Tổng tiền đã chi tiêu tại cửa hàng:");
 
+        lblCustomerName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblCustomerName.setText(" ");
+
+        lblAmountSpent.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAmountSpent.setText(" ");
+
+        lblAmountSpent1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblAmountSpent1.setText(" ");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -243,9 +277,18 @@ public class Statistics extends javax.swing.JPanel {
                         .addGap(17, 17, 17))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(257, 257, 257)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel4)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblAmountSpent, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(39, Short.MAX_VALUE))))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(742, Short.MAX_VALUE)
+                    .addComponent(lblAmountSpent1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(29, 29, 29)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,23 +300,30 @@ public class Statistics extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(lblCustomerName)
+                    .addComponent(lblAmountSpent))
                 .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(105, Short.MAX_VALUE)
+                    .addComponent(lblAmountSpent1)
+                    .addGap(4, 4, 4)))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         jPanel4.setOpaque(false);
 
-        spnBestCustomer1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        spnBestCustomer1.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MONTH));
-        spnBestCustomer1.setEditor(new javax.swing.JSpinner.DateEditor(spnBestCustomer1, "MM/yyyy"));
+        spnProfit.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        spnProfit.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.MONTH));
+        spnProfit.setEditor(new javax.swing.JSpinner.DateEditor(spnProfit, "MM/yyyy"));
 
-        btnBestCustomer1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btnBestCustomer1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/market_analysis1.png"))); // NOI18N
-        btnBestCustomer1.setText("Tính lợi nhuận cửa hàng");
-        btnBestCustomer1.addActionListener(new java.awt.event.ActionListener() {
+        btnProfit.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnProfit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/market_analysis1.png"))); // NOI18N
+        btnProfit.setText("Tính lợi nhuận cửa hàng");
+        btnProfit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBestCustomer1ActionPerformed(evt);
+                btnProfitActionPerformed(evt);
             }
         });
 
@@ -281,13 +331,25 @@ public class Statistics extends javax.swing.JPanel {
         jLabel10.setText("Tổng thu:");
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel11.setText("Tiền nhập nguyên liệu:");
+        jLabel11.setText("Tiền nhập NL:");
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel12.setText("Tiền lương:");
 
         jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel13.setText("Lợi nhuận:");
+
+        lblTotalRevenue.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblTotalRevenue.setText(" ");
+
+        lblImportCost.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblImportCost.setText(" ");
+
+        lblEmployeeSalary.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblEmployeeSalary.setText(" ");
+
+        lblProfit.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblProfit.setText(" ");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -296,35 +358,46 @@ public class Statistics extends javax.swing.JPanel {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spnBestCustomer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel10)
-                        .addGap(108, 108, 108)
-                        .addComponent(jLabel11)))
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                        .addComponent(btnBestCustomer1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(109, 109, 109)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTotalRevenue, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblImportCost, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel12)
-                        .addGap(113, 113, 113)
-                        .addComponent(jLabel13)))
-                .addGap(17, 17, 17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblEmployeeSalary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(spnProfit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnProfit, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spnBestCustomer1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBestCustomer1))
+                    .addComponent(spnProfit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnProfit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel13)
+                    .addComponent(lblTotalRevenue)
+                    .addComponent(lblImportCost)
+                    .addComponent(lblEmployeeSalary)
+                    .addComponent(lblProfit))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -383,27 +456,84 @@ public class Statistics extends javax.swing.JPanel {
             lblStaffName.setText(Constants.STR_EMPTY);
             lblUserName.setText(Constants.STR_EMPTY);
             lblRevenue.setText(Constants.STR_EMPTY);
-            JOptionPane.showMessageDialog(null, String.format("Chia buồn tháng %s/%s bạn không bán được gì cả !!!", month, year), "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            callMessageDialogNothingHasBeenSold(month, year);
         }
     }//GEN-LAST:event_btnStaffStatisticsActionPerformed
 
     private void btnBestSellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBestSellActionPerformed
-        // TODO add your handling code here:
+        LocalDate localDate = ((Date) spnBestSell.getValue())
+                                .toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+        int month = localDate.getMonthValue();
+        int year = localDate.getYear();
+        List<Object> params = new ArrayList<>();
+        params.add(month);
+        params.add(year);
+        List<Map<String, Object>> result = storedProcedureCaller.callStoredProcedure("SP_TOP_SELLING_BEVERAGE", params);
+        if (result != null && !result.isEmpty()) {
+            Map<String, Object> data = result.getFirst();
+            lblBeveragesName.setText(data.get("BEVERAGE_NAME").toString());
+            lblQuantity.setText(data.get("TOTAL_QUANTITY").toString());
+        } else {
+            lblBeveragesName.setText(Constants.STR_EMPTY);
+            lblQuantity.setText(Constants.STR_EMPTY);
+            callMessageDialogNothingHasBeenSold(month, year);
+        }
     }//GEN-LAST:event_btnBestSellActionPerformed
 
     private void btnBestCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBestCustomerActionPerformed
-        // TODO add your handling code here:
+        LocalDate localDate = ((Date) spnBestCustomer.getValue())
+                                .toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+        int month = localDate.getMonthValue();
+        int year = localDate.getYear();
+        List<Object> params = new ArrayList<>();
+        params.add(month);
+        params.add(year);
+        List<Map<String, Object>> result = storedProcedureCaller.callStoredProcedure("SP_TOP_SPENDING_CUSTOMER", params);
+        if (result != null && !result.isEmpty()) {
+            Map<String, Object> data = result.getFirst();
+            lblCustomerName.setText(data.get("CUSTOMER_NAME").toString());
+            lblAmountSpent.setText(Untils.formatMoney(Untils.parseMoneyI(data.get("TOTAL_SPENT").toString())));
+        } else {
+            lblCustomerName.setText(Constants.STR_EMPTY);
+            lblAmountSpent.setText(Constants.STR_EMPTY);
+            callMessageDialogNothingHasBeenSold(month, year);
+        }
     }//GEN-LAST:event_btnBestCustomerActionPerformed
 
-    private void btnBestCustomer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBestCustomer1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBestCustomer1ActionPerformed
+    private void btnProfitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProfitActionPerformed
+        LocalDate localDate = ((Date) spnProfit.getValue())
+                                .toInstant()
+                                .atZone(ZoneId.systemDefault())
+                                .toLocalDate();
+        int month = localDate.getMonthValue();
+        int year = localDate.getYear();
+        List<Object> params = new ArrayList<>();
+        params.add(month);
+        params.add(year);
+        List<Map<String, Object>> result = storedProcedureCaller.callStoredProcedure("SP_PROFIT_BY_MONTH", params);
+        if (result != null && !result.isEmpty()) {
+            Map<String, Object> data = result.getFirst();
+            lblTotalRevenue.setText(Untils.formatMoney(Untils.parseMoneyI(data.get("TOTAL_REVENUE").toString())));
+            lblImportCost.setText(Untils.formatMoney(Untils.parseMoneyI(data.get("WAREHOUSE_COST").toString())));
+            lblEmployeeSalary.setText(Untils.formatMoney(Untils.parseMoneyI(data.get("SALARY_COST").toString())));
+            lblProfit.setText(Untils.formatMoney(Untils.parseMoneyI(data.get("PROFIT").toString())));
+        } else {
+            lblTotalRevenue.setText(Constants.STR_EMPTY);
+            lblImportCost.setText(Constants.STR_EMPTY);
+            lblEmployeeSalary.setText(Constants.STR_EMPTY);
+            lblProfit.setText(Constants.STR_EMPTY);
+        }
+    }//GEN-LAST:event_btnProfitActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBestCustomer;
-    private javax.swing.JButton btnBestCustomer1;
     private javax.swing.JButton btnBestSell;
+    private javax.swing.JButton btnProfit;
     private javax.swing.JButton btnStaffStatistics;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -422,12 +552,21 @@ public class Statistics extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JLabel lblAmountSpent;
+    private javax.swing.JLabel lblAmountSpent1;
+    private javax.swing.JLabel lblBeveragesName;
+    private javax.swing.JLabel lblCustomerName;
+    private javax.swing.JLabel lblEmployeeSalary;
+    private javax.swing.JLabel lblImportCost;
+    private javax.swing.JLabel lblProfit;
+    private javax.swing.JLabel lblQuantity;
     private javax.swing.JLabel lblRevenue;
     private javax.swing.JLabel lblStaffName;
+    private javax.swing.JLabel lblTotalRevenue;
     private javax.swing.JLabel lblUserName;
     private javax.swing.JSpinner spnBestCustomer;
-    private javax.swing.JSpinner spnBestCustomer1;
     private javax.swing.JSpinner spnBestSell;
+    private javax.swing.JSpinner spnProfit;
     private javax.swing.JSpinner spnStaffStatistics;
     // End of variables declaration//GEN-END:variables
 }
