@@ -158,7 +158,7 @@ public class Untils {
                 dh = h;
                 dw = dh * iw / ih;
             } else {
-                dw = w;
+                dw = w - 15;
                 dh = dw * ih / iw;
             }
             ImageIcon icon = new ImageIcon(image.getScaledInstance(dw, dh,
