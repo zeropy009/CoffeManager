@@ -130,6 +130,7 @@ public class MainFrame extends JFrame {
             dispose();
         });
         
+        headerPanel.setBackground(new Color(173, 216, 230));
         headerPanel.add(btnBack, BorderLayout.WEST);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
         headerPanel.add(btnLogout, BorderLayout.EAST);
@@ -137,7 +138,7 @@ public class MainFrame extends JFrame {
         // Card Layout Panel
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout) {
-            Image img = new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "nenmk.jpg")).getImage();
+            Image img = new ImageIcon(getClass().getResource(Constants.PATH_IMAGES + "nengo.jpg")).getImage();
 
             @Override
             protected void paintComponent(Graphics g) {
@@ -154,6 +155,7 @@ public class MainFrame extends JFrame {
         
         // Footer Panel
         JPanel footerPanel = new JPanel();
+        footerPanel.setBackground(new Color(173, 216, 230));
         JLabel clock = new JLabel();
         Untils.clock(clock);
         footerPanel.add(clock);

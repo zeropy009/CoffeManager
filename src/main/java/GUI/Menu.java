@@ -86,7 +86,7 @@ public class Menu extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(500, 400));
         setLayout(new java.awt.GridBagLayout());
 
-        btnStaffManagement.setToolTipText("Quản lý nhân viên");
+        btnStaffManagement.setToolTipText("Quản Lý Nhân Viên");
         btnStaffManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStaffManagement.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnStaffManagement.setMinimumSize(new java.awt.Dimension(200, 200));
@@ -102,7 +102,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnStaffManagement, gridBagConstraints);
 
-        btnCustomerManagement.setToolTipText("Quản lý khách hàng");
+        btnCustomerManagement.setToolTipText("Quản Lý Khách Hàng");
         btnCustomerManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCustomerManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnCustomerManagement.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -117,7 +117,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnCustomerManagement, gridBagConstraints);
 
-        btnBilling.setToolTipText("Thanh toán");
+        btnBilling.setToolTipText("Đặt Nước & Thanh Toán");
         btnBilling.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBilling.setMinimumSize(new java.awt.Dimension(200, 200));
         btnBilling.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -132,7 +132,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnBilling, gridBagConstraints);
 
-        btnStatistics.setToolTipText("Thống kê");
+        btnStatistics.setToolTipText("Thống Kê Doanh Thu");
         btnStatistics.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStatistics.setMinimumSize(new java.awt.Dimension(200, 200));
         btnStatistics.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -147,7 +147,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnStatistics, gridBagConstraints);
 
-        btnBeveragesManage.setToolTipText("Thêm món");
+        btnBeveragesManage.setToolTipText("Thêm Món");
         btnBeveragesManage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBeveragesManage.setMinimumSize(new java.awt.Dimension(200, 200));
         btnBeveragesManage.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -162,7 +162,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnBeveragesManage, gridBagConstraints);
 
-        btnInvoiceManagement.setToolTipText("Quản lý hoá đơn");
+        btnInvoiceManagement.setToolTipText("Quản Lý Hóa Đơn");
         btnInvoiceManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInvoiceManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnInvoiceManagement.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -177,7 +177,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnInvoiceManagement, gridBagConstraints);
 
-        btnWarehouseManagement.setToolTipText("Quản lý nhập kho");
+        btnWarehouseManagement.setToolTipText("Quản Lý Nhập Kho");
         btnWarehouseManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnWarehouseManagement.setMinimumSize(new java.awt.Dimension(200, 200));
         btnWarehouseManagement.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -192,7 +192,7 @@ public class Menu extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         add(btnWarehouseManagement, gridBagConstraints);
 
-        btnInputWarehouse.setToolTipText("Nhập kho");
+        btnInputWarehouse.setToolTipText("Nhập Kho");
         btnInputWarehouse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInputWarehouse.setMinimumSize(new java.awt.Dimension(200, 200));
         btnInputWarehouse.setPreferredSize(new java.awt.Dimension(200, 200));
@@ -208,10 +208,10 @@ public class Menu extends javax.swing.JPanel {
         add(btnInputWarehouse, gridBagConstraints);
 
         lblBeveragesManage.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblBeveragesManage.setForeground(java.awt.Color.red);
+        lblBeveragesManage.setForeground(new java.awt.Color(51, 0, 255));
         lblBeveragesManage.setLabelFor(btnBeveragesManage);
         lblBeveragesManage.setText("Thêm Món");
-        lblBeveragesManage.setToolTipText("Thêm món");
+        lblBeveragesManage.setToolTipText("Thêm Món");
         lblBeveragesManage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBeveragesManage.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -224,10 +224,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblBeveragesManage, gridBagConstraints);
 
         lblStaffManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblStaffManagement.setForeground(java.awt.Color.red);
+        lblStaffManagement.setForeground(new java.awt.Color(51, 0, 255));
         lblStaffManagement.setLabelFor(btnStaffManagement);
         lblStaffManagement.setText("Quản Lý Nhân Viên");
-        lblStaffManagement.setToolTipText("Quản lý nhân viên");
+        lblStaffManagement.setToolTipText("Quản Lý Nhân Viên");
         lblStaffManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblStaffManagement.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -240,10 +240,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblStaffManagement, gridBagConstraints);
 
         lblCustomerManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblCustomerManagement.setForeground(java.awt.Color.red);
+        lblCustomerManagement.setForeground(new java.awt.Color(51, 0, 255));
         lblCustomerManagement.setLabelFor(btnCustomerManagement);
         lblCustomerManagement.setText("Quản Lý Khách Hàng");
-        lblCustomerManagement.setToolTipText("Quản lý khách hàng");
+        lblCustomerManagement.setToolTipText("Quản Lý Khách Hàng");
         lblCustomerManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCustomerManagement.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -256,10 +256,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblCustomerManagement, gridBagConstraints);
 
         lblBilling.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblBilling.setForeground(java.awt.Color.red);
+        lblBilling.setForeground(new java.awt.Color(51, 0, 255));
         lblBilling.setLabelFor(btnBilling);
         lblBilling.setText("Đặt Nước & Thanh Toán");
-        lblBilling.setToolTipText("Thanh toán");
+        lblBilling.setToolTipText("Đặt Nước & Thanh Toán");
         lblBilling.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBilling.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -272,10 +272,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblBilling, gridBagConstraints);
 
         lblStatistics.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblStatistics.setForeground(java.awt.Color.red);
+        lblStatistics.setForeground(new java.awt.Color(51, 0, 255));
         lblStatistics.setLabelFor(btnStatistics);
         lblStatistics.setText("Thống Kê Doanh Thu");
-        lblStatistics.setToolTipText("Thống kê");
+        lblStatistics.setToolTipText("Thống Kê Doanh Thu");
         lblStatistics.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -288,10 +288,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblStatistics, gridBagConstraints);
 
         lblInvoiceManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblInvoiceManagement.setForeground(java.awt.Color.red);
+        lblInvoiceManagement.setForeground(new java.awt.Color(51, 0, 255));
         lblInvoiceManagement.setLabelFor(btnInvoiceManagement);
         lblInvoiceManagement.setText("Quản Lý Hóa Đơn");
-        lblInvoiceManagement.setToolTipText("Quản lý hoá đơn");
+        lblInvoiceManagement.setToolTipText("Quản Lý Hóa Đơn");
         lblInvoiceManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblInvoiceManagement.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -304,10 +304,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblInvoiceManagement, gridBagConstraints);
 
         lblWarehouseManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblWarehouseManagement.setForeground(java.awt.Color.red);
+        lblWarehouseManagement.setForeground(new java.awt.Color(51, 0, 255));
         lblWarehouseManagement.setLabelFor(btnWarehouseManagement);
         lblWarehouseManagement.setText("Quản Lý Nhập Kho");
-        lblWarehouseManagement.setToolTipText("Quản lý nhập kho");
+        lblWarehouseManagement.setToolTipText("Quản Lý Nhập Kho");
         lblWarehouseManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblWarehouseManagement.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -320,10 +320,10 @@ public class Menu extends javax.swing.JPanel {
         add(lblWarehouseManagement, gridBagConstraints);
 
         lblInputWarehouse.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lblInputWarehouse.setForeground(java.awt.Color.red);
+        lblInputWarehouse.setForeground(new java.awt.Color(51, 0, 255));
         lblInputWarehouse.setLabelFor(lblInputWarehouse);
         lblInputWarehouse.setText("Nhập Kho");
-        lblInputWarehouse.setToolTipText("Nhập kho");
+        lblInputWarehouse.setToolTipText("Nhập Kho");
         lblInputWarehouse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblInputWarehouse.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
