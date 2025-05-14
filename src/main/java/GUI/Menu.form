@@ -213,7 +213,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnBeveragesManage"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
+        <Property name="text" type="java.lang.String" value="Th&#xea;m M&#xf3;n"/>
         <Property name="toolTipText" type="java.lang.String" value="Th&#xea;m m&#xf3;n"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -239,7 +239,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnStaffManagement"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; nh&#xe2;n vi&#xea;n"/>
+        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Nh&#xe2;n Vi&#xea;n"/>
         <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; nh&#xe2;n vi&#xea;n"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -265,7 +265,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnCustomerManagement"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; kh&#xe1;ch h&#xe0;ng"/>
+        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Kh&#xe1;ch H&#xe0;ng"/>
         <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; kh&#xe1;ch h&#xe0;ng"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -291,7 +291,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnBilling"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Thanh to&#xe1;n"/>
+        <Property name="text" type="java.lang.String" value="&#x110;&#x1eb7;t N&#x1b0;&#x1edb;c &amp; Thanh To&#xe1;n"/>
         <Property name="toolTipText" type="java.lang.String" value="Thanh to&#xe1;n"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -317,7 +317,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnStatistics"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng k&#xea;"/>
+        <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng K&#xea; Doanh Thu"/>
         <Property name="toolTipText" type="java.lang.String" value="Th&#x1ed1;ng k&#xea;"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -343,7 +343,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnInvoiceManagement"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; ho&#xe1; &#x111;&#x1a1;n"/>
+        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; H&#xf3;a &#x110;&#x1a1;n"/>
         <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; ho&#xe1; &#x111;&#x1a1;n"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -369,7 +369,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="btnWarehouseManagement"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; nh&#x1ead;p kho"/>
+        <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n L&#xfd; Nh&#x1ead;p Kho"/>
         <Property name="toolTipText" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd; nh&#x1ead;p kho"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -395,7 +395,7 @@
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="lblInputWarehouse"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nh&#x1ead;p kho"/>
+        <Property name="text" type="java.lang.String" value="Nh&#x1ead;p Kho"/>
         <Property name="toolTipText" type="java.lang.String" value="Nh&#x1ead;p kho"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>

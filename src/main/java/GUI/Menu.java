@@ -210,7 +210,7 @@ public class Menu extends javax.swing.JPanel {
         lblBeveragesManage.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblBeveragesManage.setForeground(java.awt.Color.red);
         lblBeveragesManage.setLabelFor(btnBeveragesManage);
-        lblBeveragesManage.setText("Thêm món");
+        lblBeveragesManage.setText("Thêm Món");
         lblBeveragesManage.setToolTipText("Thêm món");
         lblBeveragesManage.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBeveragesManage.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -226,7 +226,7 @@ public class Menu extends javax.swing.JPanel {
         lblStaffManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStaffManagement.setForeground(java.awt.Color.red);
         lblStaffManagement.setLabelFor(btnStaffManagement);
-        lblStaffManagement.setText("Quản lý nhân viên");
+        lblStaffManagement.setText("Quản Lý Nhân Viên");
         lblStaffManagement.setToolTipText("Quản lý nhân viên");
         lblStaffManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblStaffManagement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -242,7 +242,7 @@ public class Menu extends javax.swing.JPanel {
         lblCustomerManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblCustomerManagement.setForeground(java.awt.Color.red);
         lblCustomerManagement.setLabelFor(btnCustomerManagement);
-        lblCustomerManagement.setText("Quản lý khách hàng");
+        lblCustomerManagement.setText("Quản Lý Khách Hàng");
         lblCustomerManagement.setToolTipText("Quản lý khách hàng");
         lblCustomerManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblCustomerManagement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -258,7 +258,7 @@ public class Menu extends javax.swing.JPanel {
         lblBilling.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblBilling.setForeground(java.awt.Color.red);
         lblBilling.setLabelFor(btnBilling);
-        lblBilling.setText("Thanh toán");
+        lblBilling.setText("Đặt Nước & Thanh Toán");
         lblBilling.setToolTipText("Thanh toán");
         lblBilling.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblBilling.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -274,7 +274,7 @@ public class Menu extends javax.swing.JPanel {
         lblStatistics.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStatistics.setForeground(java.awt.Color.red);
         lblStatistics.setLabelFor(btnStatistics);
-        lblStatistics.setText("Thống kê");
+        lblStatistics.setText("Thống Kê Doanh Thu");
         lblStatistics.setToolTipText("Thống kê");
         lblStatistics.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblStatistics.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -290,7 +290,7 @@ public class Menu extends javax.swing.JPanel {
         lblInvoiceManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblInvoiceManagement.setForeground(java.awt.Color.red);
         lblInvoiceManagement.setLabelFor(btnInvoiceManagement);
-        lblInvoiceManagement.setText("Quản lý hoá đơn");
+        lblInvoiceManagement.setText("Quản Lý Hóa Đơn");
         lblInvoiceManagement.setToolTipText("Quản lý hoá đơn");
         lblInvoiceManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblInvoiceManagement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -306,7 +306,7 @@ public class Menu extends javax.swing.JPanel {
         lblWarehouseManagement.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblWarehouseManagement.setForeground(java.awt.Color.red);
         lblWarehouseManagement.setLabelFor(btnWarehouseManagement);
-        lblWarehouseManagement.setText("Quản lý nhập kho");
+        lblWarehouseManagement.setText("Quản Lý Nhập Kho");
         lblWarehouseManagement.setToolTipText("Quản lý nhập kho");
         lblWarehouseManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblWarehouseManagement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -322,7 +322,7 @@ public class Menu extends javax.swing.JPanel {
         lblInputWarehouse.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblInputWarehouse.setForeground(java.awt.Color.red);
         lblInputWarehouse.setLabelFor(lblInputWarehouse);
-        lblInputWarehouse.setText("Nhập kho");
+        lblInputWarehouse.setText("Nhập Kho");
         lblInputWarehouse.setToolTipText("Nhập kho");
         lblInputWarehouse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblInputWarehouse.addMouseListener(new java.awt.event.MouseAdapter() {
