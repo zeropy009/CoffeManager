@@ -106,18 +106,21 @@ public class Statistics extends javax.swing.JPanel {
         });
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(51, 0, 255));
         jLabel1.setText("Tên nhân viên:");
 
         lblStaffName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblStaffName.setText(" ");
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 0, 255));
         jLabel3.setText("Account:");
 
         lblUserName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         lblUserName.setText(" ");
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 0, 255));
         jLabel5.setText("Doanh thu tháng:");
 
         lblRevenue.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -183,9 +186,11 @@ public class Statistics extends javax.swing.JPanel {
         });
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 0, 255));
         jLabel8.setText("Tên nước:");
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 0, 255));
         jLabel9.setText("Số lượng bán ra trong tháng:");
 
         lblBeveragesName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -249,9 +254,11 @@ public class Statistics extends javax.swing.JPanel {
         spnBestCustomer.setEditor(new javax.swing.JSpinner.DateEditor(spnBestCustomer, "MM/yyyy"));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(51, 0, 255));
         jLabel2.setText("Tên khách hàng:");
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(51, 0, 255));
         jLabel4.setText("Tổng tiền đã chi tiêu tại cửa hàng:");
 
         lblCustomerName.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -328,15 +335,19 @@ public class Statistics extends javax.swing.JPanel {
         });
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 0, 255));
         jLabel10.setText("Tổng thu:");
 
         jLabel11.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(51, 0, 255));
         jLabel11.setText("Tiền nhập NL:");
 
         jLabel12.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 0, 255));
         jLabel12.setText("Tiền lương:");
 
         jLabel13.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(51, 0, 255));
         jLabel13.setText("Lợi nhuận:");
 
         lblTotalRevenue.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
