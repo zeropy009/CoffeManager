@@ -255,10 +255,7 @@ public class Billing extends javax.swing.JPanel {
 
         tblInvoiceDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Tên nước", "Số lượng", "Đơn giá", "Thành tiền"
