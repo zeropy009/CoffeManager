@@ -230,7 +230,8 @@ public class Untils {
             abstractDocument.setDocumentFilter(new DocumentFilter() {
                 @Override
                 public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
-                    if (fb.getDocument().getLength() + string.length() <= maxLength) {
+                    int length = string == null ? 0 : string.length();
+                    if (fb.getDocument().getLength() + length <= maxLength) {
                         super.insertString(fb, offset, string, attr);
                     } else {
                         Toolkit.getDefaultToolkit().beep(); // Optional: phát âm cảnh báo
@@ -239,7 +240,8 @@ public class Untils {
 
                 @Override
                 public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                    if (fb.getDocument().getLength() - length + text.length() <= maxLength) {
+                    int strLength = text == null ? 0 : text.length();
+                    if (fb.getDocument().getLength() - length + strLength <= maxLength) {
                         super.replace(fb, offset, length, text, attrs);
                     } else {
                         Toolkit.getDefaultToolkit().beep(); // Optional

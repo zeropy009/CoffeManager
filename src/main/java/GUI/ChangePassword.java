@@ -25,6 +25,7 @@ public class ChangePassword extends javax.swing.JDialog {
     public ChangePassword(java.awt.Frame parent) {
         super(parent, true);
         userDAO = new UserDaoImpl();
+        setTitle("ĐỔI MẬT KHẨU");
         initComponents();
         setLocationRelativeTo(null);
         lblUserName.setText(UserSession.getInstance().getUsername());
@@ -55,6 +56,7 @@ public class ChangePassword extends javax.swing.JDialog {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 102));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("ĐỔi MẬT KHẨU");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -118,10 +120,6 @@ public class ChangePassword extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnChangPassword)
@@ -138,6 +136,10 @@ public class ChangePassword extends javax.swing.JDialog {
                     .addComponent(txtNewPassword)
                     .addComponent(txtPasswordConfirm))
                 .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,7 +181,7 @@ public class ChangePassword extends javax.swing.JDialog {
             return;
         }
         if (!newPassword.equals(passwordConfirm)) {
-            JOptionPane.showMessageDialog(null, "Xác nhận Password và Password mớ không khớp nhau !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Xác nhận Password và Password mới không khớp nhau !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (userDAO.changePassword(UserSession.getInstance().getUsername(), oldPassword, newPassword)) {

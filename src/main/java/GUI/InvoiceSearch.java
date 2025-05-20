@@ -9,6 +9,7 @@ import DAO.Impl.InvoiceImpl;
 import DAO.InvoiceDAO;
 import Model.Invoice;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -49,6 +50,8 @@ public class InvoiceSearch extends javax.swing.JDialog {
                 }
             }
         });
+        String dateNow = LocalDate.now().format(Untils.fd);
+        txtToDate.setText(dateNow);
     }
     
     public Invoice getSelected(){

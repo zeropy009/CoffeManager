@@ -195,6 +195,8 @@ public class InvoiceManage extends javax.swing.JPanel {
         txtDiscountPercentage.setText(Constants.STR_EMPTY);
         ccbTable.setSelectedIndex(0);
         modelTable.setRowCount(0);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
         clearDetail();
     }
     
@@ -213,6 +215,11 @@ public class InvoiceManage extends javax.swing.JPanel {
             } else {
                 invoiceSelected = invoice;
                 loadAllData();
+                btnUpdate.setEnabled(true);
+                btnDelete.setEnabled(true);
+                btnAddDetail.setEnabled(true);
+                btnUpdateDetail.setEnabled(false);
+                btnDeleteDetail.setEnabled(false);
             }
         }
         
@@ -273,6 +280,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnUpdate.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
         btnUpdate.setText("Update");
+        btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateActionPerformed(evt);
@@ -291,6 +299,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnDelete.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
         btnDelete.setText("Delete");
+        btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
@@ -299,7 +308,8 @@ public class InvoiceManage extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 51, 102));
-        jLabel1.setText("DANH SÁCH HÓA ĐƠN");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("QUẢN LÝ HÓA ĐƠN");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 0, 255));
@@ -363,6 +373,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnDeleteDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnDeleteDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/delete.png"))); // NOI18N
         btnDeleteDetail.setText("Delete");
+        btnDeleteDetail.setEnabled(false);
         btnDeleteDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteDetailActionPerformed(evt);
@@ -381,6 +392,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnAddDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnAddDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add.png"))); // NOI18N
         btnAddDetail.setText("Add");
+        btnAddDetail.setEnabled(false);
         btnAddDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddDetailActionPerformed(evt);
@@ -390,6 +402,7 @@ public class InvoiceManage extends javax.swing.JPanel {
         btnUpdateDetail.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnUpdateDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/hammer.png"))); // NOI18N
         btnUpdateDetail.setText("Update");
+        btnUpdateDetail.setEnabled(false);
         btnUpdateDetail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUpdateDetailActionPerformed(evt);
@@ -476,9 +489,6 @@ public class InvoiceManage extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -546,11 +556,12 @@ public class InvoiceManage extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(spnQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(lblAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(317, 317, 317))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -642,6 +653,11 @@ public class InvoiceManage extends javax.swing.JPanel {
             if (dialog.getSelected() != null) {
                 invoiceSelected = dialog.getSelected();
                 loadAllData();
+                btnUpdate.setEnabled(true);
+                btnDelete.setEnabled(true);
+                btnAddDetail.setEnabled(true);
+                btnUpdateDetail.setEnabled(false);
+                btnDeleteDetail.setEnabled(false);
             }
         }
         
