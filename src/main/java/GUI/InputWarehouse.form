@@ -118,8 +118,8 @@
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="5" rowCount="0">
                 <Column editable="false" title="T&#xea;n s&#x1ea3;n ph&#x1ea9;m" type="java.lang.Object"/>
-                <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
-                <Column editable="false" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.Integer"/>
+                <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
+                <Column editable="false" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.String"/>
                 <Column editable="false" title="Th&#xe0;nh ti&#x1ec1;n" type="java.lang.String"/>
                 <Column editable="false" title="X&#xf3;a" type="java.lang.Object"/>
               </Table>

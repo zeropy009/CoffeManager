@@ -58,6 +58,7 @@ public class WarehouseManage extends javax.swing.JPanel {
                         warehouseSelected = warehouse;
                         getDataWarehouseDetail();
                         loadWarehouseDetail();
+                        btnAdd.setEnabled(true);
                     }
                 }
             }
@@ -177,7 +178,7 @@ public class WarehouseManage extends javax.swing.JPanel {
         spnQuantity.setValue(0);
         txtPrice.setText(Constants.STR_EMPTY);
         lblAmount.setText("0");
-        btnAdd.setEnabled(true);
+        btnAdd.setEnabled(false);
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
     }

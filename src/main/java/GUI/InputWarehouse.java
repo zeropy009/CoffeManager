@@ -104,7 +104,7 @@ public class InputWarehouse extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -366,6 +366,10 @@ public class InputWarehouse extends javax.swing.JPanel {
     }//GEN-LAST:event_tblWarehouseDetailMouseClicked
 
     private void btnSaveAndPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAndPrintActionPerformed
+        if (warehouseDetailList.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không có gì để lưu và in !", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int warehouseId = warehouseDetailDAO.addWarehouseDetails(warehouseDetailList);
         if (warehouseId > 0) {
             StringBuilder fileContent = new StringBuilder();
